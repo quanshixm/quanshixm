@@ -250,7 +250,23 @@ body {
   color: var(--gray-500);
 }
 
-.cl-item {
+
+  .mini-cb {
+    display: inline-block;
+    cursor: pointer;
+    user-select: none;
+    font-size: 14px;
+    line-height: 1;
+    padding: 0 1px;
+    border-radius: 2px;
+    transition: color 0.15s;
+  }
+  .mini-cb:hover {
+    background: rgba(26,86,219,0.08);
+    color: #1a56db;
+  }
+
+  .cl-item {
   background: #fff;
   border: 1px solid var(--gray-200);
   border-radius: var(--radius);
@@ -1068,16 +1084,16 @@ body {
       <!-- ===== 项目启动排查 ===== -->
       <div class="page-section" id="checklist">
         <div class="page-header">
-          <h2>✅ 新项目启动排查清单</h2>
-          <p>接手新项目后逐项对照，确保无遗漏 —— 打勾表示已完成（依据《政府采购项目启动排查报告》）</p>
+          <h2>&#x2705; 新项目启动排查清单</h2>
+          <p>政府采购项目启动排查报告 &mdash; 逐项对照检查，确保合规无遗漏</p>
         </div>
 
         <div class="alert alert-warning">
-          <span class="alert-icon">💡</span>
-          <div>排查进度自动保存至浏览器本地。点击顶部"导出报告"可生成排查结果。本清单涵盖政府采购全流程11大模块。</div>
+          <span class="alert-icon">&#128161;</span>
+          <div>排查进度自动保存至浏览器本地。点击顶部&quot;导出报告&quot;可生成《xxx政府采购项目启动排查报告》。本清单涵盖政府采购全流程11大模块。</div>
         </div>
 
-        <!-- Phase 1 -->
+        <!-- ===== 一、项目类型与采购方式判定 ===== -->
         <div class="checklist-section" id="cl-phase1">
           <div class="cl-header">
             <h3>一、项目类型与采购方式判定</h3>
@@ -1085,37 +1101,74 @@ body {
           </div>
           <div class="cl-item" data-id="cl-1-1">
             <input type="checkbox" onchange="updateProgress('1')">
-            <div class="cl-text"><div class="cl-title">确认项目资金来源</div><div class="cl-desc">判断是否属于财政资金/自筹/国有资金/其他</div></div>
+            <div class="cl-text">
+              <div class="cl-title">确认项目资金来源</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_1" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 财政资金 &nbsp; <span class="mini-cb" id="cb_2" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 自筹 &nbsp; <span class="mini-cb" id="cb_3" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 国有资金 &nbsp; <span class="mini-cb" id="cb_4" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 其他<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_5" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_6" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-1-2">
             <input type="checkbox" onchange="updateProgress('1')">
-            <div class="cl-text"><div class="cl-title">确认项目属性</div><div class="cl-desc">工程（非标）/货物/服务</div></div>
+            <div class="cl-text">
+              <div class="cl-title">确认项目属性</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_7" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 工程（非标）&nbsp; <span class="mini-cb" id="cb_8" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 货物 &nbsp; <span class="mini-cb" id="cb_9" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 服务<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_10" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_11" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-1-3">
             <input type="checkbox" onchange="updateProgress('1')">
-            <div class="cl-text"><div class="cl-title">确定适用法律体系</div><div class="cl-desc">竞争性磋商管理办法 / 政府采购法及其实施条例（87号令）（74号令）</div></div>
+            <div class="cl-text">
+              <div class="cl-title">确定适用法律体系</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_12" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 《竞争性磋商管理办法》&nbsp; <span class="mini-cb" id="cb_13" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 《政府采购法》及其实施条例<br>
+                &nbsp;&nbsp;&nbsp;<span class="mini-cb" id="cb_14" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> （87号令）&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="mini-cb" id="cb_15" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> （74号令）<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_16" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_17" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-1-4">
             <input type="checkbox" onchange="updateProgress('1')">
-            <div class="cl-text"><div class="cl-title">选择采购方式</div><div class="cl-desc">公开招标/邀请招标/竞争性磋商/竞争性谈判/询价/单一来源/合作创新</div></div>
+            <div class="cl-text">
+              <div class="cl-title">选择采购方式</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_18" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 公开招标 &nbsp; <span class="mini-cb" id="cb_19" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 邀请招标 &nbsp; <span class="mini-cb" id="cb_20" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 竞争性磋商 &nbsp; <span class="mini-cb" id="cb_21" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 竞争性谈判 &nbsp; <span class="mini-cb" id="cb_22" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 询价 &nbsp; <span class="mini-cb" id="cb_23" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 单一来源 &nbsp; <span class="mini-cb" id="cb_24" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 合作创新<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_25" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_26" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-1-5">
             <input type="checkbox" onchange="updateProgress('1')">
-            <div class="cl-text"><div class="cl-title">确认是否已履行审批/核准手续</div><div class="cl-desc">前期资料齐全 / 资料欠缺需补齐</div></div>
+            <div class="cl-text">
+              <div class="cl-title">确认是否已履行审批/核准手续</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_27" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 前期资料齐全 &nbsp; <span class="mini-cb" id="cb_28" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 资料欠缺：<span class="editable-field" contenteditable="true" style="display:inline-block;min-width:100px;border-bottom:1px solid #1a56db;color:#1a56db;outline:none;">______</span><br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_29" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_30" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-1-6">
             <input type="checkbox" onchange="updateProgress('1')">
-            <div class="cl-text"><div class="cl-title">确认招标组织形式</div><div class="cl-desc">委托代理机构</div></div>
+            <div class="cl-text">
+              <div class="cl-title">确认招标组织形式</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_31" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 委托代理机构<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_32" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_33" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-info">一般</span>
           </div>
         </div>
 
-        <!-- Phase 2 -->
+        <!-- ===== 二、采购需求编制 ===== -->
         <div class="checklist-section" id="cl-phase2">
           <div class="cl-header">
             <h3>二、采购需求编制</h3>
@@ -1123,267 +1176,628 @@ body {
           </div>
           <div class="cl-item" data-id="cl-2-1">
             <input type="checkbox" onchange="updateProgress('2')">
-            <div class="cl-text"><div class="cl-title">商务要求的编制</div><div class="cl-desc">货物：交付时间地点、付款条件、包装运输、售后、保险；服务：实施时间地点、付款条件、团队要求；工程项目：交付时间地点、付款条件、团队要求、安全文明施工、质量验收标准、质保条款、违约条款、保险</div></div>
+            <div class="cl-text">
+              <div class="cl-title">商务要求的编制</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_34" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 货物项目：交付时间和地点，付款条件（进度和方式），包装和运输，售后服务，保险等。<br>
+                <span class="mini-cb" id="cb_35" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 服务项目：实施时间和地点，付款条件（进度和方式），项目管理团队人员要求，售后服务等。<br>
+                <span class="mini-cb" id="cb_36" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 工程项目（非标）：交付时间和地点，付款条件（进度和方式），项目管理团队人员要求，安全文明施工责任条款，工程质量、验收标准，质保（缺陷责任期）条款，违约条款，保险等。<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_37" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_38" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-2-2">
             <input type="checkbox" onchange="updateProgress('2')">
-            <div class="cl-text"><div class="cl-title">技术要求的编制</div><div class="cl-desc">货物：技术参数功能质量要求；服务：服务内容和标准；工程项目：工程量清单</div></div>
+            <div class="cl-text">
+              <div class="cl-title">技术要求的编制</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_39" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 货物项目：采购标的的技术参数、功能、质量要求等。<br>
+                <span class="mini-cb" id="cb_40" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 服务项目：服务内容和标准等。<br>
+                <span class="mini-cb" id="cb_41" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 工程项目（非标）：工程量清单。<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_42" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_43" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-2-3">
-            <input type="checkbox" onchange="updateProgress('2')">
-            <div class="cl-text"><div class="cl-title">采购需求调查</div><div class="cl-desc">调查方式：咨询/论证/问卷调查；适用项目类型：1000万以上货物服务/3000万以上工程/公共利益高/技术复杂等</div></div>
-            <span class="cl-tag tag-warning">重要</span>
-          </div>
-          <div class="cl-item" data-id="cl-2-4">
-            <input type="checkbox" onchange="updateProgress('2')">
-            <div class="cl-text"><div class="cl-title">采购计划编制</div><div class="cl-desc">合同订立安排（预算、限价、时间、代理安排、包划分、资格条件、方式、评审规则）；合同管理安排（合同类型、定价、文本条款、验收方案、风险管控）</div></div>
-            <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-2-5">
-            <input type="checkbox" onchange="updateProgress('2')">
-            <div class="cl-text"><div class="cl-title">采购需求与计划审查</div><div class="cl-desc">一般性审查 + 重点审查</div></div>
-            <span class="cl-tag tag-warning">重要</span>
           </div>
         </div>
 
-        <!-- Phase 3 -->
+        <!-- ===== 三、采购需求调查 ===== -->
         <div class="checklist-section" id="cl-phase3">
           <div class="cl-header">
-            <h3>三、资格条件与审查设计</h3>
+            <h3>三、采购需求调查</h3>
             <span class="cl-progress" id="cl-progress-3"></span>
           </div>
           <div class="cl-item" data-id="cl-3-1">
             <input type="checkbox" onchange="updateProgress('3')">
-            <div class="cl-text"><div class="cl-title">资格审查方式选择</div><div class="cl-desc">预审 / 后审</div></div>
+            <div class="cl-text">
+              <div class="cl-title">1、调查方式</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_44" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 咨询 &nbsp;&nbsp; <span class="mini-cb" id="cb_45" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 论证 &nbsp;&nbsp; <span class="mini-cb" id="cb_46" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 问卷调查<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_47" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_48" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-3-2">
             <input type="checkbox" onchange="updateProgress('3')">
-            <div class="cl-text"><div class="cl-title">资格条件合法性审查</div><div class="cl-desc">货物无特定资格；服务相关须设特定资格；工程须设企业资质或负责人资格或业绩要求</div></div>
+            <div class="cl-text">
+              <div class="cl-title">2、项目类型（以下任一情形需开展需求调查）</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_49" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 1000万元以上的货物、服务采购项目，3000万元以上的工程采购项目；<br>
+                <span class="mini-cb" id="cb_50" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 涉及公共利益、社会关注度较高的采购项目，包括政府向社会公众提供的公共服务项目等；<br>
+                <span class="mini-cb" id="cb_51" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 技术复杂、专业性较强的项目，包括需定制开发的信息化建设项目、采购进口产品的项目等；<br>
+                <span class="mini-cb" id="cb_52" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 主管预算单位或者采购人认为需要开展需求调查的其他采购项目。<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_53" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_54" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-3-3">
-            <input type="checkbox" onchange="updateProgress('3')">
-            <div class="cl-text"><div class="cl-title">联合体投标规则设定</div><div class="cl-desc">同类资质按分工承担相同工作的，按资质等级较低者确定</div></div>
-            <span class="cl-tag tag-warning">重要</span>
-          </div>
-          <div class="cl-item" data-id="cl-3-4">
-            <input type="checkbox" onchange="updateProgress('3')">
-            <div class="cl-text"><div class="cl-title">业绩要求合理设定</div><div class="cl-desc">相关性+必要性+数量限制(≤2)+清晰界定；禁止场景：办公电脑/打印机/保洁/办公用品/通用物业等低风险项目</div></div>
-            <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-3-5">
-            <input type="checkbox" onchange="updateProgress('3')">
-            <div class="cl-text"><div class="cl-title">中小企业扶持政策落实</div><div class="cl-desc">专门面向中小企业（不执行价格扣除）/ 非专门面向中小企业</div></div>
-            <span class="cl-tag tag-warning">重要</span>
-          </div>
-          <div class="cl-item" data-id="cl-3-6">
-            <input type="checkbox" onchange="updateProgress('3')">
-            <div class="cl-text"><div class="cl-title">本国产品政策落实</div><div class="cl-desc">本国产品20%价格扣除规则；非专向+本国产品+小微同时享受叠加优惠</div></div>
-            <span class="cl-tag tag-info">一般</span>
           </div>
         </div>
 
-        <!-- Phase 4 -->
+        <!-- ===== 四、采购计划编制 ===== -->
         <div class="checklist-section" id="cl-phase4">
           <div class="cl-header">
-            <h3>四、评审方法与评分设计</h3>
+            <h3>四、采购计划编制</h3>
             <span class="cl-progress" id="cl-progress-4"></span>
           </div>
           <div class="cl-item" data-id="cl-4-1">
             <input type="checkbox" onchange="updateProgress('4')">
-            <div class="cl-text"><div class="cl-title">评标方法选择</div><div class="cl-desc">最低评标价法 / 综合评分法</div></div>
+            <div class="cl-text">
+              <div class="cl-title">合同订立与管理安排</div>
+              <div class="cl-desc">
+                <strong>合同订立安排：</strong>项目预（概）算、最高限价、时间安排、采购组织形式和委托代理安排、采购包划分与合同分包、供应商资格条件、采购方式、竞争范围和评审规则等。<br>
+                <strong>合同管理安排：</strong>合同类型、定价方式、合同文本的主要条款、履约验收方案、风险管控措施等。<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_55" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_56" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-4-2">
-            <input type="checkbox" onchange="updateProgress('4')">
-            <div class="cl-text"><div class="cl-title">评分分值设计合规性</div><div class="cl-desc">公开招标货物≥30分/服务≥10分；磋商货物30%-60%/服务10%-30%；工程无强制下限</div></div>
-            <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-4-3">
-            <input type="checkbox" onchange="updateProgress('4')">
-            <div class="cl-text"><div class="cl-title">评分细则明确性审查</div><div class="cl-desc">禁模糊词（较好/良好/完善/合理等）、禁浮动分区间、禁横向对比打分；术语统一、证明材料写死、时间精准、范围清晰、扣分明确</div></div>
-            <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-4-4">
-            <input type="checkbox" onchange="updateProgress('4')">
-            <div class="cl-text"><div class="cl-title">客观硬指标类细则明确性</div><div class="cl-desc">参数数值精准无模糊描述；同类项目业绩明确定义区分资格项加分项；证书人员计分规则明确</div></div>
-            <span class="cl-tag tag-warning">重要</span>
-          </div>
-          <div class="cl-item" data-id="cl-4-5">
-            <input type="checkbox" onchange="updateProgress('4')">
-            <div class="cl-text"><div class="cl-title">否决条款（无效标条款）设置</div><div class="cl-desc">逐一列明否决情形</div></div>
-            <span class="cl-tag tag-warning">重要</span>
-          </div>
-          <div class="cl-item" data-id="cl-4-6">
-            <input type="checkbox" onchange="updateProgress('4')">
-            <div class="cl-text"><div class="cl-title">评标委员会组成方案</div><div class="cl-desc">3人/5人/7人单数，专家占比合规</div></div>
-            <span class="cl-tag tag-info">一般</span>
           </div>
         </div>
 
-        <!-- Phase 5 -->
+        <!-- ===== 五、采购需求与采购计划审查 ===== -->
         <div class="checklist-section" id="cl-phase5">
           <div class="cl-header">
-            <h3>五、公告与文件发布</h3>
+            <h3>五、采购需求与采购计划审查</h3>
             <span class="cl-progress" id="cl-progress-5"></span>
           </div>
           <div class="cl-item" data-id="cl-5-1">
             <input type="checkbox" onchange="updateProgress('5')">
-            <div class="cl-text"><div class="cl-title">公告发布媒介选择</div><div class="cl-desc">中国政府采购网 / 湖南政府采购网 / 市交易平台 / 其他媒介</div></div>
+            <div class="cl-text">
+              <div class="cl-title">审查实施</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_57" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 一般性审查<br>
+                <span class="mini-cb" id="cb_58" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 重点审查<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_59" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_60" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-5-2">
-            <input type="checkbox" onchange="updateProgress('5')">
-            <div class="cl-text"><div class="cl-title">招标（采购）文件发售期</div><div class="cl-desc">5工作日 / 其他</div></div>
-            <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-5-3">
-            <input type="checkbox" onchange="updateProgress('5')">
-            <div class="cl-text"><div class="cl-title">提交投标（响应）文件截止时间</div><div class="cl-desc">准确填写年月日时分</div></div>
-            <span class="cl-tag tag-danger">必查</span>
-          </div>
-          <div class="cl-item" data-id="cl-5-4">
-            <input type="checkbox" onchange="updateProgress('5')">
-            <div class="cl-text"><div class="cl-title">招标（采购）文件澄清/修改（变更公告）</div><div class="cl-desc">准确填写变更时间</div></div>
-            <span class="cl-tag tag-warning">重要</span>
-          </div>
-          <div class="cl-item" data-id="cl-5-5">
-            <input type="checkbox" onchange="updateProgress('5')">
-            <div class="cl-text"><div class="cl-title">招标（采购）文件售价合理性</div><div class="cl-desc">0元 / 300元 / 400元 / 500元</div></div>
-            <span class="cl-tag tag-info">一般</span>
           </div>
         </div>
 
-        <!-- Phase 6 -->
+        <!-- ===== 六、资格条件与审查设计 ===== -->
         <div class="checklist-section" id="cl-phase6">
           <div class="cl-header">
-            <h3>六、开标评标与定标</h3>
+            <h3>六、资格条件与审查设计</h3>
             <span class="cl-progress" id="cl-progress-6"></span>
           </div>
           <div class="cl-item" data-id="cl-6-1">
             <input type="checkbox" onchange="updateProgress('6')">
-            <div class="cl-text"><div class="cl-title">开标程序合规性</div><div class="cl-desc">开标时间=截止时间；地点一致变更已公告；全程录音录像；文件登记送达密封状态；逾期破损拒收；截止后拒收补充修改；开标前不拆封；采购人主持专家不参与；供应商核验密封；记录完整签字；异议书面记录当场答复</div></div>
+            <div class="cl-text">
+              <div class="cl-title">资格审查方式选择</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_61" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 预审 &nbsp; <span class="mini-cb" id="cb_62" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 后审<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_63" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_64" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-6-2">
             <input type="checkbox" onchange="updateProgress('6')">
-            <div class="cl-text"><div class="cl-title">评标过程合规性、保密性</div><div class="cl-desc">设备提前准备；宣读纪律签承诺书；强调独立评审；无关人员禁止进入；专家独立严禁交头接耳；资格符合性审查后分别沟通；复核得分</div></div>
+            <div class="cl-text">
+              <div class="cl-title">资格条件合法性审查</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_65" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 货物项目：无特定资格条件<br>
+                <span class="mini-cb" id="cb_66" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 服务项目：与工程相关的服务须设定特定资格条件<br>
+                <span class="mini-cb" id="cb_67" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 工程项目：须设定企业资质或者项目负责人资格要求或者业绩要求<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_68" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_69" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-6-3">
             <input type="checkbox" onchange="updateProgress('6')">
-            <div class="cl-text"><div class="cl-title">中标结果公告（公示）</div><div class="cl-desc">自确定之日起2个工作日内发通知书并公告；媒介选择：政采网/湖南政采网/市平台</div></div>
-            <span class="cl-tag tag-danger">必查</span>
+            <div class="cl-text">
+              <div class="cl-title">联合体投标规则设定</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_70" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 同类资质的供应商按照联合体分工承担相同工作的，应当按照资质等级较低的供应商确定资质等级<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_71" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_72" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
+            <span class="cl-tag tag-warning">重要</span>
           </div>
           <div class="cl-item" data-id="cl-6-4">
             <input type="checkbox" onchange="updateProgress('6')">
-            <div class="cl-text"><div class="cl-title">中标（成交）通知书发出</div><div class="cl-desc">通知书日期与公告日期一致</div></div>
+            <div class="cl-text">
+              <div class="cl-title">业绩要求合理设定（业绩作为资格条件必须同时满足）</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_73" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 相关性：业绩与采购标的功能、质量、履约能力直接相关；<br>
+                <span class="mini-cb" id="cb_74" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 必要性：该业绩是履行本合同必需的门槛（普通标准化货物、小额常规服务严禁设置业绩资格）；<br>
+                <span class="mini-cb" id="cb_75" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 数量限制：同类合同一般不超过 2 个；<br>
+                <span class="mini-cb" id="cb_76" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 清晰界定：必须白纸黑字写明同类业务精准范围；<br>
+                <span class="mini-cb" id="cb_77" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 禁止创新项目：政策支持的创新产品采购，不得设置任何业绩资格<br>
+                &nbsp;&nbsp;<em>仅限技术复杂、专业性极强、容错率极低、一旦履约失败造成重大损失项目：</em><br>
+                &nbsp;&nbsp;<span class="mini-cb" id="cb_78" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 大型信息化系统集成、涉密运维、医疗大型设备；<br>
+                &nbsp;&nbsp;<span class="mini-cb" id="cb_79" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 重大工程监理、安全检测、专项规划咨询；<br>
+                &nbsp;&nbsp;<span class="mini-cb" id="cb_80" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 特种设备维保、危化品处置、大型赛事保障；<br>
+                &nbsp;&nbsp;<em>禁止场景：</em>办公电脑、打印机、普通保洁、常规办公用品、小额印刷、通用物业等标准化、低风险项目<br>
+                <span class="mini-cb" id="cb_81" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未设置业绩资格要求<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_82" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_83" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-6-5">
+            <input type="checkbox" onchange="updateProgress('6')">
+            <div class="cl-text">
+              <div class="cl-title">中小企业扶持政策落实</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_84" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 专门面向中小企业（不执行价格扣除）&nbsp; <span class="mini-cb" id="cb_85" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 非专门面向中小企业<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_86" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_87" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
+            <span class="cl-tag tag-warning">重要</span>
+          </div>
+          <div class="cl-item" data-id="cl-6-6">
+            <input type="checkbox" onchange="updateProgress('6')">
+            <div class="cl-text">
+              <div class="cl-title">本国产品政策落实</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_88" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 既有本国产品又有非本国产品参与竞争的，对本国产品报价给予20%的价格扣除<br>
+                <span class="mini-cb" id="cb_89" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 仅有本国产品参与竞争的，不享受价格扣除评审优惠<br>
+                <span class="mini-cb" id="cb_90" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 非专门面向中小企业，既有本国产品又有非本国产品参与竞争，且提供本国产品的供应商同时为小微企业的，同时执行价格扣除优惠<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_91" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_92" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-warning">重要</span>
           </div>
         </div>
 
-        <!-- Phase 7 -->
+        <!-- ===== 七、评审方法与评分设计 ===== -->
         <div class="checklist-section" id="cl-phase7">
           <div class="cl-header">
-            <h3>七、质疑与投诉处理</h3>
+            <h3>七、评审方法与评分设计</h3>
             <span class="cl-progress" id="cl-progress-7"></span>
           </div>
           <div class="cl-item" data-id="cl-7-1">
             <input type="checkbox" onchange="updateProgress('7')">
-            <div class="cl-text"><div class="cl-title">质疑人主体资格审查</div><div class="cl-desc">对文件质疑=已获取文件潜在供应商；对过程/结果质疑=已参与；废标供应商仅可质疑自身废标理由；联合体须全体盖章；未报名/投标/下载企业不适格</div></div>
+            <div class="cl-text">
+              <div class="cl-title">评标方法选择</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_93" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 最低评标价法 &nbsp; <span class="mini-cb" id="cb_94" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 综合评分法<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_95" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_96" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-7-2">
             <input type="checkbox" onchange="updateProgress('7')">
-            <div class="cl-text"><div class="cl-title">主体材料完整</div><div class="cl-desc">营业执照、法定代表人身份证明、授权委托书、代理人身份证齐全加盖公章</div></div>
-            <span class="cl-tag tag-warning">重要</span>
+            <div class="cl-text">
+              <div class="cl-title">评分分值设计合规性</div>
+              <div class="cl-desc">
+                公开招标：<span class="mini-cb" id="cb_97" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 货物类价格分&#8805;30分（30～70分区间）<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="mini-cb" id="cb_98" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 服务类价格分&#8805;10分（10～90分区间）<br>
+                竞争性磋商：<span class="mini-cb" id="cb_99" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 货物类价格分30%-60%<br>
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span class="mini-cb" id="cb_100" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 服务类价格分10%～30%<br>
+                工程项目：<span class="mini-cb" id="cb_101" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 无强制价格分下限<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_102" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_103" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-7-3">
             <input type="checkbox" onchange="updateProgress('7')">
-            <div class="cl-text"><div class="cl-title">质疑时限审查（法定7个工作日）</div><div class="cl-desc">质疑文件=收到当日/公告期满；质疑过程=环节结束当日；质疑结果=公告届满当日；邮寄线上以寄出提交为准超期不受理</div></div>
+            <div class="cl-text">
+              <div class="cl-title">(一)基础文字表述明确性审查</div>
+              <div class="cl-desc">
+                <strong>1、禁止模糊定性词汇：</strong><br>
+                <span class="mini-cb" id="cb_104" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 无较好、良好、优秀、完善、合理、可行、充分、较强、深度理解、综合对比、酌情给分、评委自主判定<br>
+                <span class="mini-cb" id="cb_105" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 无浮动分值区间：方案优 7-10 分、良 3-6 分、差 0-2 分（无客观判定标准，纯主观裁量）<br>
+                <span class="mini-cb" id="cb_106" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 无"横向对比打分"：评委拿多家供应商互相比高低打分，无统一标尺，属于严重不明确<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_107" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_108" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-7-4">
             <input type="checkbox" onchange="updateProgress('7')">
-            <div class="cl-text"><div class="cl-title">质疑函形式要件审查</div><div class="cl-desc">名称地址联系人电话；项目名称编号；具体质疑事项+诉求；事实依据证明材料；法律依据；日期盖章</div></div>
-            <span class="cl-tag tag-warning">重要</span>
+            <div class="cl-text">
+              <div class="cl-title">2、文字表述统一、无矛盾、无歧义审查要点</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_109" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 同一术语全程统一：如"同类业绩""小微企业""本国产品"定义前后一致，不前后矛盾<br>
+                <span class="mini-cb" id="cb_110" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 证明材料要求写死：明确业绩提供合同关键页或中标通知书，不写"相关证明材料"<br>
+                <span class="mini-cb" id="cb_111" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 时间节点精准：业绩起算点明确为合同签订日期或中标通知书日期或验收完成日期，不模糊写"近3年相关业绩"<br>
+                <span class="mini-cb" id="cb_112" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 范围边界清晰：同类项目精准界定，不使用"相关、类似、有关"等宽泛表述<br>
+                <span class="mini-cb" id="cb_113" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 扣分规则写明：缺项、不满足、低于标准如何扣分，不能只写满分标准、无扣分依据<br>
+                <em>合规 / 违规示例：</em><br>
+                违规：售后服务方案完善得 6 分，一般得 3 分，不完善不得分；<br>
+                合规：售后响应&#8804;30 分钟得 6 分；30&lt;响应&#8804;60 分钟得 3 分；&gt;60 分钟 0 分。<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_114" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_115" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-7-5">
             <input type="checkbox" onchange="updateProgress('7')">
-            <div class="cl-text"><div class="cl-title">受理与答复程序合规审查</div><div class="cl-desc">载明接收方式地址联系人时限；不得无故拒收；收到后7工作日内书面答复；逐条回应区分成立/不成立写明依据；影响中标结果则暂停签约中止合同</div></div>
-            <span class="cl-tag tag-warning">重要</span>
+            <div class="cl-text">
+              <div class="cl-title">(二)指标与分值匹配明确性审查（量化分档、一一对应）</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_116" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 所有打分项必须分档量化，每档对应固定分值<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_117" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_118" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-7-6">
             <input type="checkbox" onchange="updateProgress('7')">
-            <div class="cl-text"><div class="cl-title">质疑归档留存审查</div><div class="cl-desc">质疑函/证据材料/补正通知书/答复书/送达凭证/暂停通知全套存档</div></div>
+            <div class="cl-text">
+              <div class="cl-title">(三)指标与采购需求一一对应审查（高频投诉点）</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_119" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 每一条评分因素，必须能在采购需求（技术 / 商务）找到对应条款<br>
+                <span class="mini-cb" id="cb_120" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 需求里不可量化的硬性要求（系统必须兼容现有平台、产品必须3C认证），只能标&#9733;实质性条款，不能设分值打分<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_121" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_122" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-7-7">
+            <input type="checkbox" onchange="updateProgress('7')">
+            <div class="cl-text">
+              <div class="cl-title">(四)分值计算逻辑清晰可复核</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_123" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 价格分公式完整写明：基准价规则、计算公式、是否价格扣除、优惠叠加方式<br>
+                <span class="mini-cb" id="cb_124" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 加分封顶：业绩、人员、证书类必须设置最高分上限，无上限属于规则不明确<br>
+                <span class="mini-cb" id="cb_125" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 总分校验：价格 + 技术 + 商务 = 100 分，无隐形加分、无额外隐性分值<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_126" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_127" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-7-8">
+            <input type="checkbox" onchange="updateProgress('7')">
+            <div class="cl-text">
+              <div class="cl-title">客观硬指标类细则明确性审查</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_128" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 参数数值精准，无"大容量、高性能"模糊描述<br>
+                <span class="mini-cb" id="cb_129" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 同类项目业绩明确定义、有效业绩判定标准明确、区分资格项与加分项（无重复计分）<br>
+                <span class="mini-cb" id="cb_130" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 证书、人员计分规则（每人几分、最多几人计分、总分上限）、佐证材料完整列明<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_131" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_132" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-warning">重要</span>
+          </div>
+          <div class="cl-item" data-id="cl-7-9">
+            <input type="checkbox" onchange="updateProgress('7')">
+            <div class="cl-text">
+              <div class="cl-title">否决条款（无效标条款）设置</div>
+              <div class="cl-desc"><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_133" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_134" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-7-10">
+            <input type="checkbox" onchange="updateProgress('7')">
+            <div class="cl-text">
+              <div class="cl-title">评标委员会组成方案</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_135" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 3人：采购人 <span class="editable-field" contenteditable="true" style="display:inline-block;min-width:25px;border-bottom:1px solid #1a56db;color:#1a56db;outline:none;margin:0 2px;padding:0 2px;">___</span> 人，专家 <span class="editable-field" contenteditable="true" style="display:inline-block;min-width:25px;border-bottom:1px solid #1a56db;color:#1a56db;outline:none;margin:0 2px;padding:0 2px;">___</span> 人<br>
+                <span class="mini-cb" id="cb_136" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 5人：采购人 <span class="editable-field" contenteditable="true" style="display:inline-block;min-width:25px;border-bottom:1px solid #1a56db;color:#1a56db;outline:none;margin:0 2px;padding:0 2px;">___</span> 人，专家 <span class="editable-field" contenteditable="true" style="display:inline-block;min-width:25px;border-bottom:1px solid #1a56db;color:#1a56db;outline:none;margin:0 2px;padding:0 2px;">___</span> 人<br>
+                <span class="mini-cb" id="cb_137" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 7人：采购人 <span class="editable-field" contenteditable="true" style="display:inline-block;min-width:25px;border-bottom:1px solid #1a56db;color:#1a56db;outline:none;margin:0 2px;padding:0 2px;">___</span> 人，专家 <span class="editable-field" contenteditable="true" style="display:inline-block;min-width:25px;border-bottom:1px solid #1a56db;color:#1a56db;outline:none;margin:0 2px;padding:0 2px;">___</span> 人<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_138" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_139" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
             <span class="cl-tag tag-info">一般</span>
           </div>
         </div>
 
-        <!-- Phase 8 -->
+        <!-- ===== 八、公告与文件发布 ===== -->
         <div class="checklist-section" id="cl-phase8">
           <div class="cl-header">
-            <h3>八、合同签订与归档</h3>
+            <h3>八、公告与文件发布</h3>
             <span class="cl-progress" id="cl-progress-8"></span>
           </div>
           <div class="cl-item" data-id="cl-8-1">
             <input type="checkbox" onchange="updateProgress('8')">
-            <div class="cl-text"><div class="cl-title">签约前置条件合规审查</div><div class="cl-desc">已完成中标公示；质疑全部办结；按第一候选人签约放弃须留痕顺延；正式通知书与公告一致；履约保证金比例合规支持保函</div></div>
+            <div class="cl-text">
+              <div class="cl-title">公告发布媒介选择</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_140" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 中国政府采购网 &nbsp; <span class="mini-cb" id="cb_141" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 湖南政府采购网 &nbsp; <span class="mini-cb" id="cb_142" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 市交易平台 &nbsp; <span class="mini-cb" id="cb_143" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 其他媒介<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_144" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_145" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-8-2">
             <input type="checkbox" onchange="updateProgress('8')">
-            <div class="cl-text"><div class="cl-title">签约时限与主体合规审查</div><div class="cl-desc">法定30日内签订；超30日无正当理由违规；甲方=采购人全称不可科室代签；乙方=中标商全称不可转包；联合体全部盖章；授权签约须法定代表人证明+委托书</div></div>
+            <div class="cl-text">
+              <div class="cl-title">招标（采购）文件发售期</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_146" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 5个工作日 &nbsp; <span class="mini-cb" id="cb_147" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 其他：<span class="editable-field" contenteditable="true" style="border-bottom:1px solid #999;display:inline-block;min-width:80px;color:#1a56db;outline:none;padding:0 2px;">____</span><br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_148" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_149" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
             <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-8-3">
             <input type="checkbox" onchange="updateProgress('8')">
-            <div class="cl-text"><div class="cl-title">形式要求</div><div class="cl-desc">必须书面合同（纸质盖章/合法电子签章），口头协议无效</div></div>
-            <span class="cl-tag tag-warning">重要</span>
+            <div class="cl-text">
+              <div class="cl-title">提交投标（响应）文件截止时间</div>
+              <div class="cl-desc"><span class="editable-date" contenteditable="true" style="display:inline-block;min-width:30px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">____</span> 年 <span class="editable-date" contenteditable="true" style="display:inline-block;min-width:20px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">__</span> 月 <span class="editable-date" contenteditable="true" style="display:inline-block;min-width:20px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">__</span> 日 <span class="editable-date" contenteditable="true" style="display:inline-block;min-width:20px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">__</span> 时 <span class="editable-date" contenteditable="true" style="display:inline-block;min-width:20px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">__</span> 分<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_150" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_151" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
           </div>
           <div class="cl-item" data-id="cl-8-4">
             <input type="checkbox" onchange="updateProgress('8')">
-            <div class="cl-text"><div class="cl-title">合同文本核心条款合规审查</div><div class="cl-desc">所有实质性内容必须与招标/投标/通知书完全一致；不得强制无偿让利捐赠配套垫资；不得阴阳合同；不得排他指定品牌歧视；不得不合理扣款</div></div>
-            <span class="cl-tag tag-danger">必查</span>
+            <div class="cl-text">
+              <div class="cl-title">招标（采购）文件澄清/修改（变更公告）</div>
+              <div class="cl-desc"><span class="editable-date" contenteditable="true" style="display:inline-block;min-width:30px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">____</span> 年 <span class="editable-date" contenteditable="true" style="display:inline-block;min-width:20px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">__</span> 月 <span class="editable-date" contenteditable="true" style="display:inline-block;min-width:20px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">__</span> 日 <span class="editable-date" contenteditable="true" style="display:inline-block;min-width:20px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">__</span> 时 <span class="editable-date" contenteditable="true" style="display:inline-block;min-width:20px;border-bottom:1px solid #999;margin:0 2px;color:#1a56db;outline:none;padding:0 2px;">__</span> 分<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_152" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_153" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
+            <span class="cl-tag tag-warning">重要</span>
           </div>
           <div class="cl-item" data-id="cl-8-5">
             <input type="checkbox" onchange="updateProgress('8')">
-            <div class="cl-text"><div class="cl-title">合同公告、财政备案合规审查</div><div class="cl-desc">签订2工作日内在省级财政指定平台公告；7工作日内同级财政备案</div></div>
-            <span class="cl-tag tag-warning">重要</span>
-          </div>
-          <div class="cl-item" data-id="cl-8-6">
-            <input type="checkbox" onchange="updateProgress('8')">
-            <div class="cl-text"><div class="cl-title">合同追加</div><div class="cl-desc">追加同类标的金额≤原合同10%且不改实质条款；追加协议必须备案公告</div></div>
-            <span class="cl-tag tag-info">一般</span>
-          </div>
-          <div class="cl-item" data-id="cl-8-7">
-            <input type="checkbox" onchange="updateProgress('8')">
-            <div class="cl-text"><div class="cl-title">项目档案归档合规审查（长期保管）</div><div class="cl-desc">合同签订7工作日内完成全套资料立卷归档；电子同步存电子档案；目录完整原件留存装订成册</div></div>
+            <div class="cl-text">
+              <div class="cl-title">招标（采购）文件售价合理性</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_154" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 0元 &nbsp; <span class="mini-cb" id="cb_155" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 300元 &nbsp; <span class="mini-cb" id="cb_156" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 400元 &nbsp; <span class="mini-cb" id="cb_157" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 500元<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_158" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_159" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
             <span class="cl-tag tag-info">一般</span>
           </div>
         </div>
 
-        <!-- Progress init note: update from 7 phases to 8 -->
+        <!-- ===== 九、开标评标与定标 ===== -->
+        <div class="checklist-section" id="cl-phase9">
+          <div class="cl-header">
+            <h3>九、开标评标与定标</h3>
+            <span class="cl-progress" id="cl-progress-9"></span>
+          </div>
+          <div class="cl-item" data-id="cl-9-1">
+            <input type="checkbox" onchange="updateProgress('9')">
+            <div class="cl-text">
+              <div class="cl-title">开标程序合规性</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_160" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 开标时间 = 投标截止时间，无提前延后<br>
+                <span class="mini-cb" id="cb_161" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 开标地点与招标（采购）文件一致，变更已发布更正公告<br>
+                <span class="mini-cb" id="cb_162" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 现场全程录音录像，画面完整清晰，资料归档<br>
+                <span class="mini-cb" id="cb_163" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 所有文件登记送达时间、密封状态<br>
+                <span class="mini-cb" id="cb_164" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 逾期送达、密封破损文件全部拒收<br>
+                <span class="mini-cb" id="cb_165" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 截止后未接收任何补充、修改文件<br>
+                <span class="mini-cb" id="cb_166" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 开标前未拆封任何投标（响应）文件<br>
+                <span class="mini-cb" id="cb_167" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 由采购人/代理机构主持，无评标专家参与开标<br>
+                <span class="mini-cb" id="cb_168" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 供应商代表到场核验密封，未单方自行检查<br>
+                <span class="mini-cb" id="cb_169" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 开标记录完整，到场投标人、监督、工作人员现场签字<br>
+                <span class="mini-cb" id="cb_170" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 投标人现场异议全部书面记录并当场答复<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_171" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_172" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-9-2">
+            <input type="checkbox" onchange="updateProgress('9')">
+            <div class="cl-text">
+              <div class="cl-title">评标过程合规性、保密性</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_173" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 打印机、电脑、评审报告提前准备好<br>
+                <span class="mini-cb" id="cb_174" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 工作人员介绍项目基本情况，宣读评审纪律，评审专家签署承诺书<br>
+                <span class="mini-cb" id="cb_175" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 工作人员重点强调按照相关管理规定和招标（采购）文件要求进行独立评审<br>
+                <span class="mini-cb" id="cb_176" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 无关人员禁止进入评标室，代理机构工作人员不可长时间停留<br>
+                <span class="mini-cb" id="cb_177" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 评审专家各自独立评审，严禁交头接耳，严禁协商打分<br>
+                <span class="mini-cb" id="cb_178" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 资格性审查、符合性审查完成后，评审专家分别与每家合格供应商沟通技术、服务、合同条款<br>
+                <span class="mini-cb" id="cb_179" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 代理机构复核得分情况<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_180" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_181" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-9-3">
+            <input type="checkbox" onchange="updateProgress('9')">
+            <div class="cl-text">
+              <div class="cl-title">中标结果公告（公示）</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_182" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 自中标（成交）供应商确定之日起 2 个工作日内，发出中标（成交）通知书，并在指定媒体公告中标（成交）<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_183" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_184" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span><br>
+                公告发布媒介：<span class="mini-cb" id="cb_185" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 中国政府采购网 &nbsp; <span class="mini-cb" id="cb_186" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 湖南政府采购网 &nbsp; <span class="mini-cb" id="cb_187" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 市交易平台<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_188" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_189" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-9-4">
+            <input type="checkbox" onchange="updateProgress('9')">
+            <div class="cl-text">
+              <div class="cl-title">中标（成交）通知书发出</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_190" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 中标（成交）通知书日期与中标公告日期一致<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_191" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_192" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
+            <span class="cl-tag tag-warning">重要</span>
+          </div>
+        </div>
+
+        <!-- ===== 十、质疑与投诉处理 ===== -->
+        <div class="checklist-section" id="cl-phase10">
+          <div class="cl-header">
+            <h3>十、质疑与投诉处理</h3>
+            <span class="cl-progress" id="cl-progress-10"></span>
+          </div>
+          <div class="cl-item" data-id="cl-10-1">
+            <input type="checkbox" onchange="updateProgress('10')">
+            <div class="cl-text">
+              <div class="cl-title">1.质疑人主体资格审查 — 利害关系适格</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_193" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 对采购文件质疑：已合法获取采购文件（有报名/下载凭证），属于潜在供应商<br>
+                <span class="mini-cb" id="cb_194" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 对采购过程/中标结果质疑：已递交投标文件、参与本项目<br>
+                <span class="mini-cb" id="cb_195" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 被废标供应商：仅可质疑自身废标理由，无权质疑其他投标人中标结果<br>
+                <span class="mini-cb" id="cb_196" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 联合体质疑：必须全体联合体共同盖章提出，单一成员单独质疑不予受理<br>
+                <span class="mini-cb" id="cb_197" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未报名、未投标、无采购文件下载记录企业，质疑主体不适格<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_198" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_199" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-10-2">
+            <input type="checkbox" onchange="updateProgress('10')">
+            <div class="cl-text">
+              <div class="cl-title">2.主体材料完整</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_200" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 营业执照、法定代表人身份证明（格式）、授权委托书（格式）、代理人身份证齐全，加盖公章；自然人本人签字<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_201" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_202" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-10-3">
+            <input type="checkbox" onchange="updateProgress('10')">
+            <div class="cl-text">
+              <div class="cl-title">3.质疑时限审查（法定 7 个工作日）</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_203" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 质疑采购文件：收到文件当日 / 采购公告期满；<br>
+                <span class="mini-cb" id="cb_204" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 质疑采购过程：对应程序环节结束当日；<br>
+                <span class="mini-cb" id="cb_205" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 质疑中标结果：中标公告期限届满当日；<br>
+                <span class="mini-cb" id="cb_206" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 邮寄/线上提交：以寄出/系统提交时间为准，超 7 个工作日直接不予受理；<br>
+                <span class="mini-cb" id="cb_207" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 审查要点：留存接收凭证、系统时间戳，杜绝逾期受理<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_208" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_209" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-10-4">
+            <input type="checkbox" onchange="updateProgress('10')">
+            <div class="cl-text">
+              <div class="cl-title">4.质疑函形式要件审查</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_210" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 供应商名称、地址、联系人、电话；<br>
+                <span class="mini-cb" id="cb_211" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 项目名称、采购编号；<br>
+                <span class="mini-cb" id="cb_212" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 明确、具体质疑事项 + 诉求（不能笼统写"不公平、有问题"）；<br>
+                <span class="mini-cb" id="cb_213" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 事实依据、配套证明材料；<br>
+                <span class="mini-cb" id="cb_214" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 对应的法律、招标文件条款依据；<br>
+                <span class="mini-cb" id="cb_215" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 提出质疑日期、加盖公章。<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_216" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_217" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-10-5">
+            <input type="checkbox" onchange="updateProgress('10')">
+            <div class="cl-text">
+              <div class="cl-title">5.受理与答复程序合规审查</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_218" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 采购文件必须载明质疑接收方式、地址、联系人、时限<br>
+                <span class="mini-cb" id="cb_219" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 不得无故拒收法定时限内有效质疑<br>
+                <span class="mini-cb" id="cb_220" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 答复时限：收到质疑后 7 个工作日内书面答复<br>
+                <span class="mini-cb" id="cb_221" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 答复内容合规：<br>
+                &nbsp;&nbsp;<span class="mini-cb" id="cb_222" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 逐条回应每一项质疑事项<br>
+                &nbsp;&nbsp;<span class="mini-cb" id="cb_223" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 区分质疑成立 / 不成立，写明事实、法规、招标文件依据<br>
+                &nbsp;&nbsp;<span class="mini-cb" id="cb_224" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 质疑事项属实且影响中标结果：暂停签订合同、中止已签合同<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_225" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_226" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-10-6">
+            <input type="checkbox" onchange="updateProgress('10')">
+            <div class="cl-text">
+              <div class="cl-title">6.质疑归档留存审查</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_227" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 质疑函 &nbsp; <span class="mini-cb" id="cb_228" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 证据材料 &nbsp; <span class="mini-cb" id="cb_229" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 补正通知书 &nbsp; <span class="mini-cb" id="cb_230" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 答复书<br>
+                <span class="mini-cb" id="cb_231" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 送达凭证 &nbsp; <span class="mini-cb" id="cb_232" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 暂停采购通知 全套存档<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_233" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_234" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-info">一般</span>
+          </div>
+        </div>
+
+        <!-- ===== 十一、合同签订与归档 ===== -->
+        <div class="checklist-section" id="cl-phase11">
+          <div class="cl-header">
+            <h3>十一、合同签订与归档</h3>
+            <span class="cl-progress" id="cl-progress-11"></span>
+          </div>
+          <div class="cl-item" data-id="cl-11-1">
+            <input type="checkbox" onchange="updateProgress('11')">
+            <div class="cl-text">
+              <div class="cl-title">签约前置条件合规审查</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_235" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 已完成中标（成交）结果公示<br>
+                <span class="mini-cb" id="cb_236" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 质疑全部办结；无未答复质疑、未办结投诉<br>
+                <span class="mini-cb" id="cb_237" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 严格按评标报告推荐第一候选人签约；放弃/不合格须留存核查材料，顺延第二名完整留痕<br>
+                <span class="mini-cb" id="cb_238" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 已出具正式中标（成交）通知书，通知书与中标公告信息完全一致<br>
+                <span class="mini-cb" id="cb_239" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 履约保证金按招标（采购）文件约定收取，比例合规，支持保函替代<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_240" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_241" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-11-2">
+            <input type="checkbox" onchange="updateProgress('11')">
+            <div class="cl-text">
+              <div class="cl-title">签约时限与签约主体合规审查</div>
+              <div class="cl-desc">
+                <strong>1.法定签约时限（中标/成交通知书发出之日起30日内签订书面合同）</strong><br>
+                <span class="mini-cb" id="cb_242" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 核对通知书签发日期、合同签订日期，超 30 日无正当理由属于违规<br>
+                <span class="mini-cb" id="cb_243" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 无书面延期审批材料不得延迟签约<br>
+                <strong>2.签约主体一致性</strong><br>
+                <span class="mini-cb" id="cb_244" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 甲方：采购人全称，不得由科室、下属部门、代理机构代签（无正式授权委托书除外）<br>
+                <span class="mini-cb" id="cb_245" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 乙方：必须是中标/成交供应商全称，不得转包给第三方签约<br>
+                <span class="mini-cb" id="cb_246" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 联合体：全部联合体共同作为乙方盖章签约，不得仅牵头方签约<br>
+                <span class="mini-cb" id="cb_247" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 授权签约：经办人提供法定代表人身份证明 + 完整授权委托书，加盖公章<br>
+                <strong>3.形式要求</strong><br>
+                <span class="mini-cb" id="cb_248" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 必须书面合同（纸质盖章/合法电子签章），口头协议、框架意向书不具备法定合同效力<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_249" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_250" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-11-3">
+            <input type="checkbox" onchange="updateProgress('11')">
+            <div class="cl-text">
+              <div class="cl-title">合同文本核心条款合规审查</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_251" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 合同所有实质性内容必须与招标（采购）文件、投标（响应）文件、中标（成交）通知书完全一致，严禁私下谈判修改：标的、价款、工期、质量标准/验收规范、付款、售后服务、履约保证金、违约责任<br>
+                <span class="mini-cb" id="cb_252" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 不得强制供应商无偿让利、捐赠、配套无关产品、垫资施工<br>
+                <span class="mini-cb" id="cb_253" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 不得签订"阴阳合同"（表面低价合同、私下补充加价协议）<br>
+                <span class="mini-cb" id="cb_254" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 不得设置排他、指定品牌、歧视性条款<br>
+                <span class="mini-cb" id="cb_255" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 不得约定超出法定范围的不合理扣款<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_256" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_257" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-11-4">
+            <input type="checkbox" onchange="updateProgress('11')">
+            <div class="cl-text">
+              <div class="cl-title">合同公告、财政备案合规审查</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_258" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 合同签订之日起2个工作日内，在省级财政指定政府采购平台公告<br>
+                <span class="mini-cb" id="cb_259" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 合同签订之日起7个工作日内，向同级财政监管部门备案
+              </div>
+            </div>
+            <span class="cl-tag tag-danger">必查</span>
+          </div>
+          <div class="cl-item" data-id="cl-11-5">
+            <input type="checkbox" onchange="updateProgress('11')">
+            <div class="cl-text">
+              <div class="cl-title">合同追加</div>
+              <div class="cl-desc"><span class="mini-cb" id="cb_260" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 追加同类标的金额不得超过原合同金额10%，且不得改变其他实质性条款，追加协议必须备案公告<br><span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_261" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_262" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span></div>
+            </div>
+            <span class="cl-tag tag-warning">重要</span>
+          </div>
+          <div class="cl-item" data-id="cl-11-6">
+            <input type="checkbox" onchange="updateProgress('11')">
+            <div class="cl-text">
+              <div class="cl-title">项目档案归档合规审查（长期保管）</div>
+              <div class="cl-desc">
+                <span class="mini-cb" id="cb_263" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 项目采购合同签订后7个工作日内完成全套资料立卷归档；电子项目同步留存电子档案<br>
+                <span class="mini-cb" id="cb_264" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 目录完整、原件留存、装订成册<br>
+                <span style="font-size:11px;color:#888;"><span class="mini-cb" id="cb_265" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 未完成 &nbsp; <span class="mini-cb" id="cb_266" onclick="toggleMiniCb(this)" title="点击打勾">&#9634;</span> 完成</span>
+              </div>
+            </div>
+            <span class="cl-tag tag-warning">重要</span>
+          </div>
+        </div>
+
+      
+      
       </div>
       <div class="page-section" id="laws">
         <div class="page-header">
-          <h2>⚖️ 法规规范库</h2>
+          <h2>&#9878;&#65039; 法规规范库</h2>
           <p>招标代理业务涉及的核心法律法规结构化速查</p>
         </div>
 
         <div class="alert alert-info" style="margin-bottom:12px;">
-          <span class="alert-icon">📌</span>
+          <span class="alert-icon">&#128204;</span>
           <div><strong>法规附件管理：</strong>点击下方统一入口上传法律法规原文/解读/指南等附件，支持图片/DOC/DOCX/PPT/PPTX/RTF/TXT/XLS/XLSX/PDF/ZIP等格式。上传时可选择展示到对应法规条目下方。</div>
         </div>
 
         <div style="background:#fff;border-radius:8px;padding:14px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08);border:1.5px solid var(--primary);border-left:4px solid var(--primary);">
-          <div style="font-size:14px;font-weight:600;color:var(--primary-dark);margin-bottom:10px;">📤 法规附件统一上传</div>
+          <div style="font-size:14px;font-weight:600;color:var(--primary-dark);margin-bottom:10px;">&#128228; 法规附件统一上传</div>
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">
             <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-              📤 选择文件上传 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" multiple style="display:none;" onchange="uploadLawFile(this)">
+              &#128228; 选择文件上传 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" multiple style="display:none;" onchange="uploadLawFile(this)">
             </label>
             <select id="lawAttachTarget" style="padding:6px 10px;border:1.5px solid var(--gray-300);border-radius:6px;font-size:13px;">
               <option value="">-- 选择展示位置 --</option>
@@ -1399,7 +1813,7 @@ body {
               <option value="LAW_10">关于促进政府采购公平竞争优化营商环境的通知</option>
               <option value="LAW_11">电子招标投标办法</option>
             </select>
-            <button class="btn btn-outline btn-sm" onclick="viewLawAttachments()">📂 查看所有法规附件</button>
+            <button class="btn btn-outline btn-sm" onclick="viewLawAttachments()">&#128194; 查看所有法规附件</button>
           </div>
           <div id="lawAllAttachments" class="template-files" style="display:none;"></div>
         </div>
@@ -1413,260 +1827,165 @@ body {
 
         <div class="tab-content active" id="laws-tab1">
           <div class="law-card">
-            <h4>📘 《中华人民共和国招标投标法》（2017修正）</h4>
+            <h4>&#128216; 《中华人民共和国招标投标法》（2017修正）</h4>
             <div class="law-meta">
-              <span>📌 主席令第86号</span>
-              <span>📅 2017年12月27日修正</span>
-              <span>🏷️ 工程招标</span>
+              <span>&#128204; 主席令第86号</span>
+              <span>&#128197; 2017年12月27日修正</span>
+              <span>&#127991;&#65039; 工程招标</span>
             </div>
-            <ul class="law-points">
-              <li>必须招标的范围：大型基础设施、公用事业项目；全部/部分使用国有资金投资项目；使用国际组织/外国政府贷款援助项目</li>
-              <li>必须招标的规模标准：施工400万元、货物200万元、服务100万元以上</li>
-              <li>招标方式：公开招标和邀请招标</div>
-              <li>招标人不得以不合理的条件限制或排斥潜在投标人</li>
-              <li>投标人不得串通投标报价，不得排挤其他投标人的公平竞争</li>
-              <li>中标人确定后30日内签订书面合同</li>
-            </ul>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_1', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_1')">📂 查看附件</button>
-              </div>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_1')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_1_count" style="font-size:11px;color:#888;"></span>
               <div class="template-files" id="LAW_1_files" style="display:none;"></div>
             </div>
           </div>
           <div class="law-card">
-            <h4>📘 《中华人民共和国政府采购法》（2014修正）</h4>
+            <h4>&#128216; 《中华人民共和国政府采购法》（2014修正）</h4>
             <div class="law-meta">
-              <span>📌 主席令第14号</span>
-              <span>📅 2014年8月31日修正</span>
-              <span>🏷️ 政府采购</span>
+              <span>&#128204; 主席令第14号</span>
+              <span>&#128197; 2014年8月31日修正</span>
+              <span>&#127991;&#65039; 政府采购</span>
             </div>
-            <ul class="law-points">
-              <li>适用范围：各级国家机关、事业单位和团体组织，使用财政性资金采购依法制定的集中采购目录以内或限额标准以上的货物、工程和服务</li>
-              <li>采购方式：公开招标、邀请招标、竞争性谈判、单一来源采购、询价、竞争性磋商</li>
-              <li>公开招标应作为主要采购方式</li>
-              <li>不得以不合理的条件对供应商实行差别待遇或歧视待遇</li>
-              <li>质疑供应商对答复不满意可在15日内向监管部门投诉</li>
-            </ul>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_4', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_4')">📂 查看附件</button>
-              </div>
-              <div class="template-files" id="LAW_4_files" style="display:none;"></div>
-            </div>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_3', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_3')">📂 查看附件</button>
-              </div>
-              <div class="template-files" id="LAW_3_files" style="display:none;"></div>
-            </div>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_2', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_2')">📂 查看附件</button>
-              </div>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_2')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_2_count" style="font-size:11px;color:#888;"></span>
               <div class="template-files" id="LAW_2_files" style="display:none;"></div>
             </div>
           </div>
           <div class="law-card">
-            <h4>📘 《中华人民共和国政府采购法实施条例》</h4>
+            <h4>&#128216; 《中华人民共和国政府采购法实施条例》</h4>
             <div class="law-meta">
-              <span>📌 国务院令第658号</span>
-              <span>📅 2015年3月1日起施行</span>
-              <span>🏷️ 政府采购</span>
+              <span>&#128204; 国务院令第658号</span>
+              <span>&#128197; 2015年3月1日起施行</span>
+              <span>&#127991;&#65039; 政府采购</span>
             </div>
-            <ul class="law-points">
-              <li>明确了财政性资金的定义和范围</li>
-              <li>细化了采购方式变更的条件和审批程序</li>
-              <li>规定了采购文件的保存期限不少于15年</li>
-              <li>明确了评审专家的抽取和回避制度</li>
-            </ul>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_9', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_9')">📂 查看附件</button>
-              </div>
-              <div class="template-files" id="LAW_9_files" style="display:none;"></div>
-            </div>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_8', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_8')">📂 查看附件</button>
-              </div>
-              <div class="template-files" id="LAW_8_files" style="display:none;"></div>
-            </div>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_7', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_7')">📂 查看附件</button>
-              </div>
-              <div class="template-files" id="LAW_7_files" style="display:none;"></div>
-            </div>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_6', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_6')">📂 查看附件</button>
-              </div>
-              <div class="template-files" id="LAW_6_files" style="display:none;"></div>
-            </div>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_5', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_5')">📂 查看附件</button>
-              </div>
-              <div class="template-files" id="LAW_5_files" style="display:none;"></div>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_3')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_3_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_3_files" style="display:none;"></div>
             </div>
           </div>
         </div>
 
         <div class="tab-content" id="laws-tab2">
           <div class="law-card">
-            <h4>📗 《招标投标法实施条例》</h4>
+            <h4>&#128217; 《招标投标法实施条例》</h4>
             <div class="law-meta">
-              <span>📌 国务院令第613号（2019修正）</span>
-              <span>📅 2019年3月2日修正</span>
+              <span>&#128204; 国务院令第613号（2019修正）</span>
+              <span>&#128197; 2019年3月2日修正</span>
             </div>
-            <ul class="law-points">
-              <li>细化了招标、投标、开标、评标、中标的各环节操作规范</li>
-              <li>明确了串通投标的6种情形</li>
-              <li>规定了招标文件的发售期不得少于5日</li>
-              <li>评标委员会成员不得私下接触投标人</li>
-            </ul>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_11', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_11')">📂 查看附件</button>
-              </div>
-              <div class="template-files" id="LAW_11_files" style="display:none;"></div>
-            </div>
-            <div class="law-upload" style="margin-top:12px;padding:10px;border-top:1px dashed var(--gray-300);">
-              <div style="display:flex;gap:8px;align-items:center;margin-bottom:8px;">
-                <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-                  📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile('LAW_10', this)">
-                </label>
-                <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_10')">📂 查看附件</button>
-              </div>
-              <div class="template-files" id="LAW_10_files" style="display:none;"></div>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_4')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_4_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_4_files" style="display:none;"></div>
             </div>
           </div>
           <div class="law-card">
-            <h4>📗 《必须招标的工程项目规定》</h4>
+            <h4>&#128217; 《必须招标的工程项目规定》</h4>
             <div class="law-meta">
-              <span>📌 国家发改委令第16号</span>
-              <span>📅 2018年6月1日起施行</span>
+              <span>&#128204; 国家发改委令第16号</span>
+              <span>&#128197; 2018年6月1日起施行</span>
             </div>
-            <ul class="law-points">
-              <li>施工单项合同估算价400万元以上必须招标</li>
-              <li>重要设备材料等货物采购200万元以上必须招标</li>
-              <li>勘察、设计、监理等服务采购100万元以上必须招标</li>
-              <li>同一项目中可以合并的采购合同估算价合计达到上述标准的必须招标</li>
-            </ul>\n            <div class="law-file-list" id="0_preview" style="display:none;"></div></div>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_5')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_5_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_5_files" style="display:none;"></div>
+            </div>
+          </div>
         </div>
 
         <div class="tab-content" id="laws-tab3">
           <div class="law-card">
-            <h4>📙 《政府采购货物和服务招标投标管理办法》（财政部令第87号）</h4>
+            <h4>&#128217; 《政府采购货物和服务招标投标管理办法》（财政部令第87号）</h4>
             <div class="law-meta">
-              <span>📌 财政部令第87号</span>
-              <span>📅 2017年10月1日起施行</span>
+              <span>&#128204; 财政部令第87号</span>
+              <span>&#128197; 2017年10月1日起施行</span>
             </div>
-            <ul class="law-points">
-              <li>明确了公开招标和邀请招标的操作流程</li>
-              <li>规定了评分方法：最低评标价法和综合评分法</li>
-              <li>综合评分法中的价格分值权重：货物30-60%，服务10-30%</li>
-              <li>资格后审为政府采购主要审查方式</li>
-              <li>采购人不得通过化整为零方式规避公开招标</li>
-            </ul>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_6')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_6_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_6_files" style="display:none;"></div>
+            </div>
           </div>
           <div class="law-card">
-            <h4>📙 《政府采购竞争性磋商采购方式管理暂行办法》</h4>
+            <h4>&#128217; 《政府采购竞争性磋商采购方式管理暂行办法》</h4>
             <div class="law-meta">
-              <span>📌 财库〔2014〕214号</span>
-              <span>📅 2014年12月31日</span>
+              <span>&#128204; 财库〔2014〕214号</span>
+              <span>&#128197; 2014年12月31日</span>
             </div>
-            <ul class="law-points">
-              <li>适用情形：政府购买服务项目、技术复杂或性质特殊的项目等</li>
-              <li>磋商文件发出之日起至提交首次响应文件截止之日不少于10日</li>
-              <li>磋商小组由3人以上单数组成</li>
-            </ul>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_7')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_7_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_7_files" style="display:none;"></div>
+            </div>
           </div>
           <div class="law-card">
-            <h4>📙 《政府采购非招标采购方式管理办法》（财政部令第74号）</h4>
+            <h4>&#128217; 《政府采购非招标采购方式管理办法》（财政部令第74号）</h4>
             <div class="law-meta">
-              <span>📌 财政部令第74号</span>
-              <span>📅 2014年2月1日起施行</span>
+              <span>&#128204; 财政部令第74号</span>
+              <span>&#128197; 2014年2月1日起施行</span>
             </div>
-            <ul class="law-points">
-              <li>规范了竞争性谈判、单一来源采购、询价三种方式</li>
-              <li>竞争性谈判：3家以上供应商参与</li>
-              <li>单一来源：公示期不少于5个工作日</li>
-            </ul>\n            <div class="law-file-list" id="0_preview" style="display:none;"></div></div>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_8')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_8_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_8_files" style="display:none;"></div>
+            </div>
+          </div>
+          <div class="law-card">
+            <h4>&#128217; 《政府采购促进中小企业发展管理办法》</h4>
+            <div class="law-meta">
+              <span>&#128204; 财库〔2020〕46号</span>
+              <span>&#128197; 2021年1月1日起施行</span>
+            </div>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_9')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_9_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_9_files" style="display:none;"></div>
+            </div>
+          </div>
         </div>
 
         <div class="tab-content" id="laws-tab4">
           <div class="law-card">
-            <h4>📕 《政府采购促进中小企业发展管理办法》</h4>
+            <h4>&#128213; 《关于促进政府采购公平竞争优化营商环境的通知》</h4>
             <div class="law-meta">
-              <span>📌 财库〔2020〕46号</span>
-              <span>📅 2021年1月1日起施行</span>
+              <span>&#128204; 财库〔2019〕38号</span>
+              <span>&#128197; 2019年9月1日起施行</span>
             </div>
-            <ul class="law-points">
-              <li>200万元以下的货物和服务项目、400万元以下的工程项目，适宜由中小企业提供的应专门面向中小企业采购</li>
-              <li>非专门面向中小企业项目，对小微企业报价给予6%-10%的扣除优惠</li>
-              <li>大中型企业与小微企业组成联合体，可给予2%-4%的扣除优惠</li>
-            </ul>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_10')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_10_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_10_files" style="display:none;"></div>
+            </div>
           </div>
           <div class="law-card">
-            <h4>📕 《关于促进政府采购公平竞争优化营商环境的通知》</h4>
+            <h4>&#128213; 《电子招标投标办法》</h4>
             <div class="law-meta">
-              <span>📌 财库〔2019〕38号</span>
-              <span>📅 2019年9月1日起施行</span>
+              <span>&#128204; 国家发改委等八部委令第20号</span>
+              <span>&#128197; 2013年5月1日起施行</span>
             </div>
-            <ul class="law-points">
-              <li>全面清理政府采购领域妨碍公平竞争的规定和做法</li>
-              <li>不得以企业注册资本、资产总额、营业收入、从业人员等规模条件对企业实行差别待遇</li>
-              <li>不得限定供应商的所有制形式、组织形式或所在地</li>
-            </ul>
-          </div>
-          <div class="law-card">
-            <h4>📕 《电子招标投标办法》</h4>
-            <div class="law-meta">
-              <span>📌 国家发改委等八部委令第20号</span>
-              <span>📅 2013年5月1日起施行</span>
+            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_11')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_11_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_11_files" style="display:none;"></div>
             </div>
-            <ul class="law-points">
-              <li>规范了电子招标投标系统的建设和运营</li>
-              <li>明确了电子招标投标各方的权利义务</li>
-              <li>规定了数据电文形式的招标投标活动与纸质活动具有同等法律效力</li>
-            </ul>
           </div>
         </div>
       </div>
 
       <!-- ===== 流程与时限 ===== -->
+      
       <div class="page-section" id="process">
         <div class="page-header">
           <h2>🔄 招标全流程与时限速查</h2>
@@ -1869,13 +2188,12 @@ body {
           <div style="margin-top:16px;">
             <div class="law-card">
               <h4>📐 评分细则设计要点</h4>
-              <ul class="law-points">
-                <li>客观评分项应设定明确的评分标准（如资质等级对应具体分值）</li>
-                <li>主观评分项应控制在总分的30%以内，并设定评分档次和对应描述</li>
-                <li>价格分统一采用低价优先法计算：价格得分 = (基准价/投标价) × 价格分权重</li>
-                <li>禁止设置"评委酌情打分"等模糊评分项</li>
-                <li>同一评分因素不重复计分</li>
-              </ul>
+              <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
+            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
+              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_1')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
+              <span id="LAW_1_count" style="font-size:11px;color:#888;"></span>
+              <div class="template-files" id="LAW_1_files" style="display:none;"></div>
+            </div>
             </div>
           </div>
         </div>
@@ -3359,7 +3677,21 @@ function toggleExpand(headerEl) {
 }
 
 // ===== Checklist Progress =====
-function updateProgress(phase) {
+// ===== Mini Checkbox toggle =====
+  function toggleMiniCb(el) {
+    var current = el.innerHTML;
+    if (current === '▢' || current === '&#9634;') {
+      el.innerHTML = '&#10003;';
+      el.style.color = '#1a56db';
+      el.style.fontWeight = 'bold';
+    } else {
+      el.innerHTML = '&#9634;';
+      el.style.color = '';
+      el.style.fontWeight = '';
+    }
+  }
+
+  function updateProgress(phase) {
   var section = document.getElementById('cl-phase' + phase);
   if (!section) return;
   var items = section.querySelectorAll('.cl-item');
@@ -3414,7 +3746,7 @@ function resetChecklist() {
 
 function exportChecklist() {
   var sections = document.querySelectorAll('.checklist-section');
-  var text = '湖南全仕项目管理有限公司 · 新项目启动排查报告\n';
+  var text = 'xxx政府采购项目启动排查报告\n';
   text += '导出时间：' + new Date().toLocaleString() + '\n';
   text += '='.repeat(50) + '\n\n';
   sections.forEach(function(section) {
