@@ -804,6 +804,22 @@ body {
 .login-card .login-hint { color: #9ca3af; text-align: center; font-size: 12px; margin-top: 16px; }
 .login-card .login-logo { text-align: center; font-size: 40px; margin-bottom: 12px; }
 
+/* ===== Role-based Permissions ===== */
+body.role-staff .admin-only { display: none !important; }
+.user-badge {
+  display: flex; align-items: center; gap: 6px;
+  padding: 6px 10px; border-radius: 6px; font-size: 12px;
+  margin-bottom: 8px;
+}
+.user-badge.admin { background: #dbeafe; color: #1a56db; }
+.user-badge.staff { background: #d1fae5; color: #059669; }
+.user-badge .badge-tag {
+  font-size: 10px; padding: 1px 6px; border-radius: 4px;
+  font-weight: 600;
+}
+.user-badge.admin .badge-tag { background: #1a56db; color: #fff; }
+.user-badge.staff .badge-tag { background: #059669; color: #fff; }
+
 /* Change Password Modal */
 #changePwdModal {
   position: fixed; top: 0; left: 0; width: 100%; height: 100%;
@@ -1056,13 +1072,18 @@ body {
       </a>
     </nav>
     <div class="sidebar-footer">
-      <div style="margin-bottom:8px;">
+      <div id="currentUserBadge" class="user-badge staff" style="display:none;">
+        <span id="currentUserIcon">👥</span>
+        <span id="currentUserName">用户</span>
+        <span class="badge-tag" id="currentUserRole">员工</span>
+      </div>
+      <div style="margin-bottom:8px;" class="admin-only">
         <button class="btn btn-outline btn-sm" style="width:100%;font-size:12px;padding:6px;" onclick="openChangePwd()">🔑 修改密码</button>
       </div>
       <div style="margin-bottom:8px;">
         <button class="btn btn-outline btn-sm" style="width:100%;font-size:12px;padding:6px;color:#cb1a14;border-color:#cb1a14;" onclick="doLogout()">🚪 退出登录</button>
       </div>
-      湖南全仕项目管理有限公司知识中台 v3.0<br>更新日期：2026年6月
+      湖南全仕项目管理有限公司知识中台 v5.0<br>更新日期：2026年7月
     </div>
   </aside>
 
@@ -1074,7 +1095,7 @@ body {
         <input type="text" id="globalSearch" placeholder="搜索知识点、法规条款、排查项..." oninput="handleSearch(this.value)">
       </div>
       <div class="topbar-actions">
-        <button class="btn btn-outline btn-sm" onclick="resetChecklist()">🔄 重置排查</button>
+        <button class="btn btn-outline btn-sm admin-only" onclick="resetChecklist()">🔄 重置排查</button>
         <button class="btn btn-primary btn-sm" onclick="showExportModal()" style="background:linear-gradient(135deg,#1a56db,#1240a8);border:none;box-shadow:0 2px 8px rgba(26,86,219,0.3);">📥 导出报告</button>
       </div>
     </div>
@@ -1909,7 +1930,7 @@ body {
           <div><strong>法规附件管理：</strong>点击下方统一入口上传法律法规原文/解读/指南等附件，支持图片/DOC/DOCX/PPT/PPTX/RTF/TXT/XLS/XLSX/PDF/ZIP等格式。上传时可选择展示到对应法规条目下方。</div>
         </div>
 
-        <div style="background:#fff;border-radius:8px;padding:14px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08);border:1.5px solid var(--primary);border-left:4px solid var(--primary);">
+        <div class="admin-only" style="background:#fff;border-radius:8px;padding:14px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08);border:1.5px solid var(--primary);border-left:4px solid var(--primary);">
           <div style="font-size:14px;font-weight:600;color:var(--primary-dark);margin-bottom:10px;">&#128228; 法规附件统一上传</div>
           <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">
             <label class="btn btn-primary btn-sm" style="cursor:pointer;">
@@ -3060,7 +3081,7 @@ body {
           <button class="btn btn-outline btn-sm" onclick="filterCases('high', this)">🔴 高风险</button>
           <button class="btn btn-outline btn-sm" onclick="filterCases('mid', this)">🟡 中风险</button>
           <button class="btn btn-outline btn-sm" onclick="filterCases('low', this)">🟢 低风险</button>
-          <button class="btn btn-danger btn-sm" onclick="showAddRiskCase()">＋ 添加案例</button>
+          <button class="btn btn-danger btn-sm admin-only" onclick="showAddRiskCase()">＋ 添加案例</button>
         </div>
 
         <div class="kb-form" id="addRiskCaseForm">
@@ -3164,7 +3185,7 @@ body {
         </div>
 
         <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
-          <button class="btn btn-danger btn-sm" onclick="showAddRebidCase()">＋ 添加案例</button>
+          <button class="btn btn-danger btn-sm admin-only" onclick="showAddRebidCase()">＋ 添加案例</button>
           <button class="btn btn-outline btn-sm" onclick="viewAllRebidFiles()">📂 查看所有附件</button>
         </div>
 
@@ -3465,8 +3486,8 @@ body {
         </div>
 
         <div class="kb-toolbar">
-          <button class="btn btn-success btn-sm" onclick="showKbForm()">＋ 添加知识条目</button>
-          <button class="btn btn-outline btn-sm" onclick="batchDeleteKb()">🗑️ 批量清理过期条目</button>
+          <button class="btn btn-success btn-sm admin-only" onclick="showKbForm()">＋ 添加知识条目</button>
+          <button class="btn btn-outline btn-sm admin-only" onclick="batchDeleteKb()">🗑️ 批量清理过期条目</button>
           <button class="btn btn-outline btn-sm" onclick="exportKb()">📥 导出知识库</button>
         </div>
 
@@ -3505,20 +3526,6 @@ body {
         </div>
 
         <div id="kbList">
-          <div class="kb-item" data-id="kb1" data-expire="2024-12-31">
-            <div class="kb-text">
-              <div class="kb-title">⚠️ [已过期] 某省2020版招标投标管理办法</div>
-              <div class="kb-meta">类型：法规条文 · 标签：工程招标 · 有效期至：2024-12-31 · 状态：<span style="color:var(--danger);font-weight:600;">已过期</span></div>
-            </div>
-            <button class="btn btn-danger btn-sm" onclick="deleteKbEntry('kb1', this)">删除</button>
-          </div>
-          <div class="kb-item" data-id="kb2">
-            <div class="kb-text">
-              <div class="kb-title">✅ 招标投标领域公平竞争审查规则（2024）</div>
-              <div class="kb-meta">类型：法规条文 · 标签：公平竞争 · 来源：国家发改委2024年第8号令</div>
-            </div>
-            <button class="btn btn-danger btn-sm" onclick="deleteKbEntry('kb2', this)">删除</button>
-          </div>
         </div>
 
         <div class="modal-overlay" id="batchDeleteModal">
@@ -3581,9 +3588,9 @@ body {
             <input type="text" id="qiniuDomain" placeholder="例如：http://qiniu.quanshixm.com 或测试域名">
           </div>
           <div style="display:flex;gap:10px;margin-top:16px;">
-            <button class="btn btn-primary" onclick="saveCloudConfig()">💾 保存配置</button>
-            <button class="btn btn-outline" onclick="testCloudConnection()">🔗 测试连接</button>
-            <button class="btn btn-outline" style="color:#cb1a14;border-color:#cb1a14;" onclick="clearCloudConfig()">🗑️ 清除配置</button>
+            <button class="btn btn-primary admin-only" onclick="saveCloudConfig()">💾 保存配置</button>
+            <button class="btn btn-outline admin-only" onclick="testCloudConnection()">🔗 测试连接</button>
+            <button class="btn btn-outline admin-only" style="color:#cb1a14;border-color:#cb1a14;" onclick="clearCloudConfig()">🗑️ 清除配置</button>
           </div>
         </div>
 
@@ -3631,9 +3638,12 @@ body {
 </div><!-- /app -->
 
 <script>
-// ===== Authentication System =====
-var DEFAULT_USER_HASH = '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918';
-var DEFAULT_PASS_HASH = '30b148c915b43309061c1718b526d4ae8bb737c50a001195424c03a812984def';
+// ===== Authentication System (Multi-Role v5.0) =====
+// Default accounts: admin (super admin) + staff (employee)
+var DEFAULT_ACCOUNTS = [
+  { user_hash: '8c6976e5b5410415bde908bd4dee15dfb167a9c873fc4bb8a81f6f2ab448a918', pass_hash: '240be518fabd2724ddb6f04eeb1da5967448d7e831c08c8fa822809f74c720a9', role: 'admin', name: '超级管理员', username: 'admin' },
+  { user_hash: '1562206543da764123c21bd524674f0a8aaf49c8a89744c97352fe677f7e4006', pass_hash: '10176e7b7b24d317acfcf8d2064cfd2f24e154f7b5a96603077d5ef813d6a6b6', role: 'staff', name: '员工', username: 'staff' }
+];
 
 function sha256(str) {
   var buffer = new TextEncoder().encode(str);
@@ -3644,13 +3654,17 @@ function sha256(str) {
   });
 }
 
-function getStoredCredentials() {
-  var stored = {};
-  try { stored = JSON.parse(localStorage.getItem('qs_credentials') || '{}'); } catch(e) {}
-  return {
-    user_hash: stored.user_hash || DEFAULT_USER_HASH,
-    pass_hash: stored.pass_hash || DEFAULT_PASS_HASH
-  };
+function getAccounts() {
+  var stored = [];
+  try { stored = JSON.parse(localStorage.getItem('qs_accounts') || '[]'); } catch(e) { stored = []; }
+  if (!Array.isArray(stored) || stored.length === 0) {
+    return DEFAULT_ACCOUNTS.slice();
+  }
+  return stored;
+}
+
+function saveAccounts(accounts) {
+  localStorage.setItem('qs_accounts', JSON.stringify(accounts));
 }
 
 function doLogin() {
@@ -3658,16 +3672,26 @@ function doLogin() {
   var pass = document.getElementById('loginPass').value;
   if (!user || !pass) return;
 
-  var creds = getStoredCredentials();
+  var accounts = getAccounts();
 
   Promise.all([sha256(user), sha256(pass)]).then(function(hashes) {
-    if (hashes[0] === creds.user_hash && hashes[1] === creds.pass_hash) {
+    var matched = null;
+    for (var i = 0; i < accounts.length; i++) {
+      if (accounts[i].user_hash === hashes[0] && accounts[i].pass_hash === hashes[1]) {
+        matched = accounts[i];
+        break;
+      }
+    }
+    if (matched) {
       sessionStorage.setItem('qs_logged_in', '1');
       sessionStorage.setItem('qs_user', user);
+      sessionStorage.setItem('qs_role', matched.role);
+      sessionStorage.setItem('qs_user_name', matched.name || user);
       document.getElementById('loginOverlay').classList.add('hidden');
       document.getElementById('loginError').style.display = 'none';
       document.getElementById('loginUser').value = '';
       document.getElementById('loginPass').value = '';
+      applyRolePermissions();
     } else {
       document.getElementById('loginError').style.display = 'block';
     }
@@ -3678,7 +3702,49 @@ function doLogout() {
   if (!confirm('确定要退出登录吗？')) return;
   sessionStorage.removeItem('qs_logged_in');
   sessionStorage.removeItem('qs_user');
+  sessionStorage.removeItem('qs_role');
+  sessionStorage.removeItem('qs_user_name');
   document.getElementById('loginOverlay').classList.remove('hidden');
+}
+
+function getCurrentRole() {
+  return sessionStorage.getItem('qs_role') || 'staff';
+}
+
+function isAdmin() {
+  return getCurrentRole() === 'admin';
+}
+
+function applyRolePermissions() {
+  var role = getCurrentRole();
+  var isAdminUser = (role === 'admin');
+  document.body.classList.toggle('role-staff', !isAdminUser);
+
+  // Update user badge in sidebar
+  var badge = document.getElementById('currentUserBadge');
+  if (badge) {
+    badge.style.display = 'flex';
+    badge.className = 'user-badge ' + (isAdminUser ? 'admin' : 'staff');
+    var iconEl = document.getElementById('currentUserIcon');
+    var nameEl = document.getElementById('currentUserName');
+    var roleEl = document.getElementById('currentUserRole');
+    if (iconEl) iconEl.textContent = isAdminUser ? '👤' : '👥';
+    if (nameEl) nameEl.textContent = sessionStorage.getItem('qs_user_name') || sessionStorage.getItem('qs_user') || '用户';
+    if (roleEl) roleEl.textContent = isAdminUser ? '管理员' : '员工';
+  }
+
+  // Hide upload labels and delete file buttons for staff
+  if (!isAdminUser) {
+    document.querySelectorAll('label.btn').forEach(function(lbl) {
+      var input = lbl.querySelector('input[type="file"]');
+      if (input) lbl.classList.add('admin-only');
+    });
+    document.querySelectorAll('button').forEach(function(btn) {
+      if (btn.getAttribute('onclick') && btn.getAttribute('onclick').indexOf('deleteFile(') !== -1) {
+        btn.classList.add('admin-only');
+      }
+    });
+  }
 }
 
 function openChangePwd() {
@@ -3715,22 +3781,52 @@ function doChangePwd() {
     return;
   }
 
-  var creds = getStoredCredentials();
+  var currentUser = sessionStorage.getItem('qs_user') || '';
+  var accounts = getAccounts();
 
   sha256(oldPwd).then(function(oldHash) {
-    if (oldHash !== creds.pass_hash) {
-      errEl.textContent = '当前密码错误';
+    // Find current user's account
+    var accountIdx = -1;
+    return sha256(currentUser).then(function(userHash) {
+      for (var i = 0; i < accounts.length; i++) {
+        if (accounts[i].user_hash === userHash) {
+          if (accounts[i].pass_hash !== oldHash) {
+            errEl.textContent = '当前密码错误';
+            errEl.style.display = 'block';
+            return null;
+          }
+          accountIdx = i;
+          return accounts;
+        }
+      }
+      // Fallback: check default accounts
+      for (var i = 0; i < accounts.length; i++) {
+        if (accounts[i].username === currentUser || accounts[i].name === currentUser) {
+          if (accounts[i].pass_hash !== oldHash) {
+            errEl.textContent = '当前密码错误';
+            errEl.style.display = 'block';
+            return null;
+          }
+          accountIdx = i;
+          return accounts;
+        }
+      }
+      errEl.textContent = '未找到当前用户账户';
       errEl.style.display = 'block';
-      return;
+      return null;
+    }).then(function(accs) {
+      if (!accs) return null;
+      return sha256(newPwd).then(function(newHash) {
+        accs[accountIdx].pass_hash = newHash;
+        saveAccounts(accs);
+        return true;
+      });
+    });
+  }).then(function(success) {
+    if (success) {
+      closeChangePwd();
+      alert('✅ 密码修改成功！下次登录请使用新密码。');
     }
-    return sha256(newPwd);
-  }).then(function(newHash) {
-    if (!newHash) return;
-    var currentCreds = getStoredCredentials();
-    currentCreds.pass_hash = newHash;
-    localStorage.setItem('qs_credentials', JSON.stringify(currentCreds));
-    closeChangePwd();
-    alert('✅ 密码修改成功！下次登录请使用新密码。');
   });
 }
 
@@ -3738,6 +3834,7 @@ function checkLogin() {
   var loggedIn = sessionStorage.getItem('qs_logged_in');
   if (loggedIn === '1') {
     document.getElementById('loginOverlay').classList.add('hidden');
+    applyRolePermissions();
   }
 }
 
@@ -4521,78 +4618,123 @@ function genFull(name, type, method, budget) {
   return genChecklist(name, type, method, budget) + '\n\n' + genRisk(name, type, method, budget) + '\n\n' + genLaw(type) + '\n\n' + genBid(type, method);
 }
 
-// ===== KB Management =====
+// ===== KB Management (v5.0 - Fixed delete persistence) =====
 var kbData = [];
+var DEFAULT_KB_ENTRIES = [
+  { id: 'kb_default_1', type: 'law', title: '⚠️ [已过期] 某省2020版招标投标管理办法', content: '', tag: '工程招标', source: '', expire: '2024-12-31', date: '2024-01-01' },
+  { id: 'kb_default_2', type: 'law', title: '✅ 招标投标领域公平竞争审查规则（2024）', content: '', tag: '公平竞争', source: '国家发改委2024年第8号令', expire: '', date: '2024-06-01' }
+];
+
 function showKbForm() { document.getElementById('kbEntryForm').classList.add('open'); }
 function hideKbForm() { document.getElementById('kbEntryForm').classList.remove('open'); }
+
+function renderKbList() {
+  var typeLabels = { case: '合规案例', law: '法规条文', link: '法规链接', faq: '高频问答', note: '操作备忘' };
+  var html = '';
+  kbData.forEach(function(e) {
+    var isExpired = false;
+    if (e.expire) { try { if (new Date(e.expire) < new Date()) isExpired = true; } catch(err) {} }
+    var titlePrefix = isExpired ? '⚠️ [已过期] ' : '';
+    var titleText = e.title || '';
+    if (!titleText.startsWith('⚠️') && isExpired) titleText = titlePrefix + titleText;
+    var metaHtml = '类型：' + (typeLabels[e.type] || e.type || '未知') + ' · 标签：' + (e.tag || '无');
+    if (e.source) metaHtml += ' · 来源：' + e.source;
+    if (e.expire) metaHtml += ' · 有效期至：' + e.expire + ' · 状态：<span style="color:' + (isExpired ? 'var(--danger)' : 'var(--success)') + ';font-weight:600;">' + (isExpired ? '已过期' : '有效') + '</span>';
+    else metaHtml += ' · 添加于：' + (e.date || '');
+    html += '<div class="kb-item" data-id="' + e.id + '" data-expire="' + (e.expire || '') + '">'
+      + '<div class="kb-text">'
+      + '<div class="kb-title">' + titleText + '</div>'
+      + '<div class="kb-meta">' + metaHtml + '</div>'
+      + '</div>'
+      + '<button class="btn btn-danger btn-sm admin-only" onclick="deleteKbEntry(\'' + e.id + '\', this)">删除</button>'
+      + '</div>';
+  });
+  var listEl = document.getElementById('kbList');
+  if (listEl) listEl.innerHTML = html;
+}
+
 function saveKbEntry() {
   var title = document.getElementById('kbTitle').value.trim();
   if (!title) { alert('请填写标题'); return; }
-  var typeLabels = { case: '合规案例', law: '法规条文', link: '法规链接', faq: '高频问答', note: '操作备忘' };
   var id = 'kb' + Date.now();
-  var entry = { id, type: document.getElementById('kbType').value, title, content: document.getElementById('kbContent').value.trim(), tag: document.getElementById('kbTag').value.trim(), source: document.getElementById('kbSource').value.trim(), expire: document.getElementById('kbExpire').value.trim(), date: new Date().toISOString().slice(0,10) };
-  var html = '<div class="kb-item" data-id="' + id + '" data-expire="' + entry.expire + '">'
-    + '<div class="kb-text">'
-    + '<div class="kb-title">' + title + '</div>'
-    + '<div class="kb-meta">类型：' + typeLabels[entry.type] + ' · 标签：' + (entry.tag || '无') + ' · 添加于：' + entry.date + '</div>'
-    + '</div>'
-    + '<button class="btn btn-danger btn-sm" onclick="deleteKbEntry(\'' + id + '\', this)">删除</button>'
-    + '</div>';
-  document.getElementById('kbList').insertAdjacentHTML('afterbegin', html);
+  var entry = {
+    id: id,
+    type: document.getElementById('kbType').value,
+    title: title,
+    content: document.getElementById('kbContent').value.trim(),
+    tag: document.getElementById('kbTag').value.trim(),
+    source: document.getElementById('kbSource').value.trim(),
+    expire: document.getElementById('kbExpire').value.trim(),
+    date: new Date().toISOString().slice(0, 10)
+  };
   kbData.push(entry);
   localStorage.setItem('bid_kb', JSON.stringify(kbData));
+  renderKbList();
   hideKbForm();
-  ['kbTitle','kbContent','kbTag','kbSource','kbExpire'].forEach(function(id) { document.getElementById(id).value = ''; });
+  ['kbTitle', 'kbContent', 'kbTag', 'kbSource', 'kbExpire'].forEach(function(id) { document.getElementById(id).value = ''; });
   alert('条目已保存！');
 }
+
 function deleteKbEntry(id, btn) {
   if (!confirm('确定要删除此条目吗？')) return;
-  var item = btn.closest('.kb-item');
-  if (item) item.remove();
+  // Remove from data array
   kbData = kbData.filter(function(e) { return e.id !== id; });
+  // Persist to localStorage
   localStorage.setItem('bid_kb', JSON.stringify(kbData));
+  // Re-render list from data
+  renderKbList();
 }
+
 function batchDeleteKb() { document.getElementById('batchDeleteModal').classList.add('open'); }
 function confirmBatchDelete() {
-  document.querySelectorAll('#kbList .kb-item').forEach(function(item) {
-    var expire = item.dataset.expire;
-    if (expire) { try { if (new Date(expire) < new Date()) item.remove(); } catch(e) {} }
+  var before = kbData.length;
+  kbData = kbData.filter(function(e) {
+    if (!e.expire) return true;
+    try { return new Date(e.expire) >= new Date(); } catch(err) { return true; }
   });
+  localStorage.setItem('bid_kb', JSON.stringify(kbData));
+  renderKbList();
   document.getElementById('batchDeleteModal').classList.remove('open');
-  alert('已清理过期条目！');
+  var removed = before - kbData.length;
+  alert('已清理' + removed + '条过期条目！');
 }
+
 function exportKb() {
   var text = '知识库导出\n';
   text += '导出时间：' + new Date().toLocaleString() + '\n\n';
-  document.querySelectorAll('#kbList .kb-item').forEach(function(item) {
-    text += item.querySelector('.kb-title').textContent + '\n';
-    text += item.querySelector('.kb-meta').textContent + '\n\n';
+  var typeLabels = { case: '合规案例', law: '法规条文', link: '法规链接', faq: '高频问答', note: '操作备忘' };
+  kbData.forEach(function(e) {
+    text += e.title + '\n';
+    text += '类型：' + (typeLabels[e.type] || e.type) + ' · 标签：' + (e.tag || '无');
+    if (e.source) text += ' · 来源：' + e.source;
+    if (e.expire) text += ' · 有效期至：' + e.expire;
+    text += '\n\n';
   });
   var blob = new Blob([text], { type: 'text/plain;charset=utf-8' });
   var url = URL.createObjectURL(blob);
   var a = document.createElement('a');
-  a.href = url; a.download = '知识库_' + new Date().toISOString().slice(0,10) + '.txt';
-  a.click(); URL.revokeObjectURL(url);
+  a.href = url;
+  a.download = '知识库_' + new Date().toISOString().slice(0, 10) + '.txt';
+  a.click();
+  URL.revokeObjectURL(url);
 }
+
 function loadKbData() {
   var saved = localStorage.getItem('bid_kb');
   if (saved) {
-    try { kbData = JSON.parse(saved);
-      // Re-render kbList from saved data
-      var typeLabels = { case: '合规案例', law: '法规条文', link: '法规链接', faq: '高频问答', note: '操作备忘' };
-      var html = '';
-      kbData.forEach(function(e) {
-        html += '<div class="kb-item" data-id="' + e.id + '" data-expire="' + (e.expire||'') + '">'
-          + '<div class="kb-text">'
-          + '<div class="kb-title">' + e.title + '</div>'
-          + '<div class="kb-meta">类型：' + typeLabels[e.type] + ' · 标签：' + (e.tag || '无') + ' · 添加于：' + e.date + '</div>'
-          + '</div>'
-          + '<button class="btn btn-danger btn-sm" onclick="deleteKbEntry(\'' + e.id + '\', this)">删除</button>'
-          + '</div>';
-      });
-      document.getElementById('kbList').innerHTML = html + document.getElementById('kbList').innerHTML;
-    } catch(e) {}
+    try {
+      kbData = JSON.parse(saved);
+      if (!Array.isArray(kbData)) kbData = [];
+    } catch(e) {
+      kbData = [];
+    }
   }
+  // If no saved data, initialize with defaults
+  if (!saved || kbData.length === 0) {
+    kbData = DEFAULT_KB_ENTRIES.slice();
+    localStorage.setItem('bid_kb', JSON.stringify(kbData));
+  }
+  renderKbList();
 }
 
 // ===== Update Init =====
