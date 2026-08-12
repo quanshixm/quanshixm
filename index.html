@@ -1083,7 +1083,7 @@ body.role-staff .admin-only { display: none !important; }
       <div style="margin-bottom:8px;">
         <button class="btn btn-outline btn-sm" style="width:100%;font-size:12px;padding:6px;color:#cb1a14;border-color:#cb1a14;" onclick="doLogout()">🚪 退出登录</button>
       </div>
-      湖南全仕项目管理有限公司知识中台 v5.0<br>更新日期：2026年7月
+      湖南全仕项目管理有限公司知识中台 v5.3<br>更新日期：2026年8月
     </div>
   </aside>
 
@@ -1929,201 +1929,35 @@ body.role-staff .admin-only { display: none !important; }
       <div class="page-section" id="laws">
         <div class="page-header">
           <h2>&#9878;&#65039; 法规规范库</h2>
-          <p>招标代理业务涉及的核心法律法规结构化速查</p>
-        </div>
-
-        <div class="alert alert-info" style="margin-bottom:12px;">
-          <span class="alert-icon">&#128204;</span>
-          <div><strong>法规附件管理：</strong>点击下方统一入口上传法律法规原文/解读/指南等附件，支持图片/DOC/DOCX/PPT/PPTX/RTF/TXT/XLS/XLSX/PDF/ZIP等格式。上传时可选择展示到对应法规条目下方。</div>
+          <p>招标代理业务涉及的核心法律法规集中管理</p>
         </div>
 
         <div class="admin-only" style="background:#fff;border-radius:8px;padding:14px;margin-bottom:16px;box-shadow:0 1px 3px rgba(0,0,0,0.08);border:1.5px solid var(--primary);border-left:4px solid var(--primary);">
-          <div style="font-size:14px;font-weight:600;color:var(--primary-dark);margin-bottom:10px;">&#128228; 法规附件统一上传</div>
-          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;margin-bottom:10px;">
+          <div style="font-size:14px;font-weight:600;color:var(--primary-dark);margin-bottom:10px;">&#128228; 上传法律法规文件</div>
+          <div style="display:flex;gap:10px;align-items:center;flex-wrap:wrap;">
             <label class="btn btn-primary btn-sm" style="cursor:pointer;">
-              &#128228; 选择文件上传 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" multiple style="display:none;" onchange="uploadLawFile(this)">
+              &#128228; 选择文件上传
+              <input type="file" id="lawFileInput" accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" multiple style="display:none;" onchange="uploadLawFileV53(this)">
             </label>
-            <select id="lawAttachTarget" style="padding:6px 10px;border:1.5px solid var(--gray-300);border-radius:6px;font-size:13px;">
-              <option value="">-- 选择展示位置 --</option>
-              <option value="LAW_1">招标投标法（2017修正）</option>
-              <option value="LAW_2">政府采购法（2014修正）</option>
-              <option value="LAW_3">政府采购法实施条例</option>
-              <option value="LAW_4">招标投标法实施条例</option>
-              <option value="LAW_5">必须招标的工程项目规定</option>
-              <option value="LAW_6">政府采购货物和服务招标投标管理办法（87号令）</option>
-              <option value="LAW_7">政府采购竞争性磋商采购方式管理暂行办法</option>
-              <option value="LAW_8">政府采购非招标采购方式管理办法（74号令）</option>
-              <option value="LAW_9">政府采购促进中小企业发展管理办法</option>
-              <option value="LAW_10">关于促进政府采购公平竞争优化营商环境的通知</option>
-              <option value="LAW_11">电子招标投标办法</option>
-            </select>
-            <button class="btn btn-outline btn-sm" onclick="viewLawAttachments()">&#128194; 查看所有法规附件</button>
+            <span style="font-size:12px;color:var(--gray-500);">支持图片/DOC/DOCX/PPT/PPTX/RTF/TXT/XLS/XLSX/PDF/ZIP等格式，单个文件最大 <strong style="color:var(--accent);">10 MB</strong>，最多同时上传 5 个文件</span>
+            <button class="btn btn-outline btn-sm" onclick="refreshLawFilesList()">&#128260; 刷新列表</button>
           </div>
-          <div id="lawAllAttachments" class="template-files" style="display:none;"></div>
+          <div id="lawFilesList" class="template-files" style="margin-top:12px;"></div>
         </div>
 
         <div class="tabs">
-          <div class="tab-item active" onclick="switchTab(this, 'laws-tab1')">核心法律</div>
-          <div class="tab-item" onclick="switchTab(this, 'laws-tab2')">行政法规</div>
-          <div class="tab-item" onclick="switchTab(this, 'laws-tab3')">部门规章</div>
-          <div class="tab-item" onclick="switchTab(this, 'laws-tab4')">规范性文件</div>
+          <div class="tab-item active">法律法规文件</div>
         </div>
 
-        <div class="tab-content active" id="laws-tab1">
-          <div class="law-card">
-            <h4>&#128216; 《中华人民共和国招标投标法》（2017修正）</h4>
-            <div class="law-meta">
-              <span>&#128204; 主席令第86号</span>
-              <span>&#128197; 2017年12月27日修正</span>
-              <span>&#127991;&#65039; 工程招标</span>
+        <div class="tab-content active" id="laws-tab-v53">
+          <div class="law-card" style="background:#fff;border:1px solid var(--gray-200);border-radius:8px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
+            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+              <span style="font-size:22px;">&#128218;</span>
+              <h4 style="font-size:15px;font-weight:600;color:var(--gray-800);">法律法规文件</h4>
+              <span style="margin-left:auto;font-size:12px;color:var(--gray-500);">共 <strong id="lawFilesCount" style="color:var(--primary);">0</strong> 个文件</span>
             </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_1')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_1_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_1_files" style="display:none;"></div>
-            </div>
-          </div>
-          <div class="law-card">
-            <h4>&#128216; 《中华人民共和国政府采购法》（2014修正）</h4>
-            <div class="law-meta">
-              <span>&#128204; 主席令第14号</span>
-              <span>&#128197; 2014年8月31日修正</span>
-              <span>&#127991;&#65039; 政府采购</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_2')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_2_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_2_files" style="display:none;"></div>
-            </div>
-          </div>
-          <div class="law-card">
-            <h4>&#128216; 《中华人民共和国政府采购法实施条例》</h4>
-            <div class="law-meta">
-              <span>&#128204; 国务院令第658号</span>
-              <span>&#128197; 2015年3月1日起施行</span>
-              <span>&#127991;&#65039; 政府采购</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_3')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_3_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_3_files" style="display:none;"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-content" id="laws-tab2">
-          <div class="law-card">
-            <h4>&#128217; 《招标投标法实施条例》</h4>
-            <div class="law-meta">
-              <span>&#128204; 国务院令第613号（2019修正）</span>
-              <span>&#128197; 2019年3月2日修正</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_4')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_4_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_4_files" style="display:none;"></div>
-            </div>
-          </div>
-          <div class="law-card">
-            <h4>&#128217; 《必须招标的工程项目规定》</h4>
-            <div class="law-meta">
-              <span>&#128204; 国家发改委令第16号</span>
-              <span>&#128197; 2018年6月1日起施行</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_5')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_5_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_5_files" style="display:none;"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-content" id="laws-tab3">
-          <div class="law-card">
-            <h4>&#128217; 《政府采购货物和服务招标投标管理办法》（财政部令第87号）</h4>
-            <div class="law-meta">
-              <span>&#128204; 财政部令第87号</span>
-              <span>&#128197; 2017年10月1日起施行</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_6')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_6_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_6_files" style="display:none;"></div>
-            </div>
-          </div>
-          <div class="law-card">
-            <h4>&#128217; 《政府采购竞争性磋商采购方式管理暂行办法》</h4>
-            <div class="law-meta">
-              <span>&#128204; 财库〔2014〕214号</span>
-              <span>&#128197; 2014年12月31日</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_7')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_7_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_7_files" style="display:none;"></div>
-            </div>
-          </div>
-          <div class="law-card">
-            <h4>&#128217; 《政府采购非招标采购方式管理办法》（财政部令第74号）</h4>
-            <div class="law-meta">
-              <span>&#128204; 财政部令第74号</span>
-              <span>&#128197; 2014年2月1日起施行</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_8')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_8_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_8_files" style="display:none;"></div>
-            </div>
-          </div>
-          <div class="law-card">
-            <h4>&#128217; 《政府采购促进中小企业发展管理办法》</h4>
-            <div class="law-meta">
-              <span>&#128204; 财库〔2020〕46号</span>
-              <span>&#128197; 2021年1月1日起施行</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_9')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_9_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_9_files" style="display:none;"></div>
-            </div>
-          </div>
-        </div>
-
-        <div class="tab-content" id="laws-tab4">
-          <div class="law-card">
-            <h4>&#128213; 《关于促进政府采购公平竞争优化营商环境的通知》</h4>
-            <div class="law-meta">
-              <span>&#128204; 财库〔2019〕38号</span>
-              <span>&#128197; 2019年9月1日起施行</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_10')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_10_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_10_files" style="display:none;"></div>
-            </div>
-          </div>
-          <div class="law-card">
-            <h4>&#128213; 《电子招标投标办法》</h4>
-            <div class="law-meta">
-              <span>&#128204; 国家发改委等八部委令第20号</span>
-              <span>&#128197; 2013年5月1日起施行</span>
-            </div>
-            <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_11')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_11_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_11_files" style="display:none;"></div>
-            </div>
+            <p style="font-size:12px;color:var(--gray-500);margin-bottom:10px;">点击文件名可预览，PDF/图片可直接在线查看，其他格式请下载后查看。</p>
+            <div id="lawFilesContent" style="font-size:13px;color:var(--gray-700);"></div>
           </div>
         </div>
       </div>
@@ -2332,12 +2166,7 @@ body.role-staff .admin-only { display: none !important; }
           <div style="margin-top:16px;">
             <div class="law-card">
               <h4>📐 评分细则设计要点</h4>
-              <ul class="law-points"><li style="color:#999;font-style:italic;">（暂无内容，请通过上方统一入口上传附件）</li></ul>
-            <div style="margin-top:10px;padding-top:8px;border-top:1px dashed #e5e7eb;display:flex;align-items:center;gap:8px;">
-              <button class="btn btn-outline btn-sm" onclick="viewFiles('LAW_1')" style="font-size:12px;padding:4px 12px;">&#128196; 查看附件</button>
-              <span id="LAW_1_count" style="font-size:11px;color:#888;"></span>
-              <div class="template-files" id="LAW_1_files" style="display:none;"></div>
-            </div>
+              <ul class="law-points"><li style="color:#666;">评分细则应遵循客观、定量、可比原则，避免主观判断空间过大。具体方法：① 将每个评分要素细化到可观测的客观指标；② 每档分值应明确具体标准；③ 减少评委自由裁量空间。</li></ul>
             </div>
           </div>
         </div>
@@ -4544,16 +4373,121 @@ function doGenerate() {
   var method = document.getElementById('rptMethod').value;
   var budget = document.getElementById('rptBudget').value.trim() || '（未填写）';
   var report = '';
-  if (currentReportType === 'checklist') { report = genChecklist(name, type, method, budget); }
-  else if (currentReportType === 'risk') { report = genRisk(name, type, method, budget); }
-  else if (currentReportType === 'law') { report = genLaw(type); }
-  else if (currentReportType === 'bid') { report = genBid(type, method); }
-  else if (currentReportType === 'full') { report = genFull(name, type, method, budget); }
-  else { report = '请选择需要包含的模块...'; }
-  var preview = document.getElementById('reportPreview');
-  preview.innerHTML = '<h3 style="font-size:16px;font-weight:700;margin-bottom:12px;">📊 报告预览</h3><pre style="white-space:pre-wrap;font-family:inherit;font-size:13px;line-height:1.8;">' + report + '</pre>';
-  preview.classList.add('open');
-  setTimeout(function() { preview.scrollIntoView({ behavior: 'smooth', block: 'start' }); }, 100);
+  var reportTitle = '';
+  if (currentReportType === 'checklist') { report = genChecklist(name, type, method, budget); reportTitle = '项目启动合规排查清单'; }
+  else if (currentReportType === 'risk') { report = genRisk(name, type, method, budget); reportTitle = '合规风险分析报告'; }
+  else if (currentReportType === 'law') { report = genLaw(type); reportTitle = '适用法规对照表'; }
+  else if (currentReportType === 'bid') { report = genBid(type, method); reportTitle = '投标注意事项清单'; }
+  else if (currentReportType === 'full') { report = genFull(name, type, method, budget); reportTitle = '项目全流程合规报告'; }
+  else { report = '请选择需要包含的模块...'; reportTitle = '合规报告'; }
+  showReportPreview(reportTitle, report, name, type, method, budget);
+}
+
+// ===== v5.3: 报告预览+下载（公文格式） =====
+function showReportPreview(title, report, name, type, method, budget) {
+  var modal = document.getElementById('reportPreviewModal');
+  if (!modal) {
+    // 首次创建预览模态
+    var m = document.createElement('div');
+    m.id = 'reportPreviewModal';
+    m.className = 'modal-overlay';
+    m.style.cssText = 'display:none;position:fixed;top:0;left:0;width:100%;height:100%;background:rgba(0,0,0,0.65);z-index:9998;justify-content:center;align-items:center;';
+    m.setAttribute('onclick', 'closeReportPreview(event)');
+    m.innerHTML = '<div style="width:90vw;max-width:920px;max-height:90vh;background:#fff;border-radius:10px;display:flex;flex-direction:column;overflow:hidden;" onclick="event.stopPropagation()">'
+      + '<div style="padding:14px 20px;border-bottom:1px solid #e5e7eb;background:#f9fafb;display:flex;justify-content:space-between;align-items:center;">'
+      + '<h3 id="reportPreviewTitle" style="margin:0;font-size:16px;color:#1f2937;">📊 报告预览</h3>'
+      + '<button onclick="closeReportPreview()" style="background:none;border:none;font-size:22px;cursor:pointer;color:#6b7280;line-height:1;">&times;</button>'
+      + '</div>'
+      + '<div id="reportPreviewBody" style="flex:1;overflow:auto;padding:30px;background:#fff;"></div>'
+      + '<div style="padding:12px 20px;border-top:1px solid #e5e7eb;background:#f9fafb;display:flex;justify-content:space-between;align-items:center;">'
+      + '<span style="font-size:12px;color:var(--gray-500);">使用仿宋GB2312 / 楷体_GB2312 / 方正小标宋简体 等公文字体</span>'
+      + '<div style="display:flex;gap:10px;">'
+      + '<button class="btn btn-outline btn-sm" onclick="closeReportPreview()">关闭</button>'
+      + '<button class="btn btn-outline btn-sm" onclick="downloadReportTxt()">📄 下载TXT</button>'
+      + '<button class="btn btn-outline btn-sm" onclick="downloadReportDoc()">📝 下载Word(.doc)</button>'
+      + '<button class="btn btn-primary btn-sm" onclick="window.print()">🖨️ 打印</button>'
+      + '</div></div></div>';
+    document.body.appendChild(m);
+    modal = m;
+  }
+  // 公文格式排版：大标题二号标宋、正文三号仿宋、行高28pt、首行缩进2字符
+  var reportHtml = ''
+    + '<div class="report-official-doc" style="font-family:&quot;FangSong_GB2312&quot;,&quot;FangSong&quot;,&quot;仿宋_GB2312&quot;,&quot;仿宋&quot;,&quot;KaiTi_GB2312&quot;,&quot;KaiTi&quot;,serif;'
+    + 'font-size:14pt;line-height:1.85;color:#000;letter-spacing:0.05em;text-align:justify;">'
+    + '<div style="text-align:center;font-family:&quot;FZXiaoBiaoSong-B05S&quot;,&quot;方正小标宋简体&quot;,&quot;FangSong_GB2312&quot;,serif;font-size:22pt;font-weight:bold;line-height:1.5;margin:24px 0 18px;letter-spacing:0.3em;">' + title + '</div>'
+    + '<div style="text-align:center;font-size:11pt;color:#444;margin-bottom:20px;">项目名称：' + name + ' &nbsp;|&nbsp; 类型：' + type + ' &nbsp;|&nbsp; 方式：' + method + ' &nbsp;|&nbsp; 预算：' + budget + ' 万元</div>'
+    + '<div style="text-align:center;font-size:11pt;color:#666;margin-bottom:24px;border-bottom:1px solid #888;padding-bottom:10px;">生成时间：' + new Date().toLocaleString() + '</div>'
+    + '<div style="white-space:pre-wrap;text-indent:2em;">' + escapeHtml(report) + '</div>'
+    + '<div style="margin-top:40px;padding-top:18px;border-top:1px solid #888;text-align:right;font-size:12pt;font-family:&quot;KaiTi_GB2312&quot;,&quot;楷体_GB2312&quot;,&quot;KaiTi&quot;,cursive;">湖南全仕项目管理有限公司知识中台</div>'
+    + '<div style="text-align:right;font-size:11pt;color:#555;margin-top:6px;">（自动生成 · 仅供合规参考）</div>'
+    + '</div>';
+
+  document.getElementById('reportPreviewTitle').textContent = '📊 ' + title;
+  document.getElementById('reportPreviewBody').innerHTML = reportHtml;
+  // 保存到全局，供下载使用
+  window._currentReportTitle = title;
+  window._currentReportReport = report;
+  window._currentReportMeta = { name: name, type: type, method: method, budget: budget };
+  modal.style.display = 'flex';
+}
+
+function escapeHtml(s) {
+  return String(s || '').replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;').replace(/\n/g, '<br>');
+}
+
+function closeReportPreview(e) {
+  if (e && e.target !== e.currentTarget) return;
+  var m = document.getElementById('reportPreviewModal');
+  if (m) m.style.display = 'none';
+}
+
+function downloadReportTxt() {
+  var title = window._currentReportTitle || '合规报告';
+  var report = window._currentReportReport || '';
+  var meta = window._currentReportMeta || {};
+  var content = '【' + title + '】\n'
+    + '项目名称：' + (meta.name || '') + '\n'
+    + '项目类型：' + (meta.type || '') + '\n'
+    + '采购方式：' + (meta.method || '') + '\n'
+    + '预算金额：' + (meta.budget || '') + ' 万元\n'
+    + '生成时间：' + new Date().toLocaleString() + '\n\n'
+    + report;
+  var blob = new Blob([content], { type: 'application/octet-stream;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = title + '_' + new Date().toISOString().slice(0, 10) + '.txt';
+  a.click(); URL.revokeObjectURL(url);
+}
+
+function downloadReportDoc() {
+  var title = window._currentReportTitle || '合规报告';
+  var report = window._currentReportReport || '';
+  var meta = window._currentReportMeta || {};
+  // 用HTML格式构造.doc，Word/WPS兼容
+  var headStr = '<html xmlns:o="urn:schemas-microsoft-com:office:office" xmlns:w="urn:schemas-microsoft-com:office:word" xmlns="http://www.w3.org/TR/REC-html40">';
+  var fullHtml = headStr + '<head>'
+    + '<meta charset="utf-8">'
+    + '<style>'
+    + '@page { size: A4; margin: 2.5cm; }'
+    + 'body { font-family: "FangSong_GB2312", "FangSong", "仿宋_GB2312", "KaiTi_GB2312", "KaiTi", serif; font-size: 14pt; line-height: 1.85; color: #000; }'
+    + '.doc-title { text-align: center; font-family: "FZXiaoBiaoSong-B05S", "方正小标宋简体", "FangSong_GB2312", serif; font-size: 22pt; font-weight: bold; letter-spacing: 0.3em; margin: 24px 0 18px; }'
+    + '.doc-meta { text-align: center; font-size: 11pt; color: #444; margin-bottom: 20px; }'
+    + '.doc-line { border-bottom: 1px solid #888; padding-bottom: 10px; margin-bottom: 24px; }'
+    + '.doc-body { white-space: pre-wrap; text-indent: 2em; }'
+    + '.doc-sign { margin-top: 40px; padding-top: 18px; border-top: 1px solid #888; text-align: right; font-size: 12pt; font-family: "KaiTi_GB2312", "楷体_GB2312", "KaiTi", cursive; }'
+    + '</style></head><body>'
+    + '<div class="doc-title">' + title + '</div>'
+    + '<div class="doc-meta">项目名称：' + (meta.name || '') + ' | 类型：' + (meta.type || '') + ' | 方式：' + (meta.method || '') + ' | 预算：' + (meta.budget || '') + ' 万元</div>'
+    + '<div class="doc-meta doc-line">生成时间：' + new Date().toLocaleString() + '</div>'
+    + '<div class="doc-body">' + escapeHtml(report) + '</div>'
+    + '<div class="doc-sign">湖南全仕项目管理有限公司知识中台</div>'
+    + '<div style="text-align:right;font-size:11pt;color:#555;margin-top:6px;">（自动生成 · 仅供合规参考）</div>'
+    + '</body></html>';
+  var blob = new Blob([fullHtml], { type: 'application/msword;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url; a.download = title + '_' + new Date().toISOString().slice(0, 10) + '.doc';
+  a.click(); URL.revokeObjectURL(url);
 }
 function genChecklist(name, type, method, budget) {
   var r = '='.repeat(50) + '\n';
@@ -4658,8 +4592,16 @@ var DEFAULT_KB_ENTRIES = [
   { id: 'kb_default_2', type: 'law', title: '✅ 招标投标领域公平竞争审查规则（2024）', content: '', tag: '公平竞争', source: '国家发改委2024年第8号令', expire: '', date: '2024-06-01' }
 ];
 
-function showKbForm() { document.getElementById('kbEntryForm').classList.add('open'); }
-function hideKbForm() { document.getElementById('kbEntryForm').classList.remove('open'); }
+function showKbForm() {
+  // v5.3: 新建模式 - 清空_id和表单
+  _kbEditingId = null;
+  ['kbTitle','kbContent','kbTag','kbSource','kbExpire'].forEach(function(id) { var el = document.getElementById(id); if (el) el.value = ''; });
+  var fnSpan = document.getElementById('kbFileName'); if (fnSpan) fnSpan.textContent = '未选择文件';
+  var fpArea = document.getElementById('kbFilePreviewArea'); if (fpArea) fpArea.innerHTML = '';
+  var fi = document.getElementById('kbFileInput'); if (fi) fi.value = '';
+  document.getElementById('kbEntryForm').classList.add('open');
+}
+function hideKbForm() { _kbEditingId = null; document.getElementById('kbEntryForm').classList.remove('open'); }
 
 function renderKbList() {
   var typeLabels = { case: '合规案例', law: '法规条文', link: '法规链接', faq: '高频问答', note: '操作备忘' };
@@ -4674,38 +4616,120 @@ function renderKbList() {
     if (e.source) metaHtml += ' · 来源：' + e.source;
     if (e.expire) metaHtml += ' · 有效期至：' + e.expire + ' · 状态：<span style="color:' + (isExpired ? 'var(--danger)' : 'var(--success)') + ';font-weight:600;">' + (isExpired ? '已过期' : '有效') + '</span>';
     else metaHtml += ' · 添加于：' + (e.date || '');
+
+    // v5.3: 附件预览区
+    var fileArea = '';
+    var attachmentKey = 'KB_ATTACH_' + e.id;
+    var files = getLocalFiles(attachmentKey);
+    if (files && files.length > 0) {
+      fileArea += '<div style="margin-top:6px;font-size:12px;color:var(--gray-600);">📎 附件（' + files.length + '个）：';
+      files.forEach(function(f, idx) {
+        fileArea += '<a href="javascript:void(0)" onclick="previewFile(\'' + attachmentKey + '\',' + idx + ')" style="color:#1a56db;text-decoration:none;margin-left:8px;">' + f.name + '</a>'
+          + '<button class="btn btn-outline btn-sm" style="font-size:10px;padding:0 6px;margin-left:4px;" onclick="downloadFile(\'' + attachmentKey + '\',' + idx + ')">下载</button>'
+          + '<button class="btn btn-outline btn-sm" style="font-size:10px;padding:0 6px;margin-left:4px;color:#cb1a14;border-color:#cb1a14;" onclick="deleteKbAttachment(\'' + e.id + '\',' + idx + ')">删</button>';
+      });
+      fileArea += '</div>';
+    }
+
     html += '<div class="kb-item" data-id="' + e.id + '" data-expire="' + (e.expire || '') + '">'
       + '<div class="kb-text">'
       + '<div class="kb-title">' + titleText + '</div>'
       + '<div class="kb-meta">' + metaHtml + '</div>'
+      + fileArea
       + '</div>'
+      + '<div style="display:flex;gap:6px;align-items:center;">'
+      + '<button class="btn btn-outline btn-sm admin-only" style="font-size:12px;padding:3px 10px;" onclick="editKbEntry(\'' + e.id + '\')">✏️ 编辑</button>'
       + '<button class="btn btn-danger btn-sm admin-only" onclick="deleteKbEntry(\'' + e.id + '\', this)">删除</button>'
+      + '</div>'
       + '</div>';
   });
   var listEl = document.getElementById('kbList');
   if (listEl) listEl.innerHTML = html;
 }
 
+function deleteKbAttachment(kbId, fileIdx) {
+  if (!isAdmin()) { alert('仅管理员可删除附件'); return; }
+  if (!confirm('确定要删除该附件吗？')) return;
+  var attachmentKey = 'KB_ATTACH_' + kbId;
+  var files = getLocalFiles(attachmentKey);
+  files.splice(fileIdx, 1);
+  setLocalFiles(attachmentKey, files);
+  renderKbList();
+}
+
+var _kbEditingId = null; // v5.3: 编辑模式标志
+
 function saveKbEntry() {
+  if (!isAdmin()) { alert('仅管理员可编辑条目'); return; }
   var title = document.getElementById('kbTitle').value.trim();
   if (!title) { alert('请填写标题'); return; }
-  var id = 'kb' + Date.now();
-  var entry = {
-    id: id,
-    type: document.getElementById('kbType').value,
-    title: title,
-    content: document.getElementById('kbContent').value.trim(),
-    tag: document.getElementById('kbTag').value.trim(),
-    source: document.getElementById('kbSource').value.trim(),
-    expire: document.getElementById('kbExpire').value.trim(),
-    date: new Date().toISOString().slice(0, 10)
-  };
-  kbData.push(entry);
+
+  if (_kbEditingId) {
+    // v5.3: 编辑现有条目
+    var idx = kbData.findIndex(function(e) { return e.id === _kbEditingId; });
+    if (idx >= 0) {
+      kbData[idx].type = document.getElementById('kbType').value;
+      kbData[idx].title = title;
+      kbData[idx].content = document.getElementById('kbContent').value.trim();
+      kbData[idx].tag = document.getElementById('kbTag').value.trim();
+      kbData[idx].source = document.getElementById('kbSource').value.trim();
+      kbData[idx].expire = document.getElementById('kbExpire').value.trim();
+      // 不修改 date 字段，保留原添加时间
+      alert('条目已更新！');
+    } else {
+      alert('原条目未找到，已作为新条目保存');
+      _kbEditingId = null;
+    }
+  }
+
+  if (!_kbEditingId) {
+    // 新建
+    var id = 'kb' + Date.now();
+    var entry = {
+      id: id,
+      type: document.getElementById('kbType').value,
+      title: title,
+      content: document.getElementById('kbContent').value.trim(),
+      tag: document.getElementById('kbTag').value.trim(),
+      source: document.getElementById('kbSource').value.trim(),
+      expire: document.getElementById('kbExpire').value.trim(),
+      date: new Date().toISOString().slice(0, 10)
+    };
+    kbData.push(entry);
+    alert('条目已保存！');
+  }
+
   localStorage.setItem('bid_kb', JSON.stringify(kbData));
+  // 处理附件：把选中的附件关联到该条目
+  var fileInput = document.getElementById('kbFileInput');
+  if (fileInput && fileInput.files && fileInput.files.length > 0) {
+    var entryId = _kbEditingId || kbData[kbData.length - 1].id;
+    _kbEditingId = null;
+    var tempInput = { files: fileInput.files };
+    uploadFile('KB_ATTACH_' + entryId, tempInput);
+  } else {
+    _kbEditingId = null;
+  }
   renderKbList();
   hideKbForm();
   ['kbTitle', 'kbContent', 'kbTag', 'kbSource', 'kbExpire'].forEach(function(id) { document.getElementById(id).value = ''; });
-  alert('条目已保存！');
+  var fnSpan = document.getElementById('kbFileName'); if (fnSpan) fnSpan.textContent = '未选择文件';
+  var fpArea = document.getElementById('kbFilePreviewArea'); if (fpArea) fpArea.innerHTML = '';
+}
+
+function editKbEntry(id) {
+  if (!isAdmin()) { alert('仅管理员可编辑条目'); return; }
+  var entry = kbData.find(function(e) { return e.id === id; });
+  if (!entry) { alert('条目不存在'); return; }
+  _kbEditingId = id;
+  document.getElementById('kbType').value = entry.type || 'case';
+  document.getElementById('kbTitle').value = entry.title || '';
+  document.getElementById('kbContent').value = entry.content || '';
+  document.getElementById('kbTag').value = entry.tag || '';
+  document.getElementById('kbSource').value = entry.source || '';
+  document.getElementById('kbExpire').value = entry.expire || '';
+  // v5.3: 不调用showKbForm()避免清空_id，单独打开表单
+  document.getElementById('kbEntryForm').classList.add('open');
 }
 
 function deleteKbEntry(id, btn) {
@@ -4780,54 +4804,60 @@ document.addEventListener('DOMContentLoaded', function() {
     loadKbData();
     loadAllCustomData();
     updateCloudStatus();
+    // v5.3: 初始化法规文件列表
+    setTimeout(function() { refreshLawFilesList(); }, 800);
   });
 
 
 
 
-// ===== V4.0: Law Attachment Upload (Unified) =====
-function uploadLawFile(inputEl) {
-  var targetSelect = document.getElementById('lawAttachTarget');
-  if (!targetSelect.value) {
-    alert('请先选择要关联的法规条目！');
+// ===== V5.3: Law Attachment Upload =====
+function uploadLawFileV53(inputEl) {
+  var files = inputEl.files;
+  if (!files || files.length === 0) return;
+  if (files.length > MAX_FILES_PER_UPLOAD) {
+    alert('一次最多上传 ' + MAX_FILES_PER_UPLOAD + ' 个文件！当前选择了 ' + files.length + ' 个，请重新选择。');
+    inputEl.value = '';
     return;
   }
-  uploadFile(targetSelect.value, inputEl);
+  for (var i = 0; i < files.length; i++) {
+    if (files[i].size > MAX_FILE_SIZE) {
+      alert('文件 "' + files[i].name + '" 大小为 ' + formatFileSize(files[i].size) + '，超过单文件上限 ' + formatFileSize(MAX_FILE_SIZE) + '！');
+      inputEl.value = '';
+      return;
+    }
+  }
+  // 直接以统一存储 key='LAW_FILES' 保存
+  uploadFile('LAW_FILES', inputEl);
+  // 自动刷新列表
+  setTimeout(function() { refreshLawFilesList(); }, 600);
 }
 
-function viewLawAttachments() {
-  var container = document.getElementById('lawAllAttachments');
-  container.style.display = container.style.display === 'none' ? 'block' : 'none';
-  if (container.style.display === 'block') {
-    var html = '<div style="font-size:12px;color:var(--gray-500);margin-bottom:10px;">📎 所有法规附件汇总（点击文件名可预览/下载）</div>';
-    var lawKeys = ['LAW_1','LAW_2','LAW_3','LAW_4','LAW_5','LAW_6','LAW_7','LAW_8','LAW_9','LAW_10','LAW_11'];
-    var lawNames = {'LAW_1':'招标投标法','LAW_2':'政府采购法','LAW_3':'政府采购法实施条例','LAW_4':'招投标法实施条例',
-                    'LAW_5':'必须招标规定','LAW_6':'87号令','LAW_7':'磋商办法','LAW_8':'74号令',
-                    'LAW_9':'中小企业办法','LAW_10':'公平竞争通知','LAW_11':'电子招标办法'};
-    var hasFiles = false;
-    for (var i = 0; i < lawKeys.length; i++) {
-      var key = lawKeys[i];
-      var files = getLocalFiles(key);
-      if (files.length > 0) {
-        hasFiles = true;
-        html += '<div style="margin-bottom:12px;"><strong style="font-size:13px;color:#1a56db;">📘 ' + (lawNames[key] || key) + '</strong>';
-        files.forEach(function(f, idx) {
-          html += '<div style="display:flex;align-items:center;gap:8px;padding:4px 0;font-size:12px;">';
-          html += '<span>' + getFileIcon(f.name) + '</span>';
-          html += '<a href="javascript:void(0)" onclick="previewFile(\'' + key + '\',\' + idx + \')" style="color:#1a56db;text-decoration:none;">' + f.name + '</a>';
-          html += '<span style="color:var(--gray-400);">' + formatFileSize(f.size) + '</span>';
-          html += '<button class="btn btn-outline btn-sm" style="font-size:10px;padding:1px 6px;" onclick="downloadFile(\'' + key + '\',\' + idx + \')">下载</button>';
-          html += '</div>';
-        });
-        html += '</div>';
-      }
-    }
-    if (!hasFiles) {
-      html += '<div style="color:var(--gray-400);padding:16px;text-align:center;">暂无法规附件，请使用上方上传按钮添加。</div>';
-    }
-    container.innerHTML = html;
+function refreshLawFilesList() {
+  var container = document.getElementById('lawFilesContent');
+  var countEl = document.getElementById('lawFilesCount');
+  if (!container) return;
+  var files = getLocalFiles('LAW_FILES');
+  if (countEl) countEl.textContent = files.length;
+  if (files.length === 0) {
+    container.innerHTML = '<div style="color:var(--gray-400);padding:20px;text-align:center;">暂无法规文件，请使用上方上传按钮添加。</div>';
+    return;
   }
+  var html5 = '';
+  files.forEach(function(f, idx) {
+    html5 += '<div style="display:flex;align-items:center;gap:10px;padding:8px 0;border-bottom:1px dashed #e5e7eb;">'
+      + '<span style="font-size:18px;">' + getFileIcon(f.name) + '</span>'
+      + '<a href="javascript:void(0)" onclick="previewFile(&quot;LAW_FILES&quot;,' + idx + ')" style="color:#1a56db;text-decoration:none;font-size:13px;flex:1;">' + f.name + '</a>'
+      + '<span style="font-size:11px;color:var(--gray-400);">' + formatFileSize(f.size) + '</span>'
+      + '<button class="btn btn-outline btn-sm" style="font-size:10px;padding:1px 6px;" onclick="downloadFile(&quot;LAW_FILES&quot;,' + idx + ')">下载</button>'
+      + '</div>';
+  });
+  container.innerHTML = html5;
 }
+
+// 兼容旧函数名（避免遗留undefined错误）
+function uploadLawFile(inputEl) { uploadLawFileV53(inputEl); }
+function viewLawAttachments() { refreshLawFilesList(); if (document.getElementById('lawFilesList')) window.scrollTo({top: document.getElementById('lawFilesList').offsetTop - 80, behavior: 'smooth'}); }
 
 // ===== V4.0: Quick Reference Edit Functions =====
 function editQuickRefCard(cardEl) {
@@ -5354,6 +5384,9 @@ function setLocalFiles(key, files) {
 
 // ===== File Upload System =====
 var ACCEPTED_EXTENSIONS = ['.jpg','.jpeg','.png','.gif','.bmp','.webb','.svg','.doc','.docx','.ppt','.pptx','.rtf','.txt','.xls','.xlsx','.pdf','.zip','.rar','.7z'];
+// v5.3: 单文件最大10MB（与界面提示保持一致）
+var MAX_FILE_SIZE = 10 * 1024 * 1024; // 10MB
+var MAX_FILES_PER_UPLOAD = 5;
 
 function getFileIcon(filename) {
   var ext = filename.toLowerCase().split('.').pop();
@@ -5377,7 +5410,21 @@ function formatFileSize(bytes) {
 function uploadFile(key, inputEl) {
   var files = inputEl.files;
   if (!files || files.length === 0) return;
-  
+  if (files.length > MAX_FILES_PER_UPLOAD) {
+    alert('一次最多上传 ' + MAX_FILES_PER_UPLOAD + ' 个文件！当前选择了 ' + files.length + ' 个，请重新选择。');
+    inputEl.value = '';
+    return;
+  }
+
+  // v5.3: 单文件大小校验
+  for (var _ci = 0; _ci < files.length; _ci++) {
+    if (files[_ci].size > MAX_FILE_SIZE) {
+      alert('文件 "' + files[_ci].name + '" 大小为 ' + formatFileSize(files[_ci].size) + '，超过单文件上限 ' + formatFileSize(MAX_FILE_SIZE) + '！请压缩或选择更小的文件。');
+      inputEl.value = '';
+      return;
+    }
+  }
+
   // Get existing files for this key
   var stored = {};
   try { stored = JSON.parse(localStorage.getItem('bid_files') || '{}'); } catch(e) {}
