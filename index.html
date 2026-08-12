@@ -975,7 +975,7 @@ body.role-staff .admin-only { display: none !important; }
 <!-- Login Overlay -->
 <div id="loginOverlay">
   <div class="login-card">
-    <div class="login-logo">🏛️</div>
+    <div class="login-logo"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:48px;height:48px;display:inline-block;"><defs><linearGradient id="ghGoldLgn" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4af37"/><stop offset="50%" stop-color="#f5d76e"/><stop offset="100%" stop-color="#b8860b"/></linearGradient></defs><path d="M 20 75 L 35 25 L 50 25 L 35 75 Z" fill="url(#ghGoldLgn)"/><path d="M 50 75 L 65 25 L 80 25 L 65 75 Z" fill="url(#ghGoldLgn)"/><ellipse cx="50" cy="78" rx="42" ry="5" fill="url(#ghGoldLgn)"/><path d="M 15 35 Q 50 55 85 35" stroke="url(#ghGoldLgn)" stroke-width="4" fill="none"/></svg></div>
     <h2>湖南全仕项目管理</h2>
     <p class="login-subtitle">专业知识中台 · 请登录访问</p>
     <input type="text" id="loginUser" placeholder="请输入用户名" autocomplete="username">
@@ -1006,7 +1006,7 @@ body.role-staff .admin-only { display: none !important; }
   <!-- ===== Sidebar ===== -->
   <aside class="sidebar" id="sidebar">
     <div class="sidebar-brand">
-      <h1><span class="icon">🏛️</span> 知识中台</h1>
+      <h1><span class="icon"><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:24px;height:24px;vertical-align:middle;display:inline-block;"><defs><linearGradient id="ghGoldSb" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4af37"/><stop offset="50%" stop-color="#f5d76e"/><stop offset="100%" stop-color="#b8860b"/></linearGradient></defs><path d="M 20 75 L 35 25 L 50 25 L 35 75 Z" fill="url(#ghGoldSb)"/><path d="M 50 75 L 65 25 L 80 25 L 65 75 Z" fill="url(#ghGoldSb)"/><ellipse cx="50" cy="78" rx="42" ry="5" fill="url(#ghGoldSb)"/><path d="M 15 35 Q 50 55 85 35" stroke="url(#ghGoldSb)" stroke-width="4" fill="none"/></svg></span> 知识中台</h1>
       <p>湖南全仕项目管理有限公司专业平台</p>
     </div>
     <nav class="sidebar-nav">
@@ -1095,7 +1095,7 @@ body.role-staff .admin-only { display: none !important; }
         <input type="text" id="globalSearch" placeholder="搜索知识点、法规条款、排查项..." oninput="handleSearch(this.value)">
       </div>
       <div class="topbar-actions">
-        <button class="btn btn-outline btn-sm admin-only" onclick="resetChecklist()">🔄 重置排查</button>
+        <button class="btn btn-outline btn-sm" onclick="resetChecklist()" style="border:1px solid #ef4444;color:#ef4444;">🔄 重置排查</button>
         <button class="btn btn-primary btn-sm" onclick="showExportModal()" style="background:linear-gradient(135deg,#1a56db,#1240a8);border:none;box-shadow:0 2px 8px rgba(26,86,219,0.3);">📥 导出报告</button>
       </div>
     </div>
@@ -1113,7 +1113,7 @@ body.role-staff .admin-only { display: none !important; }
       <!-- ===== Dashboard ===== -->
       <div class="page-section active" id="dashboard">
         <div class="page-header">
-          <h2>🏛️ 湖南全仕项目管理有限公司 · 知识中台</h2>
+          <h2><svg viewBox="0 0 100 100" xmlns="http://www.w3.org/2000/svg" style="width:32px;height:32px;vertical-align:middle;display:inline-block;margin-right:8px;"><defs><linearGradient id="ghGoldLg" x1="0%" y1="0%" x2="100%" y2="100%"><stop offset="0%" stop-color="#d4af37"/><stop offset="50%" stop-color="#f5d76e"/><stop offset="100%" stop-color="#b8860b"/></linearGradient></defs><path d="M 20 75 L 35 25 L 50 25 L 35 75 Z" fill="url(#ghGoldLg)"/><path d="M 50 75 L 65 25 L 80 25 L 65 75 Z" fill="url(#ghGoldLg)"/><ellipse cx="50" cy="78" rx="42" ry="5" fill="url(#ghGoldLg)"/><path d="M 15 35 Q 50 55 85 35" stroke="url(#ghGoldLg)" stroke-width="4" fill="none"/></svg>湖南全仕项目管理有限公司 · 知识中台</h2>
           <p>新项目启动时的专业对照排查平台 —— 一站式法规、流程、标准、合规检索</p>
         </div>
 
@@ -1220,9 +1220,16 @@ body.role-staff .admin-only { display: none !important; }
 
       <!-- ===== 项目启动排查 ===== -->
       <div class="page-section" id="checklist">
-        <div class="page-header">
-          <h2>&#x2705; 新项目启动排查清单</h2>
-          <p>政府采购项目启动排查报告 &mdash; 逐项对照检查，确保合规无遗漏</p>
+        <div class="page-header" style="display:flex;justify-content:space-between;align-items:flex-start;gap:16px;flex-wrap:wrap;">
+          <div>
+            <h2>&#x2705; 新项目启动排查清单</h2>
+            <p>政府采购项目启动排查报告 &mdash; 逐项对照检查，确保合规无遗漏</p>
+          </div>
+          <div style="display:flex;gap:10px;flex-shrink:0;">
+            <button class="btn btn-outline btn-sm" onclick="resetChecklist()" style="border:1px solid #ef4444;color:#ef4444;background:#fff;padding:8px 16px;font-weight:500;">
+              🔄 重新填写
+            </button>
+          </div>
         </div>
 
         <div class="alert alert-warning">
@@ -3948,13 +3955,39 @@ function loadChecklist() {
 }
 
 function resetChecklist() {
-  if (!confirm('确定要重置所有排查进度吗？')) return;
+  if (!confirm('确定要重置所有排查进度吗？\n\n这将清除所有已勾选项和已编辑的文字内容，方便下一个项目重新填写。')) return;
+
+  // 1. 清除所有 checkbox 状态
   document.querySelectorAll('.cl-item input[type="checkbox"]').forEach(function(cb) {
     cb.checked = false;
     cb.closest('.cl-item').classList.remove('checked');
   });
+
+  // 2. 清除所有 mini-cb 方块状态（恢复为 □）
+  document.querySelectorAll('.mini-cb').forEach(function(cb) {
+    cb.innerHTML = '&#9634;';
+    cb.style.color = '';
+    cb.style.fontWeight = '';
+    cb.classList.remove('checked');
+  });
+
+  // 3. 清除所有可编辑字段（editable-field, editable-date）
+  document.querySelectorAll('.editable-field, .editable-date').forEach(function(field) {
+    // 恢复为占位符下划线
+    field.textContent = '______';
+    field.style.color = '';
+  });
+
+  // 4. 清除 localStorage
   localStorage.removeItem('bid_checklist');
-  for (var i = 1; i <= 8; i++) updateProgress(String(i));
+  localStorage.removeItem('bid_checklist_minicb');
+  localStorage.removeItem('bid_checklist_editable');
+
+  // 5. 更新所有进度计数
+  for (var i = 1; i <= 11; i++) updateProgress(String(i));
+
+  // 6. 显示成功提示
+  showToast('🔄 排查清单已全部重置，可以开始新项目的排查了！', 'success');
 }
 
 // ===== Export Modal Functions =====
@@ -4158,8 +4191,8 @@ function generatePrintHTML(data) {
       // 详情：处理 [✓] 和 [ ] 的显示
       var detailText = item.details || '';
       // 将 [✓] 和 [ ] 转为带样式的 HTML
-      detailText = detailText.replace(/\[✓\]/g, '<span class="rpt-checked">☑ 已勾选</span>');
-      detailText = detailText.replace(/\[ \]/g, '<span class="rpt-unchecked">☐ 未勾选</span>');
+      detailText = detailText.replace(/\[✓\]/g, '<span class="rpt-checked">☑</span>');
+      detailText = detailText.replace(/\[ \]/g, '<span class="rpt-unchecked">☐</span>');
 
       if (detailText.trim()) {
         html += '<div class="rpt-details">' + detailText + '</div>';
@@ -4296,8 +4329,8 @@ function exportAsWord(reportName) {
 
       // 处理详情中的 [✓] 和 [ ]
       var detailText = item.details || '';
-      detailText = detailText.replace(/\[✓\]/g, '<span class="checked">☑ 已勾选</span>');
-      detailText = detailText.replace(/\[ \]/g, '<span class="unchecked">☐ 未勾选</span>');
+      detailText = detailText.replace(/\[✓\]/g, '<span class="checked">☑</span>');
+      detailText = detailText.replace(/\[ \]/g, '<span class="unchecked">☐</span>');
 
       wordContent += '<tr>';
       wordContent += '<td class="item-title-cell">' + escapeHTML(item.title) + '<br>' + tagHtml + '</td>';
