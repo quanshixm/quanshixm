@@ -1020,6 +1020,10 @@ body.role-staff .admin-only { display: none !important; }
         <span class="nav-icon">✅</span> 项目启动排查
         <span class="badge">必用</span>
       </a>
+      <a class="nav-item" data-page="history" onclick="switchPage('history')">
+        <span class="nav-icon">📚</span> 排查历史
+        <span class="badge" id="historyCountBadge" style="background:var(--success);">0</span>
+      </a>
       <a class="nav-item" data-page="laws" onclick="switchPage('laws')">
         <span class="nav-icon">⚖️</span> 法规规范库
       </a>
@@ -2091,6 +2095,41 @@ body.role-staff .admin-only { display: none !important; }
         </table>
       </div>
 
+      <!-- ===== V5.4: 排查历史 ===== -->
+      <div class="page-section" id="history">
+        <div class="page-header">
+          <h2>📚 排查历史</h2>
+          <p>所有新项目启动排查清单首次导出报告后自动保存，可查看、可二次编辑、可再次导出报告</p>
+        </div>
+
+        <div style="display:flex;gap:12px;flex-wrap:wrap;margin-bottom:18px;align-items:center;">
+          <div style="background:linear-gradient(135deg,#1a56db,#1240a8);color:#fff;padding:14px 22px;border-radius:10px;flex:1;min-width:200px;">
+            <div style="font-size:12px;opacity:0.85;">已保存项目数</div>
+            <div style="font-size:32px;font-weight:700;line-height:1.2;"><span id="historyTotalCount">0</span> <span style="font-size:14px;font-weight:400;opacity:0.85;">个</span></div>
+          </div>
+          <div style="background:#f0fdf4;border:1px solid #bbf7d0;padding:14px 22px;border-radius:10px;flex:1;min-width:200px;">
+            <div style="font-size:12px;color:#166534;">最近保存</div>
+            <div style="font-size:18px;font-weight:600;color:#15803d;line-height:1.2;margin-top:4px;" id="historyLastSave">—</div>
+          </div>
+          <button class="btn btn-outline btn-sm" onclick="exportHistoryList()" style="margin-left:auto;">📥 导出清单</button>
+          <button class="btn btn-outline btn-sm admin-only" onclick="if(confirm('确定清空所有排查历史吗？此操作不可撤销！')){localStorage.removeItem('qs_investigation_history');renderHistoryList();}" style="color:var(--danger);border-color:var(--danger);">🗑️ 清空全部</button>
+        </div>
+
+        <div class="alert alert-info">
+          <span class="alert-icon">💡</span>
+          <div><strong>使用说明：</strong>在"项目启动排查"模块填写完成后，点击顶部"导出报告"，系统会自动将本次报告内容保存到排查历史。可随时查看历史报告、重新加载编辑、再次导出。每个项目仅在首次导出时保存。</div>
+        </div>
+
+        <div id="historyTableContainer">
+          <table class="data-table">
+            <thead><tr><th style="width:60px;">序号</th><th>项目名称</th><th style="width:180px;">导出时间</th><th style="width:120px;">完成度</th><th style="width:280px;">操作</th></tr></thead>
+            <tbody id="historyTableBody">
+              <tr><td colspan="5" style="text-align:center;color:#999;padding:40px;">暂无排查历史记录。在"项目启动排查"模块填写并首次导出报告后会自动保存。</td></tr>
+            </tbody>
+          </table>
+        </div>
+      </div>
+
       <!-- ===== 评标方法与标准 ===== -->
       <div class="page-section" id="evaluation">
         <div class="page-header">
@@ -2111,40 +2150,40 @@ body.role-staff .admin-only { display: none !important; }
             </thead>
             <tbody>
               <tr>
-                <td><strong>综合评估法</strong></td>
-                <td>工程、复杂货物、服务</td>
-                <td>对价格、商务、技术等多因素综合评分，总分最高者中标</td>
-                <td>招标投标法实施条例第49条；财政部87号令第55条</td>
+                <td><strong class="editable-module" data-module="evaluation" data-path="eval-tab1-r1-c1" ondblclick="editModuleCell(this)">综合评估法</strong></td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r1-c2" ondblclick="editModuleCell(this)">工程、复杂货物、服务</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r1-c3" ondblclick="editModuleCell(this)">对价格、商务、技术等多因素综合评分，总分最高者中标</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r1-c4" ondblclick="editModuleCell(this)">招标投标法实施条例第49条；财政部87号令第55条</td>
               </tr>
               <tr>
-                <td><strong>经评审的最低投标价法</strong></td>
-                <td>具有通用技术、性能标准的项目</td>
-                <td>满足实质要求后，经评审的投标价最低者中标</td>
-                <td>招标投标法实施条例第49条</td>
+                <td><strong class="editable-module" data-module="evaluation" data-path="eval-tab1-r2-c1" ondblclick="editModuleCell(this)">经评审的最低投标价法</strong></td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r2-c2" ondblclick="editModuleCell(this)">具有通用技术、性能标准的项目</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r2-c3" ondblclick="editModuleCell(this)">满足实质要求后，经评审的投标价最低者中标</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r2-c4" ondblclick="editModuleCell(this)">招标投标法实施条例第49条</td>
               </tr>
               <tr>
-                <td><strong>最低评标价法</strong></td>
-                <td>标准定制商品及通用服务</td>
-                <td>满足全部实质性要求且报价最低者中标（政府采购专用）</td>
-                <td>财政部87号令第54条</td>
+                <td><strong class="editable-module" data-module="evaluation" data-path="eval-tab1-r3-c1" ondblclick="editModuleCell(this)">最低评标价法</strong></td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r3-c2" ondblclick="editModuleCell(this)">标准定制商品及通用服务</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r3-c3" ondblclick="editModuleCell(this)">满足全部实质性要求且报价最低者中标（政府采购专用）</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r3-c4" ondblclick="editModuleCell(this)">财政部87号令第54条</td>
               </tr>
               <tr>
-                <td><strong>竞争性磋商</strong></td>
-                <td>政府购买服务、技术复杂项目</td>
-                <td>磋商后最后报价，综合评分法评审</td>
-                <td>财库〔2014〕214号</td>
+                <td><strong class="editable-module" data-module="evaluation" data-path="eval-tab1-r4-c1" ondblclick="editModuleCell(this)">竞争性磋商</strong></td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r4-c2" ondblclick="editModuleCell(this)">政府购买服务、技术复杂项目</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r4-c3" ondblclick="editModuleCell(this)">磋商后最后报价，综合评分法评审</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r4-c4" ondblclick="editModuleCell(this)">财库〔2014〕214号</td>
               </tr>
               <tr>
-                <td><strong>竞争性谈判</strong></td>
-                <td>招标失败、时间紧急、技术复杂项目</td>
-                <td>谈判后最终报价，满足需求且报价最低者成交</td>
-                <td>政府采购法第30条</td>
+                <td><strong class="editable-module" data-module="evaluation" data-path="eval-tab1-r5-c1" ondblclick="editModuleCell(this)">竞争性谈判</strong></td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r5-c2" ondblclick="editModuleCell(this)">招标失败、时间紧急、技术复杂项目</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r5-c3" ondblclick="editModuleCell(this)">谈判后最终报价，满足需求且报价最低者成交</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r5-c4" ondblclick="editModuleCell(this)">政府采购法第30条</td>
               </tr>
               <tr>
-                <td><strong>询价</strong></td>
-                <td>规格标准统一、货源充足的项目</td>
-                <td>3家以上供应商报一次性不可更改价格，最低者成交</td>
-                <td>政府采购法第32条</td>
+                <td><strong class="editable-module" data-module="evaluation" data-path="eval-tab1-r6-c1" ondblclick="editModuleCell(this)">询价</strong></td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r6-c2" ondblclick="editModuleCell(this)">规格标准统一、货源充足的项目</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r6-c3" ondblclick="editModuleCell(this)">3家以上供应商报一次性不可更改价格，最低者成交</td>
+                <td class="editable-module" data-module="evaluation" data-path="eval-tab1-r6-c4" ondblclick="editModuleCell(this)">政府采购法第32条</td>
               </tr>
             </tbody>
           </table>
@@ -2158,9 +2197,9 @@ body.role-staff .admin-only { display: none !important; }
           <table class="data-table">
             <thead><tr><th>项目类型</th><th>价格分权重范围</th><th>商务分参考</th><th>技术分参考</th></tr></thead>
             <tbody>
-              <tr><td>货物类</td><td><strong>30%～60%</strong></td><td>10%～20%</td><td>20%～50%</td></tr>
-              <tr><td>服务类</td><td><strong>10%～30%</strong></td><td>10%～20%</td><td>50%～70%</td></tr>
-              <tr><td>工程类</td><td><strong>50%～100%</strong></td><td>—</td><td>0%～40%</td></tr>
+              <tr><td class="editable-module" data-module="evaluation" data-path="eval-tab2-r1-c1" ondblclick="editModuleCell(this)">货物类</td><td><strong>30%～60%</strong></td><td class="editable-module" data-module="evaluation" data-path="eval-tab2-r1-c3" ondblclick="editModuleCell(this)">10%～20%</td><td class="editable-module" data-module="evaluation" data-path="eval-tab2-r1-c4" ondblclick="editModuleCell(this)">20%～50%</td></tr>
+              <tr><td class="editable-module" data-module="evaluation" data-path="eval-tab2-r2-c1" ondblclick="editModuleCell(this)">服务类</td><td><strong>10%～30%</strong></td><td class="editable-module" data-module="evaluation" data-path="eval-tab2-r2-c3" ondblclick="editModuleCell(this)">10%～20%</td><td class="editable-module" data-module="evaluation" data-path="eval-tab2-r2-c4" ondblclick="editModuleCell(this)">50%～70%</td></tr>
+              <tr><td class="editable-module" data-module="evaluation" data-path="eval-tab2-r3-c1" ondblclick="editModuleCell(this)">工程类</td><td><strong>50%～100%</strong></td><td class="editable-module" data-module="evaluation" data-path="eval-tab2-r3-c3" ondblclick="editModuleCell(this)">—</td><td class="editable-module" data-module="evaluation" data-path="eval-tab2-r3-c4" ondblclick="editModuleCell(this)">0%～40%</td></tr>
             </tbody>
           </table>
           <div style="margin-top:16px;">
@@ -2178,7 +2217,7 @@ body.role-staff .admin-only { display: none !important; }
               <h4>❌ 价格分权重设置超出法定范围</h4>
             </div>
             <div class="expand-body">
-              <p><span class="editable-field" data-field="faq" ondblclick="editFaqContent(this)" style="outline:none;">服务项目价格分设置为60%，超出10%-30%的法定范围。此类问题常见于建设单位为控制预算而过度提高价格权重，属于违法评审标准。</span></p>
+              <p><span class="editable-field editable-module" data-module="evaluation" data-path="eval-tab3-faq1" ondblclick="editModuleCell(this)" style="outline:none;">服务项目价格分设置为60%，超出10%-30%的法定范围。此类问题常见于建设单位为控制预算而过度提高价格权重，属于违法评审标准。</span></p>
             </div>
           </div>
           <div class="expand-section">
@@ -2187,7 +2226,7 @@ body.role-staff .admin-only { display: none !important; }
               <h4>❌ 评分标准模糊，赋予评委过大自由裁量权</h4>
             </div>
             <div class="expand-body">
-              <p><span class="editable-field" data-field="faq" ondblclick="editFaqContent(this)" style="outline:none;">如"技术方案优秀得8-10分，良好得5-7分，一般得1-4分"——分值区间过宽且缺乏客观衡量标准，应细化为具体指标对应具体分值。</span></p>
+              <p><span class="editable-field editable-module" data-module="evaluation" data-path="eval-tab3-faq2" ondblclick="editModuleCell(this)" style="outline:none;">如"技术方案优秀得8-10分，良好得5-7分，一般得1-4分"——分值区间过宽且缺乏客观衡量标准，应细化为具体指标对应具体分值。</span></p>
             </div>
           </div>
           <div class="expand-section">
@@ -2196,7 +2235,7 @@ body.role-staff .admin-only { display: none !important; }
               <h4>❌ 将资格条件同时作为评分项</h4>
             </div>
             <div class="expand-body">
-              <p><span class="editable-field" data-field="faq" ondblclick="editFaqContent(this)" style="outline:none;">资格条件是门槛要求，通过即满足资格，不通过则否决。不得将已作为资格条件的要求再列入评分项，属于重复计分。如"具备XX资质得5分"——但该资质已作为资格条件。</span></p>
+              <p><span class="editable-field editable-module" data-module="evaluation" data-path="eval-tab3-faq3" ondblclick="editModuleCell(this)" style="outline:none;">资格条件是门槛要求，通过即满足资格，不通过则否决。不得将已作为资格条件的要求再列入评分项，属于重复计分。如"具备XX资质得5分"——但该资质已作为资格条件。</span></p>
             </div>
           </div>
           <div class="expand-section">
@@ -2205,7 +2244,7 @@ body.role-staff .admin-only { display: none !important; }
               <h4>❌ 业绩评分设置特定地域或特定金额限制</h4>
             </div>
             <div class="expand-body">
-              <p><span class="editable-field" data-field="faq" ondblclick="editFaqContent(this)" style="outline:none;">如"在XX省内完成过XX万元以上项目每个得3分"——限定地域和金额构成差别待遇，应改为"完成过同类项目每个得3分，不限地域"。</span></p>
+              <p><span class="editable-field editable-module" data-module="evaluation" data-path="eval-tab3-faq4" ondblclick="editModuleCell(this)" style="outline:none;">如"在XX省内完成过XX万元以上项目每个得3分"——限定地域和金额构成差别待遇，应改为"完成过同类项目每个得3分，不限地域"。</span></p>
             </div>
           </div>
         </div>
@@ -2233,14 +2272,14 @@ body.role-staff .admin-only { display: none !important; }
           <table class="data-table">
             <thead><tr><th>序号</th><th>废标情形</th><th>法律依据</th><th>风险等级</th></tr></thead>
             <tbody>
-              <tr><td>1</td><td>投标文件未经投标单位盖章和单位负责人签字</td><td>招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
-              <tr><td>2</td><td>投标联合体没有提交共同投标协议</td><td>招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
-              <tr><td>3</td><td>投标人不符合国家或者招标文件规定的资格条件</td><td>招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
-              <tr><td>4</td><td>同一投标人提交两个以上不同的投标文件或者投标报价</td><td>招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
-              <tr><td>5</td><td>投标报价低于成本或者高于招标文件设定的最高投标限价</td><td>招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
-              <tr><td>6</td><td>投标文件没有对招标文件的实质性要求和条件作出响应</td><td>招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
-              <tr><td>7</td><td>投标人有串通投标、弄虚作假、行贿等违法行为</td><td>招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
-              <tr><td>8</td><td>投标人发生合并/分立/破产等不再具备资格条件</td><td>招标投标法实施条例第37条</td><td><span class="cl-tag tag-warning">视情形</span></td></tr>
+              <tr><td>1</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r1-c1" ondblclick="editModuleCell(this)">投标文件未经投标单位盖章和单位负责人签字</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r1-c2" ondblclick="editModuleCell(this)">招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
+              <tr><td>2</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r2-c1" ondblclick="editModuleCell(this)">投标联合体没有提交共同投标协议</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r2-c2" ondblclick="editModuleCell(this)">招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
+              <tr><td>3</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r3-c1" ondblclick="editModuleCell(this)">投标人不符合国家或者招标文件规定的资格条件</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r3-c2" ondblclick="editModuleCell(this)">招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
+              <tr><td>4</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r4-c1" ondblclick="editModuleCell(this)">同一投标人提交两个以上不同的投标文件或者投标报价</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r4-c2" ondblclick="editModuleCell(this)">招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
+              <tr><td>5</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r5-c1" ondblclick="editModuleCell(this)">投标报价低于成本或者高于招标文件设定的最高投标限价</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r5-c2" ondblclick="editModuleCell(this)">招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
+              <tr><td>6</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r6-c1" ondblclick="editModuleCell(this)">投标文件没有对招标文件的实质性要求和条件作出响应</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r6-c2" ondblclick="editModuleCell(this)">招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
+              <tr><td>7</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r7-c1" ondblclick="editModuleCell(this)">投标人有串通投标、弄虚作假、行贿等违法行为</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r7-c2" ondblclick="editModuleCell(this)">招标投标法实施条例第36条</td><td><span class="cl-tag tag-danger">绝对废标</span></td></tr>
+              <tr><td>8</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r8-c1" ondblclick="editModuleCell(this)">投标人发生合并/分立/破产等不再具备资格条件</td><td class="editable-module" data-module="rejection" data-path="rej-tab1-r8-c2" ondblclick="editModuleCell(this)">招标投标法实施条例第37条</td><td><span class="cl-tag tag-warning">视情形</span></td></tr>
             </tbody>
           </table>
         </div>
@@ -2249,14 +2288,14 @@ body.role-staff .admin-only { display: none !important; }
           <table class="data-table">
             <thead><tr><th>序号</th><th>否决条款（需在招标文件中明确约定）</th><th>说明</th></tr></thead>
             <tbody>
-              <tr><td>9</td><td>投标文件格式不完整、关键内容缺失</td><td>如缺少施工组织设计、项目管理机构等</td></tr>
-              <tr><td>10</td><td>投标保证金未按规定提交</td><td>金额、形式、到账时间不符合要求</td></tr>
-              <tr><td>11</td><td>投标文件逾期送达或未送达指定地点</td><td>无论何种原因，逾期即无效</td></tr>
-              <tr><td>12</td><td>投标文件未按规定密封</td><td>密封不符合招标文件要求的</td></tr>
-              <tr><td>13</td><td>投标有效期不足</td><td>短于招标文件要求的投标有效期</td></tr>
-              <tr><td>14</td><td>正本/副本数量不足</td><td>未按招标文件要求的份数提供</td></tr>
-              <tr><td>15</td><td>项目经理/总监等关键人员不满足要求</td><td>资格、类似项目经验、社保等</td></tr>
-              <tr><td>16</td><td>暂列金额/暂估价未按招标文件要求填报</td><td>不得变动招标文件中明确的暂列金额</td></tr>
+              <tr><td>9</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r1-c1" ondblclick="editModuleCell(this)">投标文件格式不完整、关键内容缺失</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r1-c2" ondblclick="editModuleCell(this)">如缺少施工组织设计、项目管理机构等</td></tr>
+              <tr><td>10</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r2-c1" ondblclick="editModuleCell(this)">投标保证金未按规定提交</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r2-c2" ondblclick="editModuleCell(this)">金额、形式、到账时间不符合要求</td></tr>
+              <tr><td>11</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r3-c1" ondblclick="editModuleCell(this)">投标文件逾期送达或未送达指定地点</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r3-c2" ondblclick="editModuleCell(this)">无论何种原因，逾期即无效</td></tr>
+              <tr><td>12</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r4-c1" ondblclick="editModuleCell(this)">投标文件未按规定密封</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r4-c2" ondblclick="editModuleCell(this)">密封不符合招标文件要求的</td></tr>
+              <tr><td>13</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r5-c1" ondblclick="editModuleCell(this)">投标有效期不足</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r5-c2" ondblclick="editModuleCell(this)">短于招标文件要求的投标有效期</td></tr>
+              <tr><td>14</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r6-c1" ondblclick="editModuleCell(this)">正本/副本数量不足</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r6-c2" ondblclick="editModuleCell(this)">未按招标文件要求的份数提供</td></tr>
+              <tr><td>15</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r7-c1" ondblclick="editModuleCell(this)">项目经理/总监等关键人员不满足要求</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r7-c2" ondblclick="editModuleCell(this)">资格、类似项目经验、社保等</td></tr>
+              <tr><td>16</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r8-c1" ondblclick="editModuleCell(this)">暂列金额/暂估价未按招标文件要求填报</td><td class="editable-module" data-module="rejection" data-path="rej-tab2-r8-c2" ondblclick="editModuleCell(this)">不得变动招标文件中明确的暂列金额</td></tr>
             </tbody>
           </table>
         </div>
@@ -2269,13 +2308,13 @@ body.role-staff .admin-only { display: none !important; }
           <table class="data-table">
             <thead><tr><th>序号</th><th>政府采购废标情形</th><th>法律依据</th></tr></thead>
             <tbody>
-              <tr><td>17</td><td>符合专业条件的供应商或对招标文件作实质响应的供应商不足3家</td><td>政府采购法第36条</td></tr>
-              <tr><td>18</td><td>出现影响采购公正的违法、违规行为</td><td>政府采购法第36条</td></tr>
-              <tr><td>19</td><td>投标人的报价均超过了采购预算</td><td>政府采购法第36条</td></tr>
-              <tr><td>20</td><td>采购任务取消</td><td>政府采购法第36条</td></tr>
-              <tr><td>21</td><td>采购过程中因重大变故取消采购任务</td><td>财政部87号令第43条</td></tr>
-              <tr><td>22</td><td>评标期间出现违法违规行为导致评标无法继续</td><td>财政部87号令第43条</td></tr>
-              <tr><td>23</td><td>所有投标被否决或合格供应商不足3家</td><td>财政部87号令第43条</td></tr>
+              <tr><td>17</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r1-c1" ondblclick="editModuleCell(this)">符合专业条件的供应商或对招标文件作实质响应的供应商不足3家</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r1-c2" ondblclick="editModuleCell(this)">政府采购法第36条</td></tr>
+              <tr><td>18</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r2-c1" ondblclick="editModuleCell(this)">出现影响采购公正的违法、违规行为</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r2-c2" ondblclick="editModuleCell(this)">政府采购法第36条</td></tr>
+              <tr><td>19</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r3-c1" ondblclick="editModuleCell(this)">投标人的报价均超过了采购预算</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r3-c2" ondblclick="editModuleCell(this)">政府采购法第36条</td></tr>
+              <tr><td>20</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r4-c1" ondblclick="editModuleCell(this)">采购任务取消</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r4-c2" ondblclick="editModuleCell(this)">政府采购法第36条</td></tr>
+              <tr><td>21</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r5-c1" ondblclick="editModuleCell(this)">采购过程中因重大变故取消采购任务</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r5-c2" ondblclick="editModuleCell(this)">财政部87号令第43条</td></tr>
+              <tr><td>22</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r6-c1" ondblclick="editModuleCell(this)">评标期间出现违法违规行为导致评标无法继续</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r6-c2" ondblclick="editModuleCell(this)">财政部87号令第43条</td></tr>
+              <tr><td>23</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r7-c1" ondblclick="editModuleCell(this)">所有投标被否决或合格供应商不足3家</td><td class="editable-module" data-module="rejection" data-path="rej-tab3-r7-c2" ondblclick="editModuleCell(this)">财政部87号令第43条</td></tr>
             </tbody>
           </table>
         </div>
@@ -2301,11 +2340,11 @@ body.role-staff .admin-only { display: none !important; }
           <div class="expand-body">
             <p><strong>典型表现：</strong></p>
             <ul style="list-style:disc;padding-left:20px;font-size:13px;line-height:1.8;color:var(--gray-600);">
-              <li>要求供应商必须在本省/本市注册或设有分支机构</li>
-              <li>要求业绩必须在本省/本市范围内</li>
-              <li>限定本地企业加分</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-1-item1" ondblclick="editModuleCell(this)" data-multi>要求供应商必须在本省/本市注册或设有分支机构</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-1-item2" ondblclick="editModuleCell(this)" data-multi>要求业绩必须在本省/本市范围内</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-1-item3" ondblclick="editModuleCell(this)" data-multi>限定本地企业加分</li>
             </ul>
-            <p style="margin-top:8px;"><strong>合规做法：</strong>不得以地域限制供应商参与；业绩要求应不限地域，以项目类型和规模为标准。</p>
+            <p style="margin-top:8px;" class="editable-module" data-module="compliance" data-path="comp-1-comp" ondblclick="editModuleCell(this)" data-multi><strong>合规做法：</strong>不得以地域限制供应商参与；业绩要求应不限地域，以项目类型和规模为标准。</p>
           </div>
         </div>
         <div class="expand-section">
@@ -2316,12 +2355,12 @@ body.role-staff .admin-only { display: none !important; }
           <div class="expand-body">
             <p><strong>典型表现：</strong></p>
             <ul style="list-style:disc;padding-left:20px;font-size:13px;line-height:1.8;color:var(--gray-600);">
-              <li>设置特定注册资本金额（如注册资本≥1000万元）</li>
-              <li>要求特定营业收入规模</li>
-              <li>限定特定资产总额</li>
-              <li>限定从业人员数量</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-2-item1" ondblclick="editModuleCell(this)" data-multi>设置特定注册资本金额（如注册资本≥1000万元）</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-2-item2" ondblclick="editModuleCell(this)" data-multi>要求特定营业收入规模</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-2-item3" ondblclick="editModuleCell(this)" data-multi>限定特定资产总额</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-2-item4" ondblclick="editModuleCell(this)" data-multi>限定从业人员数量</li>
             </ul>
-            <p style="margin-top:8px;"><strong>合规做法：</strong>不得以企业规模条件实行差别待遇；中小企业扶持政策明确要求不得设置规模门槛。</p>
+            <p style="margin-top:8px;" class="editable-module" data-module="compliance" data-path="comp-2-comp" ondblclick="editModuleCell(this)" data-multi><strong>合规做法：</strong>不得以企业规模条件实行差别待遇；中小企业扶持政策明确要求不得设置规模门槛。</p>
           </div>
         </div>
         <div class="expand-section">
@@ -2332,11 +2371,11 @@ body.role-staff .admin-only { display: none !important; }
           <div class="expand-body">
             <p><strong>典型表现：</strong></p>
             <ul style="list-style:disc;padding-left:20px;font-size:13px;line-height:1.8;color:var(--gray-600);">
-              <li>限定国有企业参与</li>
-              <li>要求特定所有制形式</li>
-              <li>限定上市公司</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-3-item1" ondblclick="editModuleCell(this)" data-multi>限定国有企业参与</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-3-item2" ondblclick="editModuleCell(this)" data-multi>要求特定所有制形式</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-3-item3" ondblclick="editModuleCell(this)" data-multi>限定上市公司</li>
             </ul>
-            <p style="margin-top:8px;"><strong>合规做法：</strong>不得限定供应商的所有制形式和组织形式。</p>
+            <p style="margin-top:8px;" class="editable-module" data-module="compliance" data-path="comp-3-comp" ondblclick="editModuleCell(this)" data-multi><strong>合规做法：</strong>不得限定供应商的所有制形式和组织形式。</p>
           </div>
         </div>
         <div class="expand-section">
@@ -2347,11 +2386,11 @@ body.role-staff .admin-only { display: none !important; }
           <div class="expand-body">
             <p><strong>典型表现：</strong></p>
             <ul style="list-style:disc;padding-left:20px;font-size:13px;line-height:1.8;color:var(--gray-600);">
-              <li>指定特定品牌、型号</li>
-              <li>要求"同等及以上品牌"但实际指向特定品牌</li>
-              <li>技术参数照搬某一品牌产品参数</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-4-item1" ondblclick="editModuleCell(this)" data-multi>指定特定品牌、型号</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-4-item2" ondblclick="editModuleCell(this)" data-multi>要求"同等及以上品牌"但实际指向特定品牌</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-4-item3" ondblclick="editModuleCell(this)" data-multi>技术参数照搬某一品牌产品参数</li>
             </ul>
-            <p style="margin-top:8px;"><strong>合规做法：</strong>不得指定品牌；技术参数应基于性能和功能要求，允许多品牌参与竞争。</p>
+            <p style="margin-top:8px;" class="editable-module" data-module="compliance" data-path="comp-4-comp" ondblclick="editModuleCell(this)" data-multi><strong>合规做法：</strong>不得指定品牌；技术参数应基于性能和功能要求，允许多品牌参与竞争。</p>
           </div>
         </div>
         <div class="expand-section">
@@ -2362,11 +2401,11 @@ body.role-staff .admin-only { display: none !important; }
           <div class="expand-body">
             <p><strong>典型表现：</strong></p>
             <ul style="list-style:disc;padding-left:20px;font-size:13px;line-height:1.8;color:var(--gray-600);">
-              <li>要求特定合同金额的业绩（如单个合同金额≥5000万元）</li>
-              <li>要求特定获奖业绩（如鲁班奖、省优奖）</li>
-              <li>业绩数量要求过高（如5个以上同类项目）</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-5-item1" ondblclick="editModuleCell(this)" data-multi>要求特定合同金额的业绩（如单个合同金额≥5000万元）</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-5-item2" ondblclick="editModuleCell(this)" data-multi>要求特定获奖业绩（如鲁班奖、省优奖）</li>
+              <li class="editable-module" data-module="compliance" data-path="comp-5-item3" ondblclick="editModuleCell(this)" data-multi>业绩数量要求过高（如5个以上同类项目）</li>
             </ul>
-            <p style="margin-top:8px;"><strong>合规做法：</strong>业绩要求应与项目规模和实际需要相匹配；不得设置特定地域、特定金额、特定奖项作为资格条件或加分条件。</p>
+            <p style="margin-top:8px;" class="editable-module" data-module="compliance" data-path="comp-5-comp" ondblclick="editModuleCell(this)" data-multi><strong>合规做法：</strong>业绩要求应与项目规模和实际需要相匹配；不得设置特定地域、特定金额、特定奖项作为资格条件或加分条件。</p>
           </div>
         </div>
         <div class="expand-section">
@@ -2433,7 +2472,7 @@ body.role-staff .admin-only { display: none !important; }
           </div>
           <div class="expand-body">
             <p style="font-size:13px;line-height:1.8;color:var(--gray-700);">
-              <strong>法定必须载明内容（招标投标法第16条）：</strong><br>
+              <strong class="editable-module" data-module="document" data-path="doc-e1-main" ondblclick="editModuleCell(this)">法定必须载明内容（招标投标法第16条）：</strong><br>
               ① 招标人的名称和地址<br>
               ② 招标项目的性质和数量<br>
               ③ 招标项目的实施地点和工期<br>
@@ -2442,7 +2481,7 @@ body.role-staff .admin-only { display: none !important; }
               ⑥ 招标文件售价<br>
               ⑦ 投标截止时间和开标时间<br>
               ⑧ 开标地点<br><br>
-              <strong>常见问题：</strong>公告内容不完整、开标时间与投标截止时间不一致、资格要求与招标文件矛盾。
+              <strong class="editable-module" data-module="document" data-path="doc-e1-note" ondblclick="editModuleCell(this)">常见问题：</strong><span class="editable-module" data-module="document" data-path="doc-e1-notetail" ondblclick="editModuleCell(this)">公告内容不完整、开标时间与投标截止时间不一致、资格要求与招标文件矛盾。</span>
             </p>
           </div>
         </div>
@@ -2453,7 +2492,7 @@ body.role-staff .admin-only { display: none !important; }
           </div>
           <div class="expand-body">
             <p style="font-size:13px;line-height:1.8;color:var(--gray-700);">
-              <strong>核心内容包括：</strong><br>
+              <strong class="editable-module" data-module="document" data-path="doc-e2-main" ondblclick="editModuleCell(this)">核心内容包括：</strong><br>
               ① 总则：项目概况、资金来源、招标范围<br>
               ② 投标人资格要求<br>
               ③ 投标费用承担<br>
@@ -2463,7 +2502,7 @@ body.role-staff .admin-only { display: none !important; }
               ⑦ 投标文件的递交（截止时间、地点、密封要求）<br>
               ⑧ 开标与评标程序<br>
               ⑨ 合同授予条件<br><br>
-              <strong>易错点：</strong>投标有效期过短（建议60-90日）、保证金金额超标（不超过估算价的2%）、未明确否决条款。
+              <strong class="editable-module" data-module="document" data-path="doc-e2-note" ondblclick="editModuleCell(this)">易错点：</strong><span class="editable-module" data-module="document" data-path="doc-e2-notetail" ondblclick="editModuleCell(this)">投标有效期过短（建议60-90日）、保证金金额超标（不超过估算价的2%）、未明确否决条款。</span>
             </p>
           </div>
         </div>
@@ -2474,14 +2513,14 @@ body.role-staff .admin-only { display: none !important; }
           </div>
           <div class="expand-body">
             <p style="font-size:13px;line-height:1.8;color:var(--gray-700);">
-              <strong>评审办法核心要素：</strong><br>
+              <strong class="editable-module" data-module="document" data-path="doc-e3-main" ondblclick="editModuleCell(this)">评审办法核心要素：</strong><br>
               ① 评标委员会组建方式<br>
               ② 评标方法选择及理由<br>
               ③ 初步评审标准（形式评审、资格评审、响应性评审）<br>
               ④ 详细评审标准（评分细则、权重分配）<br>
               ⑤ 否决投标条款<br>
               ⑥ 推荐中标候选人方式<br><br>
-              <strong>关键风险点：</strong>评分标准不明确导致投诉、否决条款未列明、分值权重超出法定范围。
+              <strong class="editable-module" data-module="document" data-path="doc-e3-note" ondblclick="editModuleCell(this)">关键风险点：</strong><span class="editable-module" data-module="document" data-path="doc-e3-notetail" ondblclick="editModuleCell(this)">评分标准不明确导致投诉、否决条款未列明、分值权重超出法定范围。</span>
             </p>
           </div>
         </div>
@@ -2492,7 +2531,7 @@ body.role-staff .admin-only { display: none !important; }
           </div>
           <div class="expand-body">
             <p style="font-size:13px;line-height:1.8;color:var(--gray-700);">
-              <strong>招标文件中合同条款应包含：</strong><br>
+              <strong class="editable-module" data-module="document" data-path="doc-e4-main" ondblclick="editModuleCell(this)">招标文件中合同条款应包含：</strong><br>
               ① 合同类型（固定总价/固定单价/成本加酬金）<br>
               ② 付款方式和进度<br>
               ③ 工期/服务期要求<br>
@@ -2501,7 +2540,7 @@ body.role-staff .admin-only { display: none !important; }
               ⑥ 变更和索赔规则<br>
               ⑦ 争议解决方式<br>
               ⑧ 保修/质保条款<br><br>
-              <strong>注意：</strong>合同条款应与招标文件中的技术规范、评审标准保持一致，避免前后矛盾。
+              <strong class="editable-module" data-module="document" data-path="doc-e4-note" ondblclick="editModuleCell(this)">注意：</strong><span class="editable-module" data-module="document" data-path="doc-e4-notetail" ondblclick="editModuleCell(this)">合同条款应与招标文件中的技术规范、评审标准保持一致，避免前后矛盾。</span>
             </p>
           </div>
         </div>
@@ -2512,13 +2551,13 @@ body.role-staff .admin-only { display: none !important; }
           </div>
           <div class="expand-body">
             <p style="font-size:13px;line-height:1.8;color:var(--gray-700);">
-              <strong>技术规范编制原则：</strong><br>
+              <strong class="editable-module" data-module="document" data-path="doc-e5-main" ondblclick="editModuleCell(this)">技术规范编制原则：</strong><br>
               ① 不得指定品牌或特定供应商<br>
               ② 技术参数应基于功能/性能描述而非特定产品特征<br>
               ③ 引用标准应注明版本号<br>
               ④ 优先引用国家标准/行业标准<br>
               ⑤ 关键技术参数应标注"★"号并明确为实质性要求<br><br>
-              <strong>常见问题：</strong>技术参数照抄某品牌产品说明书、引用标准过时、关键参数与一般参数未区分。
+              <strong class="editable-module" data-module="document" data-path="doc-e5-note" ondblclick="editModuleCell(this)">常见问题：</strong><span class="editable-module" data-module="document" data-path="doc-e5-notetail" ondblclick="editModuleCell(this)">技术参数照抄某品牌产品说明书、引用标准过时、关键参数与一般参数未区分。</span>
             </p>
           </div>
         </div>
@@ -2529,7 +2568,7 @@ body.role-staff .admin-only { display: none !important; }
           </div>
           <div class="expand-body">
             <p style="font-size:13px;line-height:1.8;color:var(--gray-700);">
-              <strong>格式模板应包含：</strong><br>
+              <strong class="editable-module" data-module="document" data-path="doc-e6-main" ondblclick="editModuleCell(this)">格式模板应包含：</strong><br>
               ① 投标函及投标函附录<br>
               ② 法定代表人身份证明/授权委托书<br>
               ③ 联合体协议书（如适用）<br>
@@ -2539,7 +2578,7 @@ body.role-staff .admin-only { display: none !important; }
               ⑦ 项目管理机构<br>
               ⑧ 资格审查资料<br>
               ⑨ 其他资料<br><br>
-              <strong>注意：</strong>格式要求不得过于僵化，应允许投标人提供补充材料；盖章签字位置须明确标注。
+              <strong class="editable-module" data-module="document" data-path="doc-e6-note" ondblclick="editModuleCell(this)">注意：</strong><span class="editable-module" data-module="document" data-path="doc-e6-notetail" ondblclick="editModuleCell(this)">格式要求不得过于僵化，应允许投标人提供补充材料；盖章签字位置须明确标注。</span>
             </p>
           </div>
         </div>
@@ -2555,15 +2594,15 @@ body.role-staff .admin-only { display: none !important; }
         <table class="data-table">
           <thead><tr><th>序号</th><th>要点</th><th>具体要求</th><th>风险等级</th></tr></thead>
           <tbody>
-            <tr><td>1</td><td>合同签订时限</td><td>中标通知书发出之日起30日内签订书面合同</td><td><span class="cl-tag tag-danger">法定红线</span></td></tr>
-            <tr><td>2</td><td>实质性条款一致性</td><td>合同标的、价款、质量、履行期限等实质性内容须与招标文件和投标文件一致</td><td><span class="cl-tag tag-danger">法定红线</span></td></tr>
-            <tr><td>3</td><td>不得订立背离协议</td><td>不得再行订立背离合同实质性内容的其他协议</td><td><span class="cl-tag tag-danger">法定红线</span></td></tr>
-            <tr><td>4</td><td>履约保证金</td><td>不得超过中标合同金额的10%</td><td><span class="cl-tag tag-warning">重要</span></td></tr>
-            <tr><td>5</td><td>合同变更</td><td>合同变更须有法定或约定事由，不得通过变更规避招标</td><td><span class="cl-tag tag-warning">重要</span></td></tr>
-            <tr><td>6</td><td>合同备案</td><td>部分项目需将合同报有关行政监督部门备案</td><td><span class="cl-tag tag-info">一般</span></td></tr>
-            <tr><td>7</td><td>履约验收</td><td>按照合同约定组织验收，大型或复杂项目应分阶段验收</td><td><span class="cl-tag tag-warning">重要</span></td></tr>
-            <tr><td>8</td><td>合同纠纷处理</td><td>优先协商，协商不成按约定的仲裁或诉讼方式解决</td><td><span class="cl-tag tag-info">一般</span></td></tr>
-            <tr><td>9</td><td>合同档案管理</td><td>完整保存合同及履行全过程资料，保存期不少于15年</td><td><span class="cl-tag tag-info">一般</span></td></tr>
+            <tr><td>1</td><td class="editable-module" data-module="contract" data-path="contract-r1-c1" ondblclick="editModuleCell(this)">合同签订时限</td><td class="editable-module" data-module="contract" data-path="contract-r1-c2" ondblclick="editModuleCell(this)">中标通知书发出之日起30日内签订书面合同</td><td><span class="cl-tag tag-danger">法定红线</span></td></tr>
+            <tr><td>2</td><td class="editable-module" data-module="contract" data-path="contract-r2-c1" ondblclick="editModuleCell(this)">实质性条款一致性</td><td class="editable-module" data-module="contract" data-path="contract-r2-c2" ondblclick="editModuleCell(this)">合同标的、价款、质量、履行期限等实质性内容须与招标文件和投标文件一致</td><td><span class="cl-tag tag-danger">法定红线</span></td></tr>
+            <tr><td>3</td><td class="editable-module" data-module="contract" data-path="contract-r3-c1" ondblclick="editModuleCell(this)">不得订立背离协议</td><td class="editable-module" data-module="contract" data-path="contract-r3-c2" ondblclick="editModuleCell(this)">不得再行订立背离合同实质性内容的其他协议</td><td><span class="cl-tag tag-danger">法定红线</span></td></tr>
+            <tr><td>4</td><td class="editable-module" data-module="contract" data-path="contract-r4-c1" ondblclick="editModuleCell(this)">履约保证金</td><td class="editable-module" data-module="contract" data-path="contract-r4-c2" ondblclick="editModuleCell(this)">不得超过中标合同金额的10%</td><td><span class="cl-tag tag-warning">重要</span></td></tr>
+            <tr><td>5</td><td class="editable-module" data-module="contract" data-path="contract-r5-c1" ondblclick="editModuleCell(this)">合同变更</td><td class="editable-module" data-module="contract" data-path="contract-r5-c2" ondblclick="editModuleCell(this)">合同变更须有法定或约定事由，不得通过变更规避招标</td><td><span class="cl-tag tag-warning">重要</span></td></tr>
+            <tr><td>6</td><td class="editable-module" data-module="contract" data-path="contract-r6-c1" ondblclick="editModuleCell(this)">合同备案</td><td class="editable-module" data-module="contract" data-path="contract-r6-c2" ondblclick="editModuleCell(this)">部分项目需将合同报有关行政监督部门备案</td><td><span class="cl-tag tag-info">一般</span></td></tr>
+            <tr><td>7</td><td class="editable-module" data-module="contract" data-path="contract-r7-c1" ondblclick="editModuleCell(this)">履约验收</td><td class="editable-module" data-module="contract" data-path="contract-r7-c2" ondblclick="editModuleCell(this)">按照合同约定组织验收，大型或复杂项目应分阶段验收</td><td><span class="cl-tag tag-warning">重要</span></td></tr>
+            <tr><td>8</td><td class="editable-module" data-module="contract" data-path="contract-r8-c1" ondblclick="editModuleCell(this)">合同纠纷处理</td><td class="editable-module" data-module="contract" data-path="contract-r8-c2" ondblclick="editModuleCell(this)">优先协商，协商不成按约定的仲裁或诉讼方式解决</td><td><span class="cl-tag tag-info">一般</span></td></tr>
+            <tr><td>9</td><td class="editable-module" data-module="contract" data-path="contract-r9-c1" ondblclick="editModuleCell(this)">合同档案管理</td><td class="editable-module" data-module="contract" data-path="contract-r9-c2" ondblclick="editModuleCell(this)">完整保存合同及履行全过程资料，保存期不少于15年</td><td><span class="cl-tag tag-info">一般</span></td></tr>
           </tbody>
         </table>
       </div>
@@ -2583,18 +2622,18 @@ body.role-staff .admin-only { display: none !important; }
 
         <div class="tab-content active" id="qr-tab1">
           <div class="module-grid">
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">5日</div><h3 class="editable-field" data-field="title">招标文件发售期</h3><p class="editable-field" data-field="desc">招标文件发售期不得少于5日</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">20日</div><h3 class="editable-field" data-field="title">投标文件提交期</h3><p class="editable-field" data-field="desc">自招标文件发出至截止≥20日</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">15日</div><h3 class="editable-field" data-field="title">澄清修改提前量</h3><p class="editable-field" data-field="desc">澄清修改应在投标截止15日前发出</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">3日</div><h3 class="editable-field" data-field="title">中标候选人公示</h3><p class="editable-field" data-field="desc">收到评标报告3日内公示，公示≥3日</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">30日</div><h3 class="editable-field" data-field="title">合同签订时限</h3><p class="editable-field" data-field="desc">中标通知书发出30日内签订合同</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">10%</div><h3 class="editable-field" data-field="title">履约保证金上限</h3><p class="editable-field" data-field="desc">不得超过中标合同金额的10%</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--primary-light);color:var(--primary);">2/3</div><h3 class="editable-field" data-field="title">评标专家占比</h3><p class="editable-field" data-field="desc">技术经济专家不少于委员会2/3</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--primary-light);color:var(--primary);">2%</div><h3 class="editable-field" data-field="title">投标保证金上限</h3><p class="editable-field" data-field="desc">不得超过招标项目估算价的2%</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--warning-light);color:var(--warning);">400万</div><h3 class="editable-field" data-field="title">施工招标门槛</h3><p class="editable-field" data-field="desc">施工单项合同≥400万须招标</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--warning-light);color:var(--warning);">200万</div><h3 class="editable-field" data-field="title">货物招标门槛</h3><p class="editable-field" data-field="desc">重要设备材料≥200万须招标</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--warning-light);color:var(--warning);">100万</div><h3 class="editable-field" data-field="title">服务招标门槛</h3><p class="editable-field" data-field="desc">勘察设计监理≥100万须招标</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
-            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--success-light);color:var(--success);">6-10%</div><h3 class="editable-field" data-field="title">小微企业价格扣除</h3><p class="editable-field" data-field="desc">政府采购对小微企业报价扣除6%-10%</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">5日</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card1-title" ondblclick="editModuleCell(this)">招标文件发售期</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card1-desc" ondblclick="editModuleCell(this)">招标文件发售期不得少于5日</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">20日</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card2-title" ondblclick="editModuleCell(this)">投标文件提交期</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card2-desc" ondblclick="editModuleCell(this)">自招标文件发出至截止≥20日</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">15日</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card3-title" ondblclick="editModuleCell(this)">澄清修改提前量</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card3-desc" ondblclick="editModuleCell(this)">澄清修改应在投标截止15日前发出</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">3日</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card4-title" ondblclick="editModuleCell(this)">中标候选人公示</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card4-desc" ondblclick="editModuleCell(this)">收到评标报告3日内公示，公示≥3日</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">30日</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card5-title" ondblclick="editModuleCell(this)">合同签订时限</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card5-desc" ondblclick="editModuleCell(this)">中标通知书发出30日内签订合同</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--danger-light);color:var(--danger);">10%</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card6-title" ondblclick="editModuleCell(this)">履约保证金上限</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card6-desc" ondblclick="editModuleCell(this)">不得超过中标合同金额的10%</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--primary-light);color:var(--primary);">2/3</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card7-title" ondblclick="editModuleCell(this)">评标专家占比</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card7-desc" ondblclick="editModuleCell(this)">技术经济专家不少于委员会2/3</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--primary-light);color:var(--primary);">2%</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card8-title" ondblclick="editModuleCell(this)">投标保证金上限</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card8-desc" ondblclick="editModuleCell(this)">不得超过招标项目估算价的2%</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--warning-light);color:var(--warning);">400万</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card9-title" ondblclick="editModuleCell(this)">施工招标门槛</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card9-desc" ondblclick="editModuleCell(this)">施工单项合同≥400万须招标</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--warning-light);color:var(--warning);">200万</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card10-title" ondblclick="editModuleCell(this)">货物招标门槛</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card10-desc" ondblclick="editModuleCell(this)">重要设备材料≥200万须招标</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--warning-light);color:var(--warning);">100万</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card11-title" ondblclick="editModuleCell(this)">服务招标门槛</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card11-desc" ondblclick="editModuleCell(this)">勘察设计监理≥100万须招标</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
+            <div class="module-card module-editable" style="cursor:pointer;" ondblclick="editQuickRefCard(this)"><div class="mc-icon"mc-icon" style="background:var(--success-light);color:var(--success);">6-10%</div><h3 class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card12-title" ondblclick="editModuleCell(this)">小微企业价格扣除</h3><p class="editable-field editable-module" data-module="quickref" data-path="qr-tab1-card12-desc" ondblclick="editModuleCell(this)">政府采购对小微企业报价扣除6%-10%</p><div class="edit-hint" style="display:none;font-size:11px;color:#1a56db;margin-top:4px;">💡 双击编辑内容</div></div>
           </div>
         </div>
 
@@ -2605,7 +2644,7 @@ body.role-staff .admin-only { display: none !important; }
               <h4>Q：工程招标和政府采购如何区分？</h4>
             </div>
             <div class="expand-body">
-              <p style="font-size:13px;line-height:1.8;"><span class="editable-field" data-field="faq" ondblclick="editFaqContent(this)" style="outline:none;">核心区分标准：<strong>资金来源</strong>。使用财政性资金的采购适用《政府采购法》；工程建设项目（新建/改建/扩建的建筑物和构筑物）不论资金来源，其招标投标适用《招标投标法》。但政府采购工程进行招标投标的，适用《招标投标法》；采用其他方式采购的，适用《政府采购法》。</span></p>
+              <p style="font-size:13px;line-height:1.8;"><span class="editable-field editable-module" data-module="quickref" data-path="qr-tab2-faq1" ondblclick="editModuleCell(this)" style="outline:none;">核心区分标准：<strong>资金来源</strong>。使用财政性资金的采购适用《政府采购法》；工程建设项目（新建/改建/扩建的建筑物和构筑物）不论资金来源，其招标投标适用《招标投标法》。但政府采购工程进行招标投标的，适用《招标投标法》；采用其他方式采购的，适用《政府采购法》。</span></p>
             </div>
           </div>
           <div class="expand-section">
@@ -2614,7 +2653,7 @@ body.role-staff .admin-only { display: none !important; }
               <h4>Q：邀请招标需要满足什么条件？</h4>
             </div>
             <div class="expand-body">
-              <p style="font-size:13px;line-height:1.8;"><span class="editable-field" data-field="faq" ondblclick="editFaqContent(this)" style="outline:none;">两种情形可邀请招标：<br>① 技术复杂、有特殊要求或受自然环境限制，只有少量潜在投标人可供选择；<br>② 采用公开招标方式的费用占项目合同金额比例过大。<br>政府采购邀请招标还须：具有特殊性只能从有限范围供应商处采购；采用公开招标方式无合格供应商。</span></p>
+              <p style="font-size:13px;line-height:1.8;"><span class="editable-field editable-module" data-module="quickref" data-path="qr-tab2-faq2" ondblclick="editModuleCell(this)" style="outline:none;">两种情形可邀请招标：<br>① 技术复杂、有特殊要求或受自然环境限制，只有少量潜在投标人可供选择；<br>② 采用公开招标方式的费用占项目合同金额比例过大。<br>政府采购邀请招标还须：具有特殊性只能从有限范围供应商处采购；采用公开招标方式无合格供应商。</span></p>
             </div>
           </div>
           <div class="expand-section">
@@ -2623,7 +2662,7 @@ body.role-staff .admin-only { display: none !important; }
               <h4>Q：竞争性谈判和竞争性磋商有什么区别？</h4>
             </div>
             <div class="expand-body">
-              <p style="font-size:13px;line-height:1.8;"><span class="editable-field" data-field="faq" ondblclick="editFaqContent(this)" style="outline:none;"><strong>核心区别：</strong><br>① 成交标准不同：谈判最低价成交，磋商综合评分法评审<br>② 适用场景不同：谈判适用于招标失败/时间紧急/技术复杂，磋商适用于政府购买服务/技术复杂/艺术创作<br>③ 评审方式不同：谈判只看价格，磋商综合评分</span></p>
+              <p style="font-size:13px;line-height:1.8;"><span class="editable-field editable-module" data-module="quickref" data-path="qr-tab2-faq3" ondblclick="editModuleCell(this)" style="outline:none;"><strong>核心区别：</strong><br>① 成交标准不同：谈判最低价成交，磋商综合评分法评审<br>② 适用场景不同：谈判适用于招标失败/时间紧急/技术复杂，磋商适用于政府购买服务/技术复杂/艺术创作<br>③ 评审方式不同：谈判只看价格，磋商综合评分</span></p>
             </div>
           </div>
           <div class="expand-section">
@@ -2632,7 +2671,7 @@ body.role-staff .admin-only { display: none !important; }
               <h4>Q：投标保证金可以不收吗？</h4>
             </div>
             <div class="expand-body">
-              <p style="font-size:13px;line-height:1.8;"><span class="editable-field" data-field="faq" ondblclick="editFaqContent(this)" style="outline:none;">投标保证金不是法定强制要求。招标人可以自行决定是否收取投标保证金。如收取，不得超过招标项目估算价的2%。鼓励使用保函替代现金保证金。政府采购工程建设项目投标保证金不得超过2%，且鼓励免收。</span></p>
+              <p style="font-size:13px;line-height:1.8;"><span class="editable-field editable-module" data-module="quickref" data-path="qr-tab2-faq4" ondblclick="editModuleCell(this)" style="outline:none;">投标保证金不是法定强制要求。招标人可以自行决定是否收取投标保证金。如收取，不得超过招标项目估算价的2%。鼓励使用保函替代现金保证金。政府采购工程建设项目投标保证金不得超过2%，且鼓励免收。</span></p>
             </div>
           </div>
         </div>
@@ -2645,16 +2684,16 @@ body.role-staff .admin-only { display: none !important; }
           <table class="data-table">
             <thead><tr><th>序号</th><th>易错点</th><th>后果</th><th>纠正措施</th></tr></thead>
             <tbody>
-              <tr><td>1</td><td>公告发布媒介不符合要求</td><td>招标程序违法</td><td>必须在国家指定媒介发布</td></tr>
-              <tr><td>2</td><td>投标截止时间与开标时间不一致</td><td>开标无效</td><td>两者必须同一时间</td></tr>
-              <tr><td>3</td><td>资格条件设置构成歧视</td><td>投诉撤销，重新招标</td><td>公平竞争审查</td></tr>
-              <tr><td>4</td><td>价格分权重超出法定范围</td><td>评审标准违法</td><td>严格按项目类型设权重</td></tr>
-              <tr><td>5</td><td>招标文件未列明否决条款</td><td>评标无法否决不合规标</td><td>逐一列明否决情形</td></tr>
-              <tr><td>6</td><td>评标委员会组成不合规</td><td>评标结果无效</td><td>5人以上单数，专家≥2/3</td></tr>
-              <tr><td>7</td><td>中标公示期不足3日</td><td>程序违法</td><td>公示期不少于3日</td></tr>
-              <tr><td>8</td><td>合同实质性条款与招标文件不符</td><td>阴阳合同，行政处罚</td><td>逐条核对一致性</td></tr>
-              <tr><td>9</td><td>投标保证金退还超时</td><td>投诉风险</td><td>5日内退还</td></tr>
-              <tr><td>10</td><td>化整为零规避招标</td><td>行政处罚，合同无效</td><td>同一项目合并计算</td></tr>
+              <tr><td>1</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r1-c1" ondblclick="editModuleCell(this)">公告发布媒介不符合要求</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r1-c2" ondblclick="editModuleCell(this)">招标程序违法</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r1-c3" ondblclick="editModuleCell(this)">必须在国家指定媒介发布</td></tr>
+              <tr><td>2</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r2-c1" ondblclick="editModuleCell(this)">投标截止时间与开标时间不一致</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r2-c2" ondblclick="editModuleCell(this)">开标无效</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r2-c3" ondblclick="editModuleCell(this)">两者必须同一时间</td></tr>
+              <tr><td>3</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r3-c1" ondblclick="editModuleCell(this)">资格条件设置构成歧视</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r3-c2" ondblclick="editModuleCell(this)">投诉撤销，重新招标</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r3-c3" ondblclick="editModuleCell(this)">公平竞争审查</td></tr>
+              <tr><td>4</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r4-c1" ondblclick="editModuleCell(this)">价格分权重超出法定范围</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r4-c2" ondblclick="editModuleCell(this)">评审标准违法</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r4-c3" ondblclick="editModuleCell(this)">严格按项目类型设权重</td></tr>
+              <tr><td>5</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r5-c1" ondblclick="editModuleCell(this)">招标文件未列明否决条款</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r5-c2" ondblclick="editModuleCell(this)">评标无法否决不合规标</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r5-c3" ondblclick="editModuleCell(this)">逐一列明否决情形</td></tr>
+              <tr><td>6</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r6-c1" ondblclick="editModuleCell(this)">评标委员会组成不合规</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r6-c2" ondblclick="editModuleCell(this)">评标结果无效</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r6-c3" ondblclick="editModuleCell(this)">5人以上单数，专家≥2/3</td></tr>
+              <tr><td>7</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r7-c1" ondblclick="editModuleCell(this)">中标公示期不足3日</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r7-c2" ondblclick="editModuleCell(this)">程序违法</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r7-c3" ondblclick="editModuleCell(this)">公示期不少于3日</td></tr>
+              <tr><td>8</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r8-c1" ondblclick="editModuleCell(this)">合同实质性条款与招标文件不符</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r8-c2" ondblclick="editModuleCell(this)">阴阳合同，行政处罚</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r8-c3" ondblclick="editModuleCell(this)">逐条核对一致性</td></tr>
+              <tr><td>9</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r9-c1" ondblclick="editModuleCell(this)">投标保证金退还超时</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r9-c2" ondblclick="editModuleCell(this)">投诉风险</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r9-c3" ondblclick="editModuleCell(this)">5日内退还</td></tr>
+              <tr><td>10</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r10-c1" ondblclick="editModuleCell(this)">化整为零规避招标</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r10-c2" ondblclick="editModuleCell(this)">行政处罚，合同无效</td><td class="editable-module" data-module="quickref" data-path="qr-tab3-r10-c3" ondblclick="editModuleCell(this)">同一项目合并计算</td></tr>
             </tbody>
           </table>
         </div>
@@ -3856,11 +3895,362 @@ function doExport() {
   }
   closeExportModal();
 
+  // V5.4: 首次导出时自动保存到排查历史
+  saveToInvestigationHistory(reportName);
+
   if (selectedExportFormat === 'pdf') {
     exportAsPDF(reportName);
   } else if (selectedExportFormat === 'word') {
     exportAsWord(reportName);
   }
+}
+
+// ===== V5.4: 排查历史保存与渲染 =====
+function saveToInvestigationHistory(reportName) {
+  try {
+    var history = [];
+    try { history = JSON.parse(localStorage.getItem('qs_investigation_history') || '[]'); } catch(e) { history = []; }
+
+    // 检查是否已存在相同项目名的记录（同一天内认为同一项目）
+    var today = new Date().toLocaleDateString('zh-CN');
+    var existingIdx = -1;
+    for (var i = 0; i < history.length; i++) {
+      var h = history[i];
+      if (h.name === reportName && h.exportDate === today) {
+        existingIdx = i;
+        break;
+      }
+    }
+
+    var record = {
+      id: 'H' + Date.now() + Math.floor(Math.random() * 1000),
+      name: reportName,
+      exportTime: new Date().toLocaleString('zh-CN'),
+      exportDate: today,
+      exportTimestamp: Date.now(),
+      format: selectedExportFormat,
+      sections: collectChecklistData(reportName).sections,
+      // 收集所有勾选状态与编辑文本
+      checklist: collectFullChecklistState()
+    };
+
+    if (existingIdx >= 0) {
+      // 已存在则更新
+      record.id = history[existingIdx].id;
+      history[existingIdx] = record;
+    } else {
+      // 新增到队首
+      history.unshift(record);
+    }
+
+    // 限制最大保存 100 个项目
+    if (history.length > 100) history = history.slice(0, 100);
+
+    localStorage.setItem('qs_investigation_history', JSON.stringify(history));
+
+    // 更新UI
+    if (typeof renderHistoryList === 'function') renderHistoryList();
+  } catch (err) {
+    console.error('保存排查历史失败:', err);
+  }
+}
+
+function collectFullChecklistState() {
+  var state = {
+    checks: {},
+    minicbs: {},
+    edits: {}
+  };
+  document.querySelectorAll('.cl-item input[type="checkbox"]').forEach(function(cb) {
+    var id = cb.closest('.cl-item').dataset.id;
+    state.checks[id] = cb.checked;
+  });
+  document.querySelectorAll('.mini-cb').forEach(function(cb, idx) {
+    if (cb.id) state.minicbs[cb.id] = cb.classList.contains('checked') || (cb.innerHTML && cb.innerHTML.indexOf('10003') >= 0);
+  });
+  document.querySelectorAll('.editable-field, .editable-date').forEach(function(f) {
+    var key = f.id || (f.dataset && f.dataset.path);
+    if (key) state.edits[key] = f.textContent.trim();
+  });
+  return state;
+}
+
+function renderHistoryList() {
+  var tbody = document.getElementById('historyTableBody');
+  var totalEl = document.getElementById('historyTotalCount');
+  var lastEl = document.getElementById('historyLastSave');
+  var badgeEl = document.getElementById('historyCountBadge');
+  if (!tbody) return;
+
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem('qs_investigation_history') || '[]'); } catch(e) { history = []; }
+
+  if (history.length === 0) {
+    tbody.innerHTML = '<tr><td colspan="5" style="text-align:center;color:#999;padding:40px;">暂无排查历史记录。在"项目启动排查"模块填写并首次导出报告后会自动保存。</td></tr>';
+    if (totalEl) totalEl.textContent = '0';
+    if (lastEl) lastEl.textContent = '—';
+    if (badgeEl) badgeEl.textContent = '0';
+    return;
+  }
+
+  if (totalEl) totalEl.textContent = history.length;
+  if (lastEl) lastEl.textContent = history[0].exportTime;
+  if (badgeEl) badgeEl.textContent = history.length;
+
+  var html = '';
+  for (var i = 0; i < history.length; i++) {
+    var h = history[i];
+    var checkedCount = 0;
+    var totalCount = 0;
+    if (h.checklist && h.checklist.checks) {
+      Object.keys(h.checklist.checks).forEach(function(k) {
+        totalCount++;
+        if (h.checklist.checks[k]) checkedCount++;
+      });
+    }
+    var percent = totalCount > 0 ? Math.round(checkedCount * 100 / totalCount) : 0;
+    var percentColor = percent >= 80 ? '#15803d' : (percent >= 50 ? '#d97706' : '#dc2626');
+
+    html += '<tr>';
+    html += '<td>' + (i + 1) + '</td>';
+    html += '<td><strong>' + escapeHTML(h.name) + '</strong></td>';
+    html += '<td style="font-size:12px;color:#666;">' + escapeHTML(h.exportTime) + '</td>';
+    html += '<td><span style="color:' + percentColor + ';font-weight:600;">' + checkedCount + '/' + totalCount + ' (' + percent + '%)</span></td>';
+    html += '<td style="white-space:nowrap;">';
+    html += '<button class="btn btn-outline btn-sm" onclick="viewHistoryRecord(\'' + h.id + '\')">👁️ 查看</button> ';
+    html += '<button class="btn btn-primary btn-sm" onclick="editHistoryRecord(\'' + h.id + '\')">✏️ 二次编辑</button> ';
+    html += '<button class="btn btn-outline btn-sm" onclick="reExportHistory(\'' + h.id + '\', \'pdf\')">📄 PDF</button> ';
+    html += '<button class="btn btn-outline btn-sm" onclick="reExportHistory(\'' + h.id + '\', \'word\')">📝 Word</button> ';
+    html += '<button class="btn btn-outline btn-sm admin-only" onclick="deleteHistoryRecord(\'' + h.id + '\')" style="color:var(--danger);border-color:var(--danger);">🗑️</button>';
+    html += '</td>';
+    html += '</tr>';
+  }
+  tbody.innerHTML = html;
+}
+
+function viewHistoryRecord(id) {
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem('qs_investigation_history') || '[]'); } catch(e) { history = []; }
+  var record = null;
+  for (var i = 0; i < history.length; i++) {
+    if (history[i].id === id) { record = history[i]; break; }
+  }
+  if (!record) { alert('记录不存在'); return; }
+
+  // 复用 showReportPreview 但需要传入 record 的 sections
+  var data = {
+    title: record.name + '政府采购项目启动排查报告',
+    exportTime: record.exportTime,
+    sections: record.sections
+  };
+  showReportPreviewFromData(data);
+}
+
+function showReportPreviewFromData(data) {
+  // 复用 showReportPreview 逻辑（生成模态）
+  if (!document.getElementById('reportPreviewModal')) {
+    var m = document.createElement('div');
+    m.id = 'reportPreviewModal';
+    m.style.cssText = 'display:none;position:fixed;inset:0;background:rgba(0,0,0,0.5);z-index:99999;justify-content:center;align-items:center;padding:20px;';
+    m.innerHTML = '<div style="background:#fff;width:90%;max-width:900px;max-height:90vh;border-radius:10px;display:flex;flex-direction:column;overflow:hidden;">' +
+      '<div style="padding:14px 18px;border-bottom:1px solid #e5e7eb;display:flex;justify-content:space-between;align-items:center;">' +
+        '<strong id="reportPreviewTitle" style="font-size:16px;">📄 报告预览</strong>' +
+        '<div style="display:flex;gap:8px;">' +
+          '<button class="btn btn-outline btn-sm" onclick="downloadReportTxt()">📥 下载TXT</button>' +
+          '<button class="btn btn-outline btn-sm" onclick="downloadReportDoc()">📥 下载Word</button>' +
+          '<button class="btn btn-outline btn-sm" onclick="document.getElementById(\'reportPreviewModal\').style.display=\'none\';" style="color:var(--danger);">✕ 关闭</button>' +
+        '</div>' +
+      '</div>' +
+      '<div id="reportPreviewContent" style="flex:1;overflow-y:auto;padding:24px;"></div>' +
+      '</div>';
+    m.addEventListener('click', function(e) { if (e.target === m) m.style.display = 'none'; });
+    document.body.appendChild(m);
+  }
+  document.getElementById('reportPreviewTitle').textContent = '📄 ' + data.title;
+  var reportText = dataToReportText(data);
+  var reportHtml = reportTextToOfficialHtml(data.title, reportText);
+  document.getElementById('reportPreviewContent').innerHTML = reportHtml;
+  window._currentReportData = { title: data.title, text: reportText };
+  document.getElementById('reportPreviewModal').style.display = 'flex';
+}
+
+function dataToReportText(data) {
+  var r = '';
+  r += '【报告标题】' + data.title + '\n';
+  r += '【导出时间】' + data.exportTime + '\n\n';
+  data.sections.forEach(function(sec) {
+    r += '== ' + sec.title + ' ==\n';
+    sec.items.forEach(function(item) {
+      r += '■ ' + item.title;
+      if (item.tag) r += ' [' + item.tag + ']';
+      r += '\n';
+      if (item.details && item.details.trim()) {
+        r += '   ' + item.details.replace(/\n/g, '\n   ') + '\n';
+      }
+      r += '\n';
+    });
+    r += '\n';
+  });
+  r += '—— 报告结束 ——\n';
+  r += '本报告由湖南全仕项目管理有限公司知识中台自动生成 · 仅供内部参考使用\n';
+  return r;
+}
+
+function reportTextToOfficialHtml(title, text) {
+  var html = '<div style="font-family:&quot;FangSong_GB2312&quot;,FangSong,serif;font-size:15px;line-height:2;color:#222;padding:30px 40px;background:#fff;">';
+  html += '<h1 style="font-family:&quot;FZXiaoBiaoSong-B05S&quot;,&quot;方正小标宋简体&quot;,SimSun,serif;text-align:center;font-size:26px;margin-bottom:10px;color:#000;">' + escapeHTML(title) + '</h1>';
+  html += '<div style="text-align:center;font-size:13px;color:#666;margin-bottom:30px;border-bottom:1px solid #999;padding-bottom:14px;">湖南全仕项目管理有限公司 · 专业平台</div>';
+  html += '<pre style="font-family:inherit;font-size:inherit;line-height:inherit;white-space:pre-wrap;word-wrap:break-word;margin:0;">' + escapeHTML(text) + '</pre>';
+  html += '<div style="margin-top:40px;text-align:right;font-family:&quot;KaiTi_GB2312&quot;,KaiTi,serif;font-size:15px;">湖南全仕项目管理有限公司<br>' + new Date().toLocaleDateString('zh-CN') + '</div>';
+  html += '</div>';
+  return html;
+}
+
+function editHistoryRecord(id) {
+  if (!isAdmin()) { alert('仅管理员可编辑排查历史'); return; }
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem('qs_investigation_history') || '[]'); } catch(e) { history = []; }
+  var record = null;
+  for (var i = 0; i < history.length; i++) {
+    if (history[i].id === id) { record = history[i]; break; }
+  }
+  if (!record) { alert('记录不存在'); return; }
+
+  // 加载 checklist 状态
+  if (record.checklist) {
+    if (record.checklist.checks) {
+      Object.keys(record.checklist.checks).forEach(function(k) {
+        var item = document.querySelector('.cl-item[data-id="' + k + '"]');
+        if (item) {
+          var cb = item.querySelector('input[type="checkbox"]');
+          if (cb) {
+            cb.checked = record.checklist.checks[k];
+            item.classList.toggle('checked', record.checklist.checks[k]);
+          }
+        }
+      });
+    }
+    if (record.checklist.minicbs) {
+      Object.keys(record.checklist.minicbs).forEach(function(k) {
+        var el = document.getElementById(k);
+        if (el && record.checklist.minicbs[k]) {
+          el.innerHTML = '&#10003;';
+          el.classList.add('checked');
+        }
+      });
+    }
+    if (record.checklist.edits) {
+      Object.keys(record.checklist.edits).forEach(function(k) {
+        var el = document.getElementById(k);
+        if (!el && k.indexOf('path') >= 0) el = document.querySelector('[data-path="' + k.replace('path:', '') + '"]');
+        if (el) el.textContent = record.checklist.edits[k];
+      });
+    }
+    saveChecklist();
+    for (var i = 1; i <= 8; i++) updateProgress(String(i));
+  }
+
+  switchPage('checklist');
+  showToast('✏️ 已加载历史项目【' + record.name + '】的排查数据，可继续编辑后再次导出报告。', 'success');
+}
+
+function deleteHistoryRecord(id) {
+  if (!isAdmin()) { alert('仅管理员可删除排查历史'); return; }
+  if (!confirm('确定删除这条排查历史记录吗？此操作不可撤销！')) return;
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem('qs_investigation_history') || '[]'); } catch(e) { history = []; }
+  history = history.filter(function(h) { return h.id !== id; });
+  localStorage.setItem('qs_investigation_history', JSON.stringify(history));
+  renderHistoryList();
+  showToast('🗑️ 排查历史记录已删除', 'success');
+}
+
+function reExportHistory(id, format) {
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem('qs_investigation_history') || '[]'); } catch(e) { history = []; }
+  var record = null;
+  for (var i = 0; i < history.length; i++) {
+    if (history[i].id === id) { record = history[i]; break; }
+  }
+  if (!record) { alert('记录不存在'); return; }
+
+  // 临时恢复 checklist 状态以便 export
+  var prevState = collectFullChecklistState();
+  if (record.checklist) {
+    if (record.checklist.checks) {
+      Object.keys(record.checklist.checks).forEach(function(k) {
+        var item = document.querySelector('.cl-item[data-id="' + k + '"]');
+        if (item) {
+          var cb = item.querySelector('input[type="checkbox"]');
+          if (cb) {
+            cb.checked = record.checklist.checks[k];
+            item.classList.toggle('checked', record.checklist.checks[k]);
+          }
+        }
+      });
+    }
+    if (record.checklist.minicbs) {
+      Object.keys(record.checklist.minicbs).forEach(function(k) {
+        var el = document.getElementById(k);
+        if (el) {
+          if (record.checklist.minicbs[k]) { el.innerHTML = '&#10003;'; el.classList.add('checked'); }
+          else { el.innerHTML = '&#9634;'; el.classList.remove('checked'); }
+        }
+      });
+    }
+  }
+
+  if (format === 'pdf') exportAsPDF(record.name);
+  else exportAsWord(record.name);
+
+  // 恢复原状态
+  setTimeout(function() {
+    if (prevState.checks) {
+      Object.keys(prevState.checks).forEach(function(k) {
+        var item = document.querySelector('.cl-item[data-id="' + k + '"]');
+        if (item) {
+          var cb = item.querySelector('input[type="checkbox"]');
+          if (cb) {
+            cb.checked = prevState.checks[k];
+            item.classList.toggle('checked', prevState.checks[k]);
+          }
+        }
+      });
+    }
+    if (prevState.minicbs) {
+      Object.keys(prevState.minicbs).forEach(function(k) {
+        var el = document.getElementById(k);
+        if (el) {
+          if (prevState.minicbs[k]) { el.innerHTML = '&#10003;'; el.classList.add('checked'); }
+          else { el.innerHTML = '&#9634;'; el.classList.remove('checked'); }
+        }
+      });
+    }
+  }, 3000);
+}
+
+function exportHistoryList() {
+  var history = [];
+  try { history = JSON.parse(localStorage.getItem('qs_investigation_history') || '[]'); } catch(e) { history = []; }
+  if (history.length === 0) { alert('暂无排查历史'); return; }
+
+  var csv = '\uFEFF序号,项目名称,导出时间,完成度\n';
+  history.forEach(function(h, i) {
+    var checked = 0, total = 0;
+    if (h.checklist && h.checklist.checks) {
+      Object.keys(h.checklist.checks).forEach(function(k) { total++; if (h.checklist.checks[k]) checked++; });
+    }
+    var percent = total > 0 ? Math.round(checked * 100 / total) : 0;
+    csv += (i + 1) + ',"' + h.name + '","' + h.exportTime + '","' + checked + '/' + total + ' (' + percent + '%)"\n';
+  });
+
+  var blob = new Blob([csv], { type: 'text/csv;charset=utf-8' });
+  var url = URL.createObjectURL(blob);
+  var a = document.createElement('a');
+  a.href = url;
+  a.download = '排查历史清单_' + new Date().toLocaleDateString('zh-CN') + '.csv';
+  a.click();
+  URL.revokeObjectURL(url);
 }
 
 /**
@@ -4806,6 +5196,12 @@ document.addEventListener('DOMContentLoaded', function() {
     updateCloudStatus();
     // v5.3: 初始化法规文件列表
     setTimeout(function() { refreshLawFilesList(); }, 800);
+    // v5.4: 初始化排查历史列表
+    renderHistoryList();
+    // v5.4: 应用7大模块的可编辑内容
+    applyModuleEdits();
+    // v5.4: 应用双击编辑权限（仅管理员可编辑）
+    applyEditPermissions();
   });
 
 
@@ -4859,59 +5255,154 @@ function refreshLawFilesList() {
 function uploadLawFile(inputEl) { uploadLawFileV53(inputEl); }
 function viewLawAttachments() { refreshLawFilesList(); if (document.getElementById('lawFilesList')) window.scrollTo({top: document.getElementById('lawFilesList').offsetTop - 80, behavior: 'smooth'}); }
 
-// ===== V4.0: Quick Reference Edit Functions =====
+// ===== V5.4: 7大模块双击编辑（仅管理员）=====
+// 统一的可编辑元素管理：
+// - data-module: 模块名 (evaluation/rejection/compliance/document/contract/quickref)
+// - data-path: 元素在模块内的唯一路径
+
+function isEditAllowed() {
+  return isAdmin();
+}
+
+function getModuleEditStorageKey(moduleName) {
+  return 'qs_module_edit_' + moduleName;
+}
+
+function loadModuleEdits(moduleName) {
+  var edits = {};
+  try { edits = JSON.parse(localStorage.getItem(getModuleEditStorageKey(moduleName)) || '{}'); } catch(e) { edits = {}; }
+  return edits;
+}
+
+function saveModuleEdit(moduleName, path, value) {
+  var edits = loadModuleEdits(moduleName);
+  edits[path] = value;
+  localStorage.setItem(getModuleEditStorageKey(moduleName), JSON.stringify(edits));
+}
+
+function applyModuleEdits() {
+  // 遍历所有带 data-module 的可编辑元素，应用已保存的内容
+  document.querySelectorAll('[data-module][data-path]').forEach(function(el) {
+    var moduleName = el.dataset.module;
+    var path = el.dataset.path;
+    var edits = loadModuleEdits(moduleName);
+    if (edits[path] !== undefined) {
+      el.textContent = edits[path];
+    }
+  });
+}
+
+function applyEditPermissions() {
+  // 根据角色应用编辑权限
+  document.body.classList.toggle('role-admin', isAdmin());
+  document.body.classList.toggle('role-staff', !isAdmin());
+}
+
+function editModuleCell(el) {
+  if (!isEditAllowed()) {
+    showToast('⚠️ 仅管理员可编辑内容', 'error');
+    return;
+  }
+  if (el.classList.contains('editing')) return;
+  var origText = el.textContent.trim();
+  var moduleName = el.dataset.module;
+  var path = el.dataset.path;
+  el.classList.add('editing');
+
+  // 创建多行编辑器（textarea 以保留换行）
+  var isMulti = el.dataset.multi !== undefined || (el.children.length > 0) || origText.length > 80;
+  var editor;
+  if (isMulti) {
+    editor = document.createElement('textarea');
+    editor.rows = Math.max(2, Math.ceil(origText.length / 60));
+    editor.style.minHeight = '60px';
+  } else {
+    editor = document.createElement('input');
+    editor.type = 'text';
+  }
+  editor.className = 'inline-editor';
+  editor.value = el.innerHTML; // 用 innerHTML 保留 <strong><br> 等格式
+  el.innerHTML = '';
+  el.appendChild(editor);
+  editor.focus();
+  if (editor.select) editor.select();
+
+  var saved = false;
+  function saveEdit() {
+    if (saved) return;
+    saved = true;
+    el.classList.remove('editing');
+    var newContent = editor.value.trim();
+    if (!newContent) newContent = origText;
+    // 使用 innerHTML 保留换行（<br>）
+    if (isMulti) {
+      el.innerHTML = newContent.replace(/\n/g, '<br>');
+    } else {
+      el.textContent = newContent;
+    }
+    saveModuleEdit(moduleName, path, isMulti ? el.innerHTML : newContent);
+    showToast('✅ 内容已保存', 'success');
+  }
+
+  editor.addEventListener('blur', saveEdit);
+  editor.addEventListener('keydown', function(e) {
+    if (e.key === 'Enter' && !e.shiftKey && !isMulti) {
+      e.preventDefault();
+      saveEdit();
+    } else if (e.key === 'Escape') {
+      editor.value = origText;
+      saveEdit();
+    }
+  });
+}
+
+// ===== V5.4: 兼容旧版 editQuickRefCard / editFaqContent / editTableCell =====
 function editQuickRefCard(cardEl) {
+  // 兼容性包装：实际委托给 editModuleCell
+  if (!isEditAllowed()) { showToast('⚠️ 仅管理员可编辑内容', 'error'); return; }
   var titleEl = cardEl.querySelector('.editable-field[data-field="title"]');
   var descEl = cardEl.querySelector('.editable-field[data-field="desc"]');
   if (!titleEl || titleEl.classList.contains('editing')) return;
-  
   var origTitle = titleEl.textContent.trim();
   var origDesc = descEl.textContent.trim();
-  
   titleEl.classList.add('editing');
   descEl.classList.add('editing');
-  
   var titleInput = document.createElement('input');
   titleInput.type = 'text';
   titleInput.className = 'inline-editor';
   titleInput.value = origTitle;
   titleInput.style.marginBottom = '6px';
-  
   var descInput = document.createElement('textarea');
   descInput.className = 'inline-editor';
   descInput.value = origDesc;
   descInput.rows = 2;
-  
   titleEl.innerHTML = '';
   titleEl.appendChild(titleInput);
   descEl.innerHTML = '';
   descEl.appendChild(descInput);
-  
   titleInput.focus();
-  
   function saveEdit() {
     var newTitle = titleInput.value.trim() || origTitle;
     var newDesc = descInput.value.trim() || origDesc;
-    
     titleEl.classList.remove('editing');
     descEl.classList.remove('editing');
     titleEl.textContent = newTitle;
     descEl.textContent = newDesc;
-    
-    // Save to localStorage
+    var cardIndex = Array.from(document.querySelectorAll('.module-editable')).indexOf(cardEl);
     var edits = {};
     try { edits = JSON.parse(localStorage.getItem('qs_quickref_edits') || '{}'); } catch(e) {}
-    var cardIndex = Array.from(document.querySelectorAll('.module-editable')).indexOf(cardEl);
     edits['card_' + cardIndex] = { title: newTitle, desc: newDesc };
     localStorage.setItem('qs_quickref_edits', JSON.stringify(edits));
+    showToast('✅ 数字速记卡已更新', 'success');
   }
-  
   titleInput.addEventListener('blur', saveEdit);
   descInput.addEventListener('blur', saveEdit);
   titleInput.addEventListener('keydown', function(e) { if (e.key === 'Enter') saveEdit(); });
 }
 
 function editFaqContent(el) {
+  // 兼容性包装：委托给 editModuleCell（但保留原有行为作为兼容）
+  if (!isEditAllowed()) { showToast('⚠️ 仅管理员可编辑内容', 'error'); return; }
   if (el.classList.contains('editing')) return;
   var origText = el.textContent.trim();
   el.classList.add('editing');
@@ -4926,36 +5417,17 @@ function editFaqContent(el) {
     el.classList.remove('editing');
     var newText = textarea.value.trim() || origText;
     el.textContent = newText;
-    // Save
     var edits = {};
     try { edits = JSON.parse(localStorage.getItem('qs_quickref_edits') || '{}'); } catch(e) {}
     edits['faq_' + Math.random().toString(36).substr(2, 9)] = newText;
     localStorage.setItem('qs_quickref_edits', JSON.stringify(edits));
+    showToast('✅ FAQ内容已更新', 'success');
   });
 }
 
 function editTableCell(el) {
-  if (el.classList.contains('editing')) return;
-  var origText = el.textContent.trim();
-  el.classList.add('editing');
-  var input = document.createElement('input');
-  input.type = 'text';
-  input.className = 'inline-editor';
-  input.value = origText;
-  el.innerHTML = '';
-  el.appendChild(input);
-  input.focus();
-  input.select();
-  input.addEventListener('blur', function() {
-    el.classList.remove('editing');
-    var newText = input.value.trim() || origText;
-    el.innerHTML = newText;
-    var edits = {};
-    try { edits = JSON.parse(localStorage.getItem('qs_quickref_edits') || '{}'); } catch(e) {}
-    edits['cell_' + Math.random().toString(36).substr(2, 9)] = newText;
-    localStorage.setItem('qs_quickref_edits', JSON.stringify(edits));
-  });
-  input.addEventListener('keydown', function(e) { if (e.key === 'Enter') input.blur(); });
+  // 兼容性包装：委托给 editModuleCell
+  editModuleCell(el);
 }
 
 // ===== V4.0: File Preview Function =====
