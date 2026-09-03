@@ -557,6 +557,113 @@ body {
   line-height: 1.6;
 }
 
+/* ===== v5.5 案例库：关键词标签 + 分段详情 ===== */
+.case-keywords { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+.keyword-tag {
+  display: inline-block;
+  font-size: 11px;
+  padding: 2px 10px;
+  border-radius: 10px;
+  background: var(--primary-light);
+  color: var(--primary);
+  border: 1px solid rgba(26,85,219,0.18);
+  cursor: pointer;
+  white-space: nowrap;
+  transition: var(--transition);
+}
+.keyword-tag:hover { background: var(--primary); color: #fff; }
+.case-body { margin-top: 12px; padding-top: 12px; border-top: 1px dashed var(--gray-200); }
+.case-section { margin-bottom: 12px; }
+.case-section:last-child { margin-bottom: 0; }
+.case-section-title {
+  font-size: 12px;
+  font-weight: 700;
+  color: var(--primary);
+  margin-bottom: 6px;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+.case-section-content {
+  font-size: 13px;
+  color: var(--gray-700);
+  line-height: 1.75;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-100);
+  border-radius: 6px;
+  padding: 10px 14px;
+  white-space: pre-wrap;
+}
+.case-section-content.law-link { background: var(--warning-light); border-color: #f5e6b8; }
+.case-expand-hint { font-size: 11px; color: var(--gray-400); margin-top: 8px; text-align: right; }
+
+/* ===== v5.5 法规规范库：法规条目 + 详情页 ===== */
+.law-item {
+  background: #fff;
+  border: 1px solid var(--gray-200);
+  border-radius: 8px;
+  padding: 14px 18px;
+  margin-bottom: 10px;
+  transition: var(--transition);
+  cursor: pointer;
+}
+.law-item:hover { box-shadow: var(--shadow-md); border-color: var(--primary); }
+.law-item-title {
+  font-size: 14px;
+  font-weight: 600;
+  color: var(--gray-800);
+  margin-bottom: 7px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  flex-wrap: wrap;
+}
+.law-badge { font-size: 11px; padding: 2px 8px; border-radius: 4px; font-weight: 600; white-space: nowrap; }
+.law-badge-valid { background: #e6f9f0; color: #065f46; }
+.law-badge-amended { background: var(--primary-light); color: var(--primary); }
+.law-badge-partial { background: #fef3c7; color: #92400e; }
+.law-badge-abolished { background: var(--gray-100); color: var(--gray-500); }
+.law-cat-tag {
+  font-size: 11px;
+  padding: 2px 8px;
+  border-radius: 4px;
+  font-weight: 600;
+  white-space: nowrap;
+  background: var(--gray-100);
+  color: var(--gray-600);
+}
+.law-item-meta {
+  font-size: 12px;
+  color: var(--gray-500);
+  display: flex;
+  flex-wrap: wrap;
+  gap: 6px 16px;
+}
+.law-item-meta span { display: inline-flex; align-items: center; gap: 4px; }
+.law-detail-grid {
+  display: grid;
+  grid-template-columns: repeat(2, 1fr);
+  gap: 12px 18px;
+  margin: 14px 0;
+  padding: 14px 16px;
+  background: var(--gray-50);
+  border: 1px solid var(--gray-100);
+  border-radius: 8px;
+}
+.law-detail-item .k { display: block; font-size: 12px; color: var(--gray-500); margin-bottom: 3px; }
+.law-detail-item .v { font-size: 13px; color: var(--gray-800); font-weight: 600; line-height: 1.5; }
+.law-detail-desc {
+  font-size: 13px;
+  color: var(--gray-700);
+  line-height: 1.8;
+  white-space: pre-wrap;
+  border-left: 3px solid var(--primary);
+  padding-left: 12px;
+  margin-top: 12px;
+}
+.law-empty { text-align: center; padding: 40px 20px; color: var(--gray-400); font-size: 13px; }
+@media (max-width: 640px) { .law-detail-grid { grid-template-columns: 1fr; } }
+
 /* ===== Tracker (法规动态追踪) ===== */
 .tracker-timeline { position: relative; padding-left: 24px; }
 .tracker-timeline::before {
@@ -1949,19 +2056,83 @@ body.role-staff .admin-only { display: none !important; }
           <div id="lawFilesList" class="template-files" style="margin-top:12px;"></div>
         </div>
 
-        <div class="tabs">
-          <div class="tab-item active">法律法规文件</div>
+        <div style="margin-bottom:14px;">
+          <input type="text" id="lawSearchInput" oninput="searchLaws(this.value)" placeholder="&#128269; 输入法规名称、颁布单位、条法类别或关键词，实时检索…" style="width:100%;padding:9px 14px;border:1px solid var(--gray-200);border-radius:var(--radius);font-size:13px;outline:none;">
         </div>
 
-        <div class="tab-content active" id="laws-tab-v53">
-          <div class="law-card" style="background:#fff;border:1px solid var(--gray-200);border-radius:8px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);">
-            <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
-              <span style="font-size:22px;">&#128218;</span>
-              <h4 style="font-size:15px;font-weight:600;color:var(--gray-800);">法律法规文件</h4>
-              <span style="margin-left:auto;font-size:12px;color:var(--gray-500);">共 <strong id="lawFilesCount" style="color:var(--primary);">0</strong> 个文件</span>
+        <div class="tabs" id="lawCatTabs" style="flex-wrap:wrap;align-items:center;">
+          <div class="tab-item active" onclick="switchLawCat('all', this)">全部</div>
+          <div class="tab-item" onclick="switchLawCat('law', this)">法律法规</div>
+          <div class="tab-item" onclick="switchLawCat('rule', this)">部门规章</div>
+          <div class="tab-item" onclick="switchLawCat('norm', this)">规范性文件</div>
+          <div class="tab-item" onclick="switchLawCat('local', this)">地方法规规章</div>
+          <div class="tab-item" onclick="switchLawCat('interpret', this)">规章解读</div>
+          <div class="tab-item" onclick="switchLawCat('global', this)">国际规则</div>
+          <button class="btn btn-danger btn-sm admin-only" style="margin-left:auto;margin-bottom:6px;" onclick="showAddLawForm()">＋ 添加法规</button>
+        </div>
+
+        <div class="kb-form" id="addLawForm">
+          <label>法规名称</label>
+          <input type="text" id="lawTitle" placeholder="如：中华人民共和国招标投标法">
+          <label>条法类别</label>
+          <select id="lawCat">
+            <option value="law">法律法规</option>
+            <option value="rule">部门规章</option>
+            <option value="norm">规范性文件</option>
+            <option value="local">地方法规规章</option>
+            <option value="interpret">规章解读</option>
+            <option value="global">国际规则</option>
+          </select>
+          <label>颁布单位</label>
+          <input type="text" id="lawIssuer" placeholder="如：全国人民代表大会常务委员会">
+          <label>颁布日期</label>
+          <input type="text" id="lawPublishDate" placeholder="如：1999-08-30">
+          <label>实施日期</label>
+          <input type="text" id="lawEffectDate" placeholder="如：2000-01-01">
+          <label>时效性</label>
+          <select id="lawStatus">
+            <option value="valid">现行有效</option>
+            <option value="amended">已修订</option>
+            <option value="partial">部分失效</option>
+            <option value="abolished">已废止</option>
+          </select>
+          <label>适用地区</label>
+          <input type="text" id="lawRegion" placeholder="如：全国 / 湖南省">
+          <label>内容要点</label>
+          <textarea id="lawDesc" rows="3" placeholder="简述该法规的适用范围与核心要点..."></textarea>
+          <label>上传附件（支持图片/DOC/DOCX/PPT/PPTX/RTF/TXT/XLS/XLSX/PDF/ZIP等）</label>
+          <input type="file" id="lawFile" accept=".jpg,.jpeg,.png,.gif,.bmp,.webp,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" multiple>
+          <div class="modal-actions">
+            <button class="btn btn-outline" onclick="hideAddLawForm()">取消</button>
+            <button class="btn btn-primary" onclick="saveLaw()">保存法规</button>
+          </div>
+        </div>
+
+        <div id="lawsListContainer"></div>
+
+        <div class="law-card" style="background:#fff;border:1px solid var(--gray-200);border-radius:8px;padding:18px 20px;box-shadow:0 1px 3px rgba(0,0,0,0.06);margin-top:18px;">
+          <div style="display:flex;align-items:center;gap:10px;margin-bottom:8px;">
+            <span style="font-size:22px;">&#128218;</span>
+            <h4 style="font-size:15px;font-weight:600;color:var(--gray-800);">法规原文附件库</h4>
+            <span style="margin-left:auto;font-size:12px;color:var(--gray-500);">共 <strong id="lawFilesCount" style="color:var(--primary);">0</strong> 个文件</span>
+          </div>
+          <p style="font-size:12px;color:var(--gray-500);margin-bottom:10px;">点击文件名可预览，PDF/图片可直接在线查看，其他格式请下载后查看。</p>
+          <div id="lawFilesContent" style="font-size:13px;color:var(--gray-700);"></div>
+          <div class="template-files" id="LAW_FILES_files" style="display:none;"></div>
+        </div>
+
+        <div class="alert alert-info" style="margin-top:16px;">
+          <span class="alert-icon">&#128161;</span>
+          <div><strong>核对提示：</strong>法规条目中"地方法规规章"与"规章解读"为常用参考索引，具体文本以各级人大、政府及主管部门发布的官方最新版本为准。管理员可通过"＋ 添加法规"补充本机构常用法规。</div>
+        </div>
+
+        <!-- 法规详情模态框 -->
+        <div class="modal-overlay" id="lawDetailModal">
+          <div class="modal-box" style="max-width:720px;">
+            <div id="lawDetailContent"></div>
+            <div class="modal-actions">
+              <button class="btn btn-outline" onclick="closeLawDetail()">关闭</button>
             </div>
-            <p style="font-size:12px;color:var(--gray-500);margin-bottom:10px;">点击文件名可预览，PDF/图片可直接在线查看，其他格式请下载后查看。</p>
-            <div id="lawFilesContent" style="font-size:13px;color:var(--gray-700);"></div>
           </div>
         </div>
       </div>
@@ -2948,34 +3119,38 @@ body.role-staff .admin-only { display: none !important; }
 
         <div class="alert alert-danger">
           <span class="alert-icon">🔴</span>
-          <div><strong>使用说明：</strong>案例库持续更新中。点击案例卡片可展开查看详情。案例按风险等级分类，支持筛选。可点击"＋ 添加案例"按钮新增案例条目并上传附件。</div>
+          <div><strong>使用说明：</strong>本案例库参照易采通案例库体例编排，每条案例包含<strong>问题引出 · 案例回放 · 专家点评 · 法规链接</strong>四段结构。点击案例卡片可展开查看详情，点击关键词标签可快速筛选同类案例。可点击"＋ 添加案例"按钮新增案例条目并上传附件。</div>
         </div>
 
-        <div style="display:flex;gap:10px;margin-bottom:16px;flex-wrap:wrap;">
-          <button class="btn btn-outline btn-sm" onclick="filterCases('all', this)" style="background:var(--primary);color:#fff;border-color:var(--primary);">全部</button>
-          <button class="btn btn-outline btn-sm" onclick="filterCases('high', this)">🔴 高风险</button>
-          <button class="btn btn-outline btn-sm" onclick="filterCases('mid', this)">🟡 中风险</button>
-          <button class="btn btn-outline btn-sm" onclick="filterCases('low', this)">🟢 低风险</button>
+        <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center;">
+          <span style="font-size:12px;color:var(--gray-500);font-weight:600;">关键词筛选：</span>
+          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('all', this)" style="background:var(--primary);color:#fff;border-color:var(--primary);">全部</button>
+          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('公平竞争', this)">公平竞争</button>
+          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('评分标准', this)">评分标准</button>
+          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('资格条件', this)">资格条件</button>
+          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('评标委员会', this)">评标委员会</button>
+          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('保证金', this)">保证金</button>
+          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('招标文件', this)">招标文件</button>
           <button class="btn btn-danger btn-sm admin-only" onclick="showAddRiskCase()">＋ 添加案例</button>
+        </div>
+
+        <div style="margin-bottom:16px;">
+          <input type="text" id="riskCaseSearchInput" oninput="searchRiskCases(this.value)" placeholder="🔍 输入案例标题或关键词，回车/实时检索…" style="width:100%;padding:9px 14px;border:1px solid var(--gray-200);border-radius:var(--radius);font-size:13px;outline:none;">
         </div>
 
         <div class="kb-form" id="addRiskCaseForm">
           <label>案例标题</label>
-          <input type="text" id="riskCaseTitle" placeholder="如：XX项目违规设定资格条件">
-          <label>风险等级</label>
-          <select id="riskCaseLevel">
-            <option value="high">高风险</option>
-            <option value="mid">中风险</option>
-            <option value="low">低风险</option>
-          </select>
-          <label>案例年份</label>
-          <input type="text" id="riskCaseYear" placeholder="如：2024">
-          <label>项目类型</label>
-          <input type="text" id="riskCaseType" placeholder="如：政府采购/工程招标">
-          <label>案例摘要</label>
-          <textarea id="riskCaseSummary" rows="3" placeholder="简要描述案例事实..."></textarea>
-          <label>教训与防范措施</label>
-          <textarea id="riskCaseLessons" rows="3" placeholder="总结教训和防范措施..."></textarea>
+          <input type="text" id="riskCaseTitle" placeholder="如：限定供应商注册地构成地域歧视">
+          <label>关键词（多个关键词用空格或逗号分隔）</label>
+          <input type="text" id="riskCaseKeywords" placeholder="如：地域歧视, 资格条件, 公平竞争">
+          <label>问题引出</label>
+          <textarea id="riskCaseType" rows="2" placeholder="描述该案例引出的核心问题，如：代理机构能否要求供应商在本省设立常驻服务机构？"></textarea>
+          <label>案例回放</label>
+          <textarea id="riskCaseYear" rows="4" placeholder="完整还原案例的时间、主体、事实经过与处理结果..."></textarea>
+          <label>专家点评</label>
+          <textarea id="riskCaseSummary" rows="3" placeholder="专家对本案的评析意见与合规要点..."></textarea>
+          <label>法规链接</label>
+          <textarea id="riskCaseLessons" rows="2" placeholder="本案涉及的法律法规条款，如：《政府采购法》第二十二条..."></textarea>
           <label>上传附件（支持图片/DOC/DOCX/PPT/PPTX/RTF/TXT/XLS/XLSX/PDF/ZIP等）</label>
           <input type="file" id="riskCaseFile" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" multiple>
           <div class="modal-actions">
@@ -2985,64 +3160,180 @@ body.role-staff .admin-only { display: none !important; }
         </div>
 
         <div id="riskCasesContainer">
-          <div class="case-card" data-risk="high" onclick="toggleCase(this)">
+          <!-- 案例1 -->
+          <div class="case-card" data-keywords="地域歧视 资格条件 公平竞争 监督检查" onclick="toggleCase(this)">
             <div class="case-header">
-              <span class="case-tag case-tag-high">高风险</span>
               <span class="case-title">限定供应商注册地构成地域歧视</span>
             </div>
-            <div class="case-meta">📅 2023年 · 政府采购 · 行政处罚决定</div>
-            <div class="case-summary">某代理机构在招标文件中要求"供应商须在本省设有常驻服务机构"，被投诉后认定构成地域歧视，招标无效，重新招标。</div>
-            <div class="case-lessons" style="display:none;"><strong>📖 教训：</strong>不得以任何形式限定供应商的注册地、住所地或经营地。常驻服务机构要求同样构成歧视。合规做法：删除地域限制条款，仅以技术和服务能力作为评审因素。</div>
+            <div class="case-keywords">
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('地域歧视', this)">地域歧视</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('资格条件', this)">资格条件</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('公平竞争', this)">公平竞争</span>
+            </div>
+            <div class="case-summary"><strong>问题引出：</strong>招标文件能否要求"供应商须在本省设有常驻服务机构"？这一看似合理的服务保障要求，是否构成对潜在投标人的地域歧视？</div>
+            <div class="case-body" style="display:none;">
+              <div class="case-section">
+                <div class="case-section-title">🎬 案例回放</div>
+                <div class="case-section-content">2023年，某政府采购项目代理机构在招标文件的资格条件中载明"供应商须在本省设有常驻服务机构，并提供本省工商登记证明或房屋租赁合同"。招标文件发出后，一家外地供应商提出质疑，认为该条款排斥了外省潜在投标人。代理机构答复维持原条款，供应商遂向财政部门投诉。财政部门经调查认定：该条款以注册地、经营地为门槛，限制了潜在供应商平等参与政府采购活动的权利，违反政府采购公平竞争原则，责令修改招标文件并重新开展采购活动，同时对代理机构作出监督检查处理决定。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">💬 专家点评</div>
+                <div class="case-section-content">判断是否构成地域歧视，关键在于该要求是否为"履行合同所必需"。本案中的服务为常规信息技术服务，远程支持与定期驻场均可实现，本地常驻机构并非履约必要条件，属于典型的以不合理条件限制、排斥潜在供应商。代理机构的合规做法应当是：删除一切与注册地、住所地、经营地相关的门槛条款，将服务保障能力转化为可量化的评审因素（如响应时间承诺、服务网点覆盖方案、应急预案等），既保障履约质量，又不触犯公平竞争红线。不得以"方便监管""便于沟通"等理由为地域限制条款背书。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">⚖️ 法规链接</div>
+                <div class="case-section-content law-link">《中华人民共和国政府采购法》第二十二条第二款：采购人可以根据采购项目的特殊要求，规定供应商的特定条件，但不得以不合理的条件对供应商实行差别待遇或者歧视待遇。
+《政府采购法实施条例》第二十条第（三）项：采购人或代理机构设定的资格、技术、商务条件与采购项目的具体特点和实际需要不相适应或者与合同履行无关的，属于以不合理的条件对供应商实行差别待遇或者歧视待遇。
+《政府采购需求管理办法》第十八条：采购需求应当清楚明了、表述规范、含义准确，不得设置歧视性、排他性条款。</div>
+              </div>
+            </div>
+            <div class="case-expand-hint">点击展开 / 收起详情 ▾</div>
           </div>
 
-          <div class="case-card" data-risk="high" onclick="toggleCase(this)">
+          <!-- 案例2 -->
+          <div class="case-card" data-keywords="评分标准 主观评审 行政复议 工程招标" onclick="toggleCase(this)">
             <div class="case-header">
-              <span class="case-tag case-tag-high">高风险</span>
               <span class="case-title">评分标准模糊导致投诉成立</span>
             </div>
-            <div class="case-meta">📅 2022年 · 工程招标 · 行政复议决定</div>
-            <div class="case-summary">某工程项目评分细则中"施工组织设计优秀得8-10分，良好得5-7分"，未明确评分档次标准，投标人投诉后复议机关认定评审标准不合法。</div>
-            <div class="case-lessons" style="display:none;"><strong>📖 教训：</strong>评分细则必须明确具体，每一评分因素应设定客观、可操作的评分标准。避免"优秀/良好/一般"等主观表述，应改为"具备XX得X分，具备YY得Y分"的列式标准。</div>
+            <div class="case-keywords">
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('评分标准', this)">评分标准</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('主观评审', this)">主观评审</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('工程招标', this)">工程招标</span>
+            </div>
+            <div class="case-summary"><strong>问题引出：</strong>评分细则中"优秀得8-10分、良好得5-7分、一般得1-4分"的表述，是否已经满足评审标准"量化、客观"的法定要求？</div>
+            <div class="case-body" style="display:none;">
+              <div class="case-section">
+                <div class="case-section-title">🎬 案例回放</div>
+                <div class="case-section-content">2022年，某市政工程施工招标项目，招标文件技术标评分细则规定："施工组织设计科学合理、针对性强，优秀的得8-10分；良好的得5-7分；一般的得1-4分"，未对"优秀""良好""一般"作出任何客观界定。评标结束后，一名未中标的投标人提出异议，认为评审标准不合法、评标委员会自由裁量权过大。代理机构答复异议不成立。投标人向行政监督部门投诉。复议机关审理后认定：评分标准未细化到具体评分档次与客观判断依据，违反了评审标准应当量化、客观的要求，责令重新评标。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">💬 专家点评</div>
+                <div class="case-section-content">"优秀/良好/一般"这类表述仅划定了分值区间，未给出判定依据，实质上把标准制定权交给了评标专家个人的主观感受，是引发质疑投诉的高发地带。合规的评分细则应当采用"客观指标+列式计分"的写法：把技术标拆分为若干可核查的评分点（如施工总平面布置、关键工序技术方案、质量保障体系、安全文明施工措施、工期保证措施、应急预案等），每个评分点设定明确的得分条件（如"方案完整、针对性强、有量化指标、有应急预案的得X分；方案基本完整但缺少应急预案的得Y分"）。分值档次之间要有清晰、可核查的区分边界，避免区间交叉或主观弹性过大。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">⚖️ 法规链接</div>
+                <div class="case-section-content law-link">《招标投标法实施条例》第四十九条：评标委员会成员应当依照招标投标法和本条例的规定，按照招标文件规定的评标标准和方法，客观、公正地对投标文件提出评审意见。招标文件没有规定的评标标准和方法不得作为评标的依据。
+《评标委员会和评标方法暂行规定》第十七条：评标方法包括经评审的最低投标价法、综合评估法或者法律、行政法规允许的其他评标方法。采用综合评估法的，评审因素应当细化、量化。</div>
+              </div>
+            </div>
+            <div class="case-expand-hint">点击展开 / 收起详情 ▾</div>
           </div>
 
-          <div class="case-card" data-risk="high" onclick="toggleCase(this)">
+          <!-- 案例3 -->
+          <div class="case-card" data-keywords="资格条件 评分项 重复计分 监督检查" onclick="toggleCase(this)">
             <div class="case-header">
-              <span class="case-tag case-tag-high">高风险</span>
               <span class="case-title">将资格条件作为评分项构成重复计分</span>
             </div>
-            <div class="case-meta">📅 2023年 · 政府采购 · 监督检查处理</div>
-            <div class="case-summary">某服务项目将"具备ISO9001质量管理体系认证"同时作为资格条件和加分项，被认定构成重复计分，评分结果无效。</div>
-            <div class="case-lessons" style="display:none;"><strong>📖 教训：</strong>已作为资格条件的因素不得再列入评分项。资格条件对应"通过/不通过"，评分项对应"得分/不得分"，两者功能不同，不得混用。</div>
+            <div class="case-keywords">
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('资格条件', this)">资格条件</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('评分标准', this)">评分标准</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('重复计分', this)">重复计分</span>
+            </div>
+            <div class="case-summary"><strong>问题引出：</strong>已列为投标资格门槛的"ISO9001质量管理体系认证"，能否同时在评分因素中作为加分项？</div>
+            <div class="case-body" style="display:none;">
+              <div class="case-section">
+                <div class="case-section-title">🎬 案例回放</div>
+                <div class="case-section-content">2023年，某物业服务采购项目，招标文件第二章"投标人须知"的资格要求中载明"投标人须具备有效的ISO9001质量管理体系认证"；第五章"评标办法"的评分因素中又规定"投标人具备ISO9001质量管理体系认证的得2分"。评审结束后，有投标人投诉，认为同一条件既作为门槛又作为加分，构成重复计分。财政部门核查后认定：该做法属于将资格条件重复作为评分项，评分结果无效，责令重新开展采购活动。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">💬 专家点评</div>
+                <div class="case-section-content">资格条件与评分项在功能上有着本质区别：资格条件是"进门门槛"，解决的是"能不能参与"的问题，判定结果为"通过／不通过"，不具备该条件者直接被否决；评分项是"择优机制"，解决的是"谁更优秀"的问题，判定结果为"得分／不得分"。既然资格条件已经是所有投标人都必须具备的，那么人人都满足的条件就丧失了区分度，再拿来加分就构成重复评价。代理机构编制招标文件时，应建立"资格项—符合性项—评分项"三张清单核对机制，逐项比对，确保任何一个评审要素只出现一次、只在一个环节发挥作用。若确实需要认证类因素体现差异，可改为考察认证覆盖范围、认证持续年限、体系运行情况等差异化内容。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">⚖️ 法规链接</div>
+                <div class="case-section-content law-link">《政府采购货物和服务招标投标管理办法》（财政部令第87号）第五十五条：评审因素的设定应当与投标人所提供货物服务的质量相关，包括投标报价、技术或者服务水平、履约能力、售后服务等。资格条件不得作为评审因素。
+《政府采购需求管理办法》第二十八条：采购需求客观、明确的采购项目，采购方式、评审方法和定价方式应当与之相适应；评审因素应当细化和量化，且与投标人所提供货物服务的质量相关。</div>
+              </div>
+            </div>
+            <div class="case-expand-hint">点击展开 / 收起详情 ▾</div>
           </div>
 
-          <div class="case-card" data-risk="mid" onclick="toggleCase(this)">
+          <!-- 案例4 -->
+          <div class="case-card" data-keywords="保证金 退还时限 投诉处理 行政处理" onclick="toggleCase(this)">
             <div class="case-header">
-              <span class="case-tag case-tag-mid">中风险</span>
               <span class="case-title">投标保证金退还超期引发投诉</span>
             </div>
-            <div class="case-meta">📅 2022年 · 工程招标 · 行政处理</div>
-            <div class="case-summary">某项目在中标通知书发出后第8日才退还未中标人保证金，投标人投诉后代理机构被责令整改并通报批评。</div>
-            <div class="case-lessons" style="display:none;"><strong>📖 教训：</strong>投标保证金退还时限为中标通知书发出后5日内（未中标人）或合同签订后5日内（中标人）。建议设置保证金退还提醒机制，避免人为延误。</div>
+            <div class="case-keywords">
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('保证金', this)">保证金</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('退还时限', this)">退还时限</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('投诉处理', this)">投诉处理</span>
+            </div>
+            <div class="case-summary"><strong>问题引出：</strong>中标通知书发出后，未中标人的投标保证金应当在多少日内退还？逾期退还代理机构要承担什么后果？</div>
+            <div class="case-body" style="display:none;">
+              <div class="case-section">
+                <div class="case-section-title">🎬 案例回放</div>
+                <div class="case-section-content">2022年，某工程施工招标项目于5月10日发出中标通知书，代理机构因内部审批流程冗长及财务扎账安排，直至5月18日才启动未中标人投标保证金退还，部分投标人实际收到退还款项已是第10日。一名未中标人向行政监督部门投诉。监管部门调查后认定：代理机构未在法定期限内退还投标保证金，违反招标投标法实施条例关于保证金退还的规定，责令限期改正并予以通报批评，同时将违规情况记入代理机构信用档案。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">💬 专家点评</div>
+                <div class="case-section-content">保证金退还属于程序性义务，法定期限为刚性要求，不因内部审批、财务扎账、人员出差等任何内部事由而延长或豁免。代理机构应当建立保证金台账+到期预警机制：在招标文件中明确退还时限与流程；在中标通知书发出当日即建立退还任务清单，分别标注"未中标人（中标通知书发出后5日内）""中标人（合同签订后5日内）"两个时间节点；聘请专业机构或指定专人负责核对；有条件的可采用电子保函替代现金保证金，从源头压缩退还环节。同时注意：退还时应当一并退还银行同期存款利息，不得克扣。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">⚖️ 法规链接</div>
+                <div class="case-section-content law-link">《招标投标法实施条例》第五十七条：招标人最迟应当在书面合同签订后5日内向中标人和未中标的投标人退还投标保证金及银行同期存款利息。
+《政府采购法实施条例》第三十三条：采购人或者采购代理机构应当自中标通知书发出之日起5个工作日内退还未中标人的投标保证金，自政府采购合同签订之日起5个工作日内退还中标人的投标保证金。</div>
+              </div>
+            </div>
+            <div class="case-expand-hint">点击展开 / 收起详情 ▾</div>
           </div>
 
-          <div class="case-card" data-risk="mid" onclick="toggleCase(this)">
+          <!-- 案例5 -->
+          <div class="case-card" data-keywords="评标委员会 专家抽取 政府采购 评标无效" onclick="toggleCase(this)">
             <div class="case-header">
-              <span class="case-tag case-tag-mid">中风险</span>
               <span class="case-title">评标委员会组成不合规导致评标无效</span>
             </div>
-            <div class="case-meta">📅 2023年 · 政府采购 · 监督检查</div>
-            <div class="case-summary">某政府采购项目评标委员会共5人，其中招标人代表3人、专家2人，技术经济专家占比不足2/3，评标结果被认定无效。</div>
-            <div class="case-lessons" style="display:none;"><strong>📖 教训：</strong>评标委员会必须是5人以上单数，其中技术经济专家不得少于成员总数的2/3。招标人代表可以参加，但不得占据多数。专家须从政府专家库中随机抽取。</div>
+            <div class="case-keywords">
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('评标委员会', this)">评标委员会</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('专家抽取', this)">专家抽取</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('政府采购', this)">政府采购</span>
+            </div>
+            <div class="case-summary"><strong>问题引出：</strong>5人评标委员会中安排3名招标人代表、2名技术经济专家，招标人"参与监督"的初衷能否使该组成合法化？</div>
+            <div class="case-body" style="display:none;">
+              <div class="case-section">
+                <div class="case-section-title">🎬 案例回放</div>
+                <div class="case-section-content">2023年，某政府采购货物项目开标评标。代理机构组建的评标委员会共5人，其中采购人代表3人（分管领导、采购部门负责人、使用部门负责人）、从财政部门专家库随机抽取的技术经济专家2人。评审结束后，有投标人投诉评标委员会组成不合法。财政部门核查后认定：技术经济专家仅占成员总数的40%，低于法定的三分之二比例要求，评标委员会组成违法，本次评标结果无效，责令重新组建评标委员会进行评审。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">💬 专家点评</div>
+                <div class="case-section-content">评标委员会的组成规则有两个硬约束：一是总人数必须为5人以上单数；二是技术、经济等方面的专家不得少于成员总数的三分之二。按此推算，5人委员会中专家至少4人，采购人代表最多1人；7人委员会中专家至少5人，采购人代表最多2人。采购人或招标人代表可以参加评标委员会，但其角色是"需求说明者"而非"评审主导者"，绝不能占多数，否则评审的中立性无从保障。此外，专家的抽取方式也有严格要求：一般项目应从政府或行业专家库中随机抽取，特殊项目经批准方可直接确定，且必须严格执行回避制度与保密要求。代理机构应将评标委员会组建作为开标前的必检项，形成书面核对表留档备查。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">⚖️ 法规链接</div>
+                <div class="case-section-content law-link">《招标投标法》第三十七条：评标委员会由招标人的代表和有关技术、经济等方面的专家组成，成员人数为五人以上单数，其中技术、经济等方面的专家不得少于成员总数的三分之二。
+《政府采购法实施条例》第三十九条：除国务院财政部门规定的情形外，采购人或者采购代理机构应当从政府采购评审专家库中随机抽取评审专家。
+《评标委员会和评标方法暂行规定》第九条、第十条：评标委员会由招标人或其委托的招标代理机构熟悉相关业务的代表，以及有关技术、经济等方面的专家组成，成员人数为五人以上单数，其中技术、经济等方面的专家不得少于成员总数的三分之二。</div>
+              </div>
+            </div>
+            <div class="case-expand-hint">点击展开 / 收起详情 ▾</div>
           </div>
 
-          <div class="case-card" data-risk="low" onclick="toggleCase(this)">
+          <!-- 案例6 -->
+          <div class="case-card" data-keywords="招标文件 收费 行政指导 成本补偿" onclick="toggleCase(this)">
             <div class="case-header">
-              <span class="case-tag case-tag-low">低风险</span>
               <span class="case-title">招标文件售价过高被责令整改</span>
             </div>
-            <div class="case-meta">📅 2022年 · 工程招标 · 行政指导</div>
-            <div class="case-summary">某代理机构对每份招标文件收费2000元，被投标人举报后认定收费不合理，责令降至成本价以内。</div>
-            <div class="case-lessons" style="display:none;"><strong>📖 教训：</strong>招标文件售价应当以弥补制作成本为限，不得以营利为目的。鼓励免费提供电子版招标文件。纸质版可收取印刷和邮寄成本费。</div>
+            <div class="case-keywords">
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('招标文件', this)">招标文件</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('收费', this)">收费</span>
+              <span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword('公平竞争', this)">公平竞争</span>
+            </div>
+            <div class="case-summary"><strong>问题引出：</strong>招标文件售价由谁说了算？一份标价2000元的招标文件，能否以"包含编制成本与知识产权"为由成立？</div>
+            <div class="case-body" style="display:none;">
+              <div class="case-section">
+                <div class="case-section-title">🎬 案例回放</div>
+                <div class="case-section-content">2022年，某工程施工招标项目，代理机构对每份招标文件收取工本费2000元，且不提供电子版。多名潜在投标人反映收费过高、涉嫌以售文牟利，并向行业主管部门举报。主管部门核查后认定：招标文件售价明显超出制作、邮寄等合理成本，构成变相抬高投标门槛，责令代理机构立即降至成本价以内，鼓励免费提供电子文件，并在行业内予以提示。代理机构随后将售价调整为200元并同步开放电子版免费下载。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">💬 专家点评</div>
+                <div class="case-section-content">招标文件收费遵循"成本补偿"原则，而非"市场定价"原则。判断是否合理的标准是：售价是否以弥补招标文件的印刷、邮寄等实际支出为限，不得以营利为目的，更不得将招标文件编制、技术方案设计、知识产权投入等成本转嫁给投标人。过高的售价会产生两重风险：一是构成不合理的投标门槛，影响潜在投标人参与积极性，削弱竞争性；二是被认定为变相收费，面临行政处理与信用扣分。当前监管导向是鼓励免费提供电子版招标文件，对纸质版仅可收取印刷和邮寄的实付成本。代理机构应公开收费依据与成本测算，接受监督。</div>
+              </div>
+              <div class="case-section">
+                <div class="case-section-title">⚖️ 法规链接</div>
+                <div class="case-section-content law-link">《招标投标法实施条例》第十六条：招标人发售资格预审文件、招标文件收取的费用应当限于补偿印刷、邮寄的成本支出，不得以营利为目的。
+《政府采购货物和服务招标投标管理办法》（财政部令第87号）第二十四条：招标文件售价应当按照弥补招标文件印制成本费用的原则确定，不得以营利为目的，不得以招标采购金额作为确定招标文件售价的依据。</div>
+              </div>
+            </div>
+            <div class="case-expand-hint">点击展开 / 收起详情 ▾</div>
           </div>
         </div>
       </div>
@@ -4677,21 +4968,51 @@ function handleSearch(query) {
 }
 
 
-// ===== Case Filter =====
+// ===== Case Filter（v5.5 关键词筛选） =====
 function filterCases(risk, btnEl) {
+  // 兼容旧调用：等价于"全部"
+  filterCasesByKeyword(risk === 'all' ? 'all' : risk, btnEl);
+}
+function filterCasesByKeyword(keyword, btnEl) {
+  var kw = (keyword || 'all').trim();
   document.querySelectorAll('#riskCasesContainer .case-card').forEach(function(c) {
-    if (risk === 'all' || c.dataset.risk === risk) {
+    if (kw === 'all' || kw === '') {
       c.style.display = '';
     } else {
-      c.style.display = 'none';
+      var kws = (c.dataset.keywords || '') + ' ' + (c.querySelector('.case-title') ? c.querySelector('.case-title').textContent : '');
+      c.style.display = kws.indexOf(kw) !== -1 ? '' : 'none';
     }
   });
-  // Update active button style
-  var btns = document.querySelectorAll('.topbar-actions .btn-sm');
-  btns.forEach(function(b) { b.style.background = ''; b.style.color = ''; b.style.borderColor = ''; });
+  // 同步清除搜索框
+  var si = document.getElementById('riskCaseSearchInput');
+  if (si && kw === 'all') { si.value = ''; }
+  // 更新按钮激活样式
+  var btns = document.querySelectorAll('#risk-cases .btn-sm');
+  btns.forEach(function(b) {
+    if (b.classList.contains('btn-danger')) return;
+    b.style.background = ''; b.style.color = ''; b.style.borderColor = '';
+  });
   if (btnEl) { btnEl.style.background = 'var(--primary)'; btnEl.style.color = '#fff'; btnEl.style.borderColor = 'var(--primary)'; }
 }
+function searchRiskCases(q) {
+  var kw = (q || '').trim().toLowerCase();
+  document.querySelectorAll('#riskCasesContainer .case-card').forEach(function(c) {
+    if (!kw) { c.style.display = ''; return; }
+    var hay = ((c.dataset.keywords || '') + ' ' + c.textContent).toLowerCase();
+    c.style.display = hay.indexOf(kw) !== -1 ? '' : 'none';
+  });
+}
 function toggleCase(card) {
+  var body = card.querySelector('.case-body');
+  if (body) {
+    body.style.display = body.style.display === 'none' ? 'block' : 'none';
+    var hint = card.querySelector('.case-expand-hint');
+    if (hint) {
+      hint.innerHTML = (body.style.display === 'none') ? '点击展开 / 收起详情 ▾' : '点击收起详情 ▴';
+    }
+    return;
+  }
+  // 兼容旧结构
   var lessons = card.querySelector('.case-lessons');
   if (lessons) {
     lessons.style.display = lessons.style.display === 'none' ? 'block' : 'none';
@@ -5202,10 +5523,237 @@ document.addEventListener('DOMContentLoaded', function() {
     applyModuleEdits();
     // v5.4: 应用双击编辑权限（仅管理员可编辑）
     applyEditPermissions();
+    // v5.5: 初始化法规规范库列表
+    renderLaws('all');
   });
 
 
 
+
+// ===== V5.5: 法规规范库（分类检索 + 法规详情） =====
+var LAW_CAT_NAMES = {
+  law: '法律法规', rule: '部门规章', norm: '规范性文件',
+  local: '地方法规规章', interpret: '规章解读', global: '国际规则'
+};
+var LAW_STATUS = {
+  valid:    { label: '现行有效', cls: 'law-badge-valid' },
+  amended:  { label: '已修订',   cls: 'law-badge-amended' },
+  partial:  { label: '部分失效', cls: 'law-badge-partial' },
+  abolished:{ label: '已废止',   cls: 'law-badge-abolished' }
+};
+
+var LAW_REGISTRY = [
+  // —— 法律法规 ——
+  { id:'L001', cat:'law', title:'中华人民共和国招标投标法', issuer:'全国人民代表大会常务委员会', publish:'1999-08-30（2017-12-27修正）', effect:'2000-01-01', status:'amended', region:'全国', desc:'我国招标投标领域的基础性法律，共六章六十八条。规定了必须招标的范围、招标方式与组织形式、招标公告与招标文件、投标、开标评标与中标、法律责任等。适用于在中华人民共和国境内进行的招标投标活动，是招标代理业务的第一位依据。' },
+  { id:'L002', cat:'law', title:'中华人民共和国政府采购法', issuer:'全国人民代表大会常务委员会', publish:'2002-06-29（2014-08-31修正）', effect:'2003-01-01', status:'amended', region:'全国', desc:'规范政府采购行为的基础性法律。规定政府采购当事人、采购方式（公开招标、邀请招标、竞争性谈判、询价、单一来源等）、采购程序、采购合同、质疑与投诉、监督检查与法律责任。' },
+  { id:'L003', cat:'law', title:'中华人民共和国招标投标法实施条例', issuer:'国务院', publish:'2011-12-20（2019-03-02修订）', effect:'2012-02-01', status:'amended', region:'全国', desc:'对招标投标法作出全面细化，是招标代理实务中引用频率最高的行政法规。重点条款：第十六条招标文件收费以补偿印刷邮寄成本为限；第二十六条投标保证金不得超过项目估算价的2%；第三十二条不得以不合理条件限制排斥潜在投标人；第五十七条中标通知书发出后30日内订立书面合同，最迟合同签订后5日内退还投标保证金及利息。' },
+  { id:'L004', cat:'law', title:'中华人民共和国政府采购法实施条例', issuer:'国务院', publish:'2015-01-30', effect:'2015-03-01', status:'valid', region:'全国', desc:'细化政府采购法的操作规则。重点条款：第二十条列举以不合理条件实行差别待遇或歧视待遇的具体情形；第三十三条投标保证金退还时限（中标通知书发出之日起5个工作日内退还未中标人）；第三十九条评审专家应从政府采购评审专家库中随机抽取；第四十九条中标或成交供应商拒绝签订合同的，采购人可按评审报告推荐顺序确定下一候选人为中标供应商。' },
+  { id:'L005', cat:'law', title:'中华人民共和国民法典（第三编 合同）', issuer:'全国人民代表大会', publish:'2020-05-28', effect:'2021-01-01', status:'valid', region:'全国', desc:'合同编通则及典型合同分编（建设工程合同、技术合同、委托合同等）是招标文件合同条款设计、履约争议处理的基础民事法律依据，代理人在起草专用合同条款时应同步核对。' },
+  { id:'L006', cat:'law', title:'中华人民共和国反不正当竞争法', issuer:'全国人民代表大会常务委员会', publish:'1993-09-02（2019-04-23修正）', effect:'2019-04-23', status:'amended', region:'全国', desc:'规范市场竞争秩序，其中关于商业贿赂、虚假宣传、侵犯商业秘密的规定，与招投标领域围标串标、行贿受贿等违法行为的认定与处罚密切相关。' },
+  { id:'L007', cat:'law', title:'中华人民共和国行政处罚法', issuer:'全国人民代表大会', publish:'1996-03-17（2021-01-22修订）', effect:'2021-07-15', status:'amended', region:'全国', desc:'行政监督部门对招标人、投标人、代理机构作出行政处罚的程序依据，涉及处罚种类、管辖、简易程序、听证程序、处罚时效（一般为2年，涉及生命健康安全、金融安全且有危害后果的为5年）等。' },
+  { id:'L008', cat:'law', title:'优化营商环境条例', issuer:'国务院', publish:'2019-10-22', effect:'2020-01-01', status:'valid', region:'全国', desc:'明确各类市场主体依法平等适用国家支持发展的政策，招标投标和政府采购应当公开透明、公平公正，不得设定不合理条件或排斥潜在投标人。' },
+
+  // —— 部门规章 ——
+  { id:'L101', cat:'rule', title:'招标投标领域公平竞争审查规则（国家发展改革委等八部门令第16号）', issuer:'国家发展和改革委员会等八部门', publish:'2024-03-25', effect:'2024-05-01', status:'valid', region:'全国', desc:'我国首部招标投标领域公平竞争审查的专门规章，是编制招标文件的核心合规底线。明确政策制定机关在制定涉及招标投标的规章、规范性文件、其他政策性文件以及招标文件时，应当进行公平竞争审查；系统列举了不得设置的所有制歧视、地域歧视、规模歧视、资质门槛、业绩门槛、本地化服务机构要求、特定品牌或专利等具体禁止情形。' },
+  { id:'L102', cat:'rule', title:'必须招标的工程项目规定（国家发展改革委令第16号）', issuer:'国家发展和改革委员会', publish:'2018-03-27', effect:'2018-06-01', status:'valid', region:'全国', desc:'规定必须招标的工程项目的具体范围与规模标准：施工单项合同估算价在400万元人民币以上；重要设备、材料等货物的采购，单项合同估算价在200万元以上；勘察、设计、监理等服务的采购，单项合同估算价在100万元以上。同一项目中可以合并进行的勘察、设计、施工、监理以及与工程建设有关的重要设备材料采购，合同估算价合计达到上述标准的，必须招标。原《工程建设项目招标范围和规模标准规定》（国家计委令第3号）同时废止。' },
+  { id:'L103', cat:'rule', title:'评标委员会和评标方法暂行规定（七部委令第12号）', issuer:'国家发展计划委员会等七部委', publish:'2001-07-05（2013-03-05修正）', effect:'2001-07-05', status:'amended', region:'全国', desc:'规定评标委员会的组成规则（成员人数为5人以上单数，技术、经济等方面的专家不得少于成员总数的三分之二）、评标方法（经评审的最低投标价法、综合评估法或者法律行政法规允许的其他评标方法）、评标准备、初步评审、详细评审、推荐中标候选人与定标、评标报告等程序要求。' },
+  { id:'L104', cat:'rule', title:'工程建设项目施工招标投标办法（七部委令第30号）', issuer:'国家发展和改革委员会等七部委', publish:'2003-03-08（2013-03-05修正）', effect:'2003-05-01', status:'amended', region:'全国', desc:'规范工程施工招标投标活动。重点：招标文件的编制与澄清修改时限（澄清或修改内容影响投标文件编制的，应在投标截止时间至少15日前发出）、踏勘现场与投标预备会、投标文件的密封与提交、开标程序、评标与定标、合同签订与履约担保等。' },
+  { id:'L105', cat:'rule', title:'工程建设项目勘察设计招标投标办法（八部委令第2号）', issuer:'国家发展和改革委员会等八部委', publish:'2003-06-12（2013-03-05修正）', effect:'2003-08-01', status:'amended', region:'全国', desc:'规范工程勘察设计招标。允许采用设计方案招标或设计团队招标，明确未中标方案的经济补偿机制（招标文件应载明是否给予补偿及补偿标准）。' },
+  { id:'L106', cat:'rule', title:'工程建设项目货物招标投标办法（七部委令第27号）', issuer:'国家发展和改革委员会等七部委', publish:'2005-01-18（2013-03-05修正）', effect:'2005-03-01', status:'amended', region:'全国', desc:'规范与工程建设项目有关的货物招标投标活动，明确货物招标的资格审查、技术规格书编制要求（不得指定特定品牌或供应商，确需引用的应注明"或相当于"）。' },
+  { id:'L107', cat:'rule', title:'工程建设项目招标投标活动投诉处理办法（七部委令第11号）', issuer:'国家发展和改革委员会等七部委', publish:'2004-07-06（2013-03-05修正）', effect:'2004-08-01', status:'amended', region:'全国', desc:'规定投诉处理程序：投标人或者其他利害关系人认为招标投标活动不符合法律法规规定的，可以自知道或者应当知道之日起10日内向有关行政监督部门投诉；行政监督部门应当自收到投诉之日起3个工作日内决定是否受理，并自受理之日起30个工作日内作出书面处理决定（检验、检测、鉴定、专家评审所需时间不计算在内）。' },
+  { id:'L108', cat:'rule', title:'政府采购货物和服务招标投标管理办法（财政部令第87号）', issuer:'财政部', publish:'2017-07-11', effect:'2017-10-01', status:'valid', region:'全国', desc:'政府采购货物服务招投标的核心规章。重点要求：资格条件不得作为评审因素（第五十五条）；评审因素应当细化和量化，且与投标人所提供货物服务的质量相关；采用综合评分法的，货物项目价格分值占总分值的比重不得低于30%不得高于60%，服务项目的价格分值不得低于10%（不得高于另行规定）；招标文件售价按照弥补印制成本费用的原则确定，不得以招标采购金额作为确定售价的依据。' },
+  { id:'L109', cat:'rule', title:'政府采购信息发布管理办法（财政部令第101号）', issuer:'财政部', publish:'2019-11-27', effect:'2020-03-01', status:'valid', region:'全国', desc:'规范政府采购信息发布行为。要求政府采购信息应当在财政部指定的政府采购信息发布媒体（中国政府采购网及其地方分网）向社会公开发布，明确各类信息（采购意向、公开招标公告、中标成交结果、更正事项等）的发布时限与内容要求。' },
+  { id:'L110', cat:'rule', title:'政府采购质疑和投诉办法（财政部令第94号）', issuer:'财政部', publish:'2017-12-26', effect:'2018-03-01', status:'valid', region:'全国', desc:'规范政府采购质疑与投诉。要点：供应商认为采购文件、采购过程、中标或者成交结果使自己的权益受到损害的，可以在知道或者应知其权益受到损害之日起7个工作日内，以书面形式向采购人、采购代理机构提出质疑；采购人或者采购代理机构应当在收到质疑后7个工作日内作出答复；质疑供应商对答复不满意或逾期未答复的，可以在答复期满后15个工作日内向财政部门投诉；财政部门应当在收到投诉后30个工作日内作出处理决定。' },
+  { id:'L111', cat:'rule', title:'政府采购非招标采购方式管理办法（财政部令第74号）', issuer:'财政部', publish:'2013-12-19', effect:'2014-02-01', status:'valid', region:'全国', desc:'规范竞争性谈判、单一来源采购和询价三种非招标采购方式的适用情形与程序，是公开招标数额标准以下项目的常用依据。' },
+
+  // —— 规范性文件 ——
+  { id:'L201', cat:'norm', title:'政府采购需求管理办法（财库〔2021〕22号）', issuer:'财政部', publish:'2021-04-30', effect:'2021-07-01', status:'valid', region:'全国', desc:'要求采购需求应当清楚明了、表述规范、含义准确，技术要求和商务要求应当客观、量化，不得设置歧视性、排他性条款。确立采购需求审查制度：一般采购项目开展一般性审查，1000万元以上的货物服务采购项目、3000万元以上的工程采购项目以及涉及公共利益、社会关注度较高的项目还应当开展重点审查（包括非歧视性审查、竞争性审查、采购政策审查、履约风险审查、采购人或者主管预算单位认为应当审查的其他内容）。' },
+  { id:'L202', cat:'norm', title:'政府采购促进中小企业发展管理办法（财库〔2020〕46号）', issuer:'财政部、工业和信息化部', publish:'2020-12-18', effect:'2021-01-01', status:'valid', region:'全国', desc:'落实中小企业扶持政策。要点：200万元以下的货物和服务采购项目、400万元以下的工程采购项目，原则上专门面向中小企业采购；超过200万元的货物和服务采购项目、超过400万元的工程采购项目中适宜由中小企业提供的，预留该部分采购项目预算总额的30%以上专门面向中小企业采购，其中预留给小微企业的比例不低于60%；对小型和微型企业产品的价格给予6%—10%（按财库〔2022〕19号已提高至10%—20%）的扣除，用扣除后的价格参与评审。' },
+  { id:'L203', cat:'norm', title:'政府采购代理机构管理暂行办法（财库〔2018〕2号）', issuer:'财政部', publish:'2018-01-04', effect:'2018-03-01', status:'valid', region:'全国', desc:'规范政府采购代理机构从业管理。代理机构实行名录登记管理，向工商注册登记所在地的省级财政部门申请登记，"一地登记、全国通用"。明确代理机构的从业条件、执业要求、内控制度建设、监督检查与法律责任，是招标代理机构自身合规运营的直接依据。' },
+  { id:'L204', cat:'norm', title:'国务院办公厅关于创新完善体制机制推动招标投标市场规范健康发展的意见（国办发〔2024〕21号）', issuer:'国务院办公厅', publish:'2024-05-02', effect:'2024-05-02', status:'valid', region:'全国', desc:'当前招标投标领域改革的纲领性文件。从完善招标投标制度体系、落实招标人主体责任、完善评标定标机制、推进数字化智能化转型升级、加强协同高效监管、营造规范有序市场环境等方面提出政策举措，明确要改进评标方法和评标机制、推行全流程电子化招标投标、加强招标投标与履约管理衔接。' },
+  { id:'L205', cat:'norm', title:'政府采购评审专家管理办法（财库〔2016〕198号）', issuer:'财政部', publish:'2016-11-18', effect:'2017-01-01', status:'valid', region:'全国', desc:'规范政府采购评审专家的选聘、抽取、使用与监督管理，明确专家的权利义务、回避情形、考核评价与违规处理，是评审环节合规管理的配套依据。' },
+  { id:'L206', cat:'norm', title:'政府采购竞争性磋商采购方式管理暂行办法（财库〔2014〕214号）', issuer:'财政部', publish:'2014-12-31', effect:'2015-01-01', status:'valid', region:'全国', desc:'规定竞争性磋商采购方式的适用情形（政府购买服务项目、技术复杂或者性质特殊不能确定详细规格或具体要求的项目、难以事先计算出价格总额的项目、市场竞争不充分的科研项目等）与磋商程序。' },
+  { id:'L207', cat:'norm', title:'关于进一步加大政府采购支持中小企业力度的通知（财库〔2022〕19号）', issuer:'财政部', publish:'2022-05-30', effect:'2022-07-01', status:'valid', region:'全国', desc:'提高政府采购面向中小企业的预留份额（阶段性提高至40%以上）与价格扣除优惠比例（小微企业由6%—10%提高至10%—20%），并明确提高预付款比例、降低履约保证金等配套支持措施。' },
+
+  // —— 地方法规规章 ——
+  { id:'L301', cat:'local', title:'湖南省实施《中华人民共和国招标投标法》办法', issuer:'湖南省人民代表大会常务委员会', publish:'2004-07-30', effect:'2004-10-01', status:'valid', region:'湖南省', desc:'结合本省实际对招标投标法作出细化，对必须招标的范围与规模标准、招标公告发布媒介、评标专家库的组建与使用、行政监督职责分工等作出具体规定。湖南省内项目应优先适用本省规定与上位法不一致时以上位法为准。' },
+  { id:'L302', cat:'local', title:'北京市招标投标条例', issuer:'北京市人民代表大会常务委员会', publish:'2002-09-06', effect:'2002-11-01', status:'valid', region:'北京市', desc:'北京市地方性法规，对本市行政区域内招标投标活动的监督管理体制、招标范围、招标程序、评标专家管理、法律责任等作出规定。' },
+  { id:'L303', cat:'local', title:'深圳经济特区政府采购条例', issuer:'深圳市人民代表大会常务委员会', publish:'2012-02-21（2019-08-22修正）', effect:'2012-05-01', status:'amended', region:'深圳市', desc:'经济特区立法，在采购方式、预选供应商制度、履约验收、质疑投诉等方面作了创新性规定，具有一定的先行先试示范意义。' },
+
+  // —— 规章解读 ——
+  { id:'L401', cat:'interpret', title:'《中华人民共和国招标投标法实施条例》释义', issuer:'国务院法制办公室、国家发展和改革委员会（组织编写）', publish:'2012年', effect:'2012年', status:'valid', region:'全国', desc:'由条例起草部门组织编写的官方释义，逐条阐释立法原意、条文内涵与适用要点，是处理招标投标争议、理解条文边界的重要参考工具书。' },
+  { id:'L402', cat:'interpret', title:'《政府采购货物和服务招标投标管理办法》（财政部令第87号）解读', issuer:'财政部国库司', publish:'2017年7月', effect:'2017年', status:'valid', region:'全国', desc:'对87号令的修订背景、主要变化（资格条件不得作为评审因素、评审因素细化量化、价格分值比重、等标期、样品评审规则等）进行逐条说明。' },
+  { id:'L403', cat:'interpret', title:'《必须招标的工程项目规定》有关问题答记者问', issuer:'国家发展和改革委员会', publish:'2018-03-30', effect:'2018年', status:'valid', region:'全国', desc:'就16号令的出台背景、规模标准调整幅度（施工由200万元提高至400万元、货物由100万元提高至200万元、服务由50万元提高至100万元）及新旧衔接问题作出官方说明。' },
+  { id:'L404', cat:'interpret', title:'《招标投标领域公平竞争审查规则》政策解读', issuer:'国家发展和改革委员会', publish:'2024年3月', effect:'2024年', status:'valid', region:'全国', desc:'对审查规则的适用范围、审查主体、审查标准（所有制、地域、规模、资质、业绩、机构、品牌等禁止情形）与审查流程进行官方阐释，可作为招标文件公平竞争自查的操作指南。' },
+
+  // —— 国际规则 ——
+  { id:'L501', cat:'global', title:'联合国国际贸易法委员会公共采购示范法（UNCITRAL Model Law on Public Procurement，2011）', issuer:'联合国国际贸易法委员会', publish:'2011-07-01', effect:'2011-07-01', status:'valid', region:'国际', desc:'国际公共采购立法的样板文本，我国《招标投标法》《政府采购法》的诸多制度设计参考了示范法的框架。跨境采购、外资贷款项目及涉外项目可参照其关于采购方式、电子逆向拍卖、框架协议、质疑程序的规定。' },
+  { id:'L502', cat:'global', title:'政府采购协定（GPA）', issuer:'世界贸易组织', publish:'1994-04-15（2012年修订）', effect:'1996-01-01', status:'valid', region:'世界贸易组织成员', desc:'WTO框架下的诸边协定，我国于2007年启动加入谈判，目前为观察员。加入后我国政府采购市场将按承诺清单向成员方开放，代理机构需提前熟悉其国民待遇、透明度、救济程序等要求。' },
+  { id:'L503', cat:'global', title:'世界银行投资项目融资采购规则（Procurement Regulations for IPF Borrowers）', issuer:'世界银行', publish:'2016-07-01（2020年修订）', effect:'2016-07-01', status:'amended', region:'世界银行贷款项目', desc:'适用于世界银行投资项目融资（IPF）项下的货物、工程和非咨询服务采购，强调物有所值、经济性、诚信、公平竞争、效率与透明，设有独立的采购投诉审查机制与制裁体系。' },
+  { id:'L504', cat:'global', title:'亚洲开发银行采购政策（ADB Procurement Policy）', issuer:'亚洲开发银行', publish:'2017年', effect:'2017-09-01', status:'valid', region:'亚洲开发银行贷款项目', desc:'适用于亚行贷款项目的采购活动，确立基于风险的项目采购策略、采购方式与评审规则，并设有独立的投诉处理机制。' }
+];
+
+var _lawCurrentCat = 'all';
+
+function getAllLaws() {
+  var customs = [];
+  try { customs = JSON.parse(localStorage.getItem('custom_laws') || '[]'); } catch (e) { customs = []; }
+  return LAW_REGISTRY.concat(customs);
+}
+
+function renderLaws(cat) {
+  _lawCurrentCat = cat || 'all';
+  var box = document.getElementById('lawsListContainer');
+  if (!box) return;
+  var list = getAllLaws();
+  if (_lawCurrentCat !== 'all') {
+    list = list.filter(function(l) { return l.cat === _lawCurrentCat; });
+  }
+  // 排序：现行有效优先，其次按条法类别
+  list.sort(function(a, b) {
+    var sa = a.status === 'abolished' ? 1 : 0, sb = b.status === 'abolished' ? 1 : 0;
+    if (sa !== sb) return sa - sb;
+    return String(a.title).localeCompare(String(b.title), 'zh');
+  });
+  if (list.length === 0) {
+    box.innerHTML = '<div class="law-empty">暂无法规条目，管理员可点击"＋ 添加法规"补充。</div>';
+    return;
+  }
+  var html = '';
+  list.forEach(function(l) {
+    var st = LAW_STATUS[l.status] || LAW_STATUS.valid;
+    html += '<div class="law-item" onclick="openLawDetail(\'' + l.id + '\')">'
+      + '<div class="law-item-title">'
+      + '<span>' + escCase(l.title) + '</span>'
+      + '<span class="law-badge ' + st.cls + '">' + st.label + '</span>'
+      + '<span class="law-cat-tag">' + (LAW_CAT_NAMES[l.cat] || l.cat) + '</span>'
+      + '</div>'
+      + '<div class="law-item-meta">'
+      + '<span>📌 颁布单位：' + escCase(l.issuer || '—') + '</span>'
+      + '<span>📅 实施日期：' + escCase(l.effect || '—') + '</span>'
+      + '<span>🌍 适用地区：' + escCase(l.region || '全国') + '</span>'
+      + '</div>'
+      + '</div>';
+  });
+  box.innerHTML = html;
+}
+
+function switchLawCat(cat, el) {
+  var tabs = document.getElementById('lawCatTabs');
+  if (tabs) {
+    tabs.querySelectorAll('.tab-item').forEach(function(t) { t.classList.remove('active'); });
+  }
+  if (el) { el.classList.add('active'); }
+  var si = document.getElementById('lawSearchInput');
+  if (si) { si.value = ''; }
+  renderLaws(cat);
+}
+
+function searchLaws(q) {
+  var kw = (q || '').trim().toLowerCase();
+  var box = document.getElementById('lawsListContainer');
+  if (!box) return;
+  if (!kw) { renderLaws(_lawCurrentCat); return; }
+  var list = getAllLaws().filter(function(l) {
+    var hay = [l.title, l.issuer, l.region, l.desc, LAW_CAT_NAMES[l.cat] || ''].join(' ').toLowerCase();
+    return hay.indexOf(kw) !== -1;
+  });
+  if (list.length === 0) {
+    box.innerHTML = '<div class="law-empty">未检索到匹配的法规，请更换关键词。</div>';
+    return;
+  }
+  var html = '';
+  list.forEach(function(l) {
+    var st = LAW_STATUS[l.status] || LAW_STATUS.valid;
+    html += '<div class="law-item" onclick="openLawDetail(\'' + l.id + '\')">'
+      + '<div class="law-item-title">'
+      + '<span>' + escCase(l.title) + '</span>'
+      + '<span class="law-badge ' + st.cls + '">' + st.label + '</span>'
+      + '<span class="law-cat-tag">' + (LAW_CAT_NAMES[l.cat] || l.cat) + '</span>'
+      + '</div>'
+      + '<div class="law-item-meta">'
+      + '<span>📌 ' + escCase(l.issuer || '—') + '</span>'
+      + '<span>📅 ' + escCase(l.effect || '—') + '</span>'
+      + '<span>🌍 ' + escCase(l.region || '全国') + '</span>'
+      + '</div>'
+      + '</div>';
+  });
+  box.innerHTML = html;
+}
+
+function openLawDetail(id) {
+  var l = null;
+  getAllLaws().forEach(function(x) { if (x.id === id) { l = x; } });
+  if (!l) { alert('未找到该法规信息'); return; }
+  var st = LAW_STATUS[l.status] || LAW_STATUS.valid;
+  var html = '<h3 style="display:flex;align-items:center;gap:8px;flex-wrap:wrap;">'
+    + '<span>' + escCase(l.title) + '</span>'
+    + '<span class="law-badge ' + st.cls + '">' + st.label + '</span>'
+    + '</h3>'
+    + '<div class="law-detail-grid">'
+    + '<div class="law-detail-item"><span class="k">条法类别</span><span class="v">' + (LAW_CAT_NAMES[l.cat] || l.cat) + '</span></div>'
+    + '<div class="law-detail-item"><span class="k">时效性</span><span class="v">' + st.label + '</span></div>'
+    + '<div class="law-detail-item"><span class="k">颁布单位</span><span class="v">' + escCase(l.issuer || '—') + '</span></div>'
+    + '<div class="law-detail-item"><span class="k">适用地区</span><span class="v">' + escCase(l.region || '全国') + '</span></div>'
+    + '<div class="law-detail-item"><span class="k">颁布日期</span><span class="v">' + escCase(l.publish || '—') + '</span></div>'
+    + '<div class="law-detail-item"><span class="k">实施日期</span><span class="v">' + escCase(l.effect || '—') + '</span></div>'
+    + '</div>'
+    + '<div class="law-detail-desc">' + escCase(l.desc || '暂无内容要点') + '</div>'
+    + (l.custom ? '<div style="margin-top:14px;"><button class="btn btn-outline btn-sm" style="color:#c81e1e;" onclick="deleteLaw(\'' + l.id + '\')">🗑 删除该法规</button></div>' : '');
+  document.getElementById('lawDetailContent').innerHTML = html;
+  document.getElementById('lawDetailModal').classList.add('open');
+}
+
+function closeLawDetail() {
+  document.getElementById('lawDetailModal').classList.remove('open');
+}
+
+function showAddLawForm() { document.getElementById('addLawForm').classList.add('open'); }
+function hideAddLawForm() { document.getElementById('addLawForm').classList.remove('open'); }
+
+function saveLaw() {
+  var title = document.getElementById('lawTitle').value.trim();
+  if (!title) { alert('请填写法规名称'); return; }
+  var item = {
+    id: 'law_' + Date.now(),
+    cat: document.getElementById('lawCat').value,
+    title: title,
+    issuer: document.getElementById('lawIssuer').value.trim(),
+    publish: document.getElementById('lawPublishDate').value.trim(),
+    effect: document.getElementById('lawEffectDate').value.trim(),
+    status: document.getElementById('lawStatus').value,
+    region: document.getElementById('lawRegion').value.trim() || '全国',
+    desc: document.getElementById('lawDesc').value.trim(),
+    custom: true
+  };
+  var fileInput = document.getElementById('lawFile');
+  if (fileInput && fileInput.files && fileInput.files.length > 0) {
+    uploadFile(item.id, fileInput);
+  }
+  var customs = [];
+  try { customs = JSON.parse(localStorage.getItem('custom_laws') || '[]'); } catch (e) { customs = []; }
+  customs.push(item);
+  localStorage.setItem('custom_laws', JSON.stringify(customs));
+  hideAddLawForm();
+  ['lawTitle','lawIssuer','lawPublishDate','lawEffectDate','lawRegion','lawDesc'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.value = ''; }
+  });
+  if (fileInput) { fileInput.value = ''; }
+  renderLaws(_lawCurrentCat);
+  alert('法规已添加！');
+}
+
+function deleteLaw(id) {
+  if (!confirm('确定删除该法规条目吗？删除后不可恢复。')) { return; }
+  try {
+    var customs = JSON.parse(localStorage.getItem('custom_laws') || '[]');
+    customs = customs.filter(function(c) { return c.id !== id; });
+    localStorage.setItem('custom_laws', JSON.stringify(customs));
+  } catch (e) {}
+  closeLawDetail();
+  renderLaws(_lawCurrentCat);
+}
 
 // ===== V5.3: Law Attachment Upload =====
 function uploadLawFileV53(inputEl) {
@@ -6066,49 +6614,84 @@ function hideAddRiskCase() { document.getElementById('addRiskCaseForm').classLis
 function saveRiskCase() {
   var title = document.getElementById('riskCaseTitle').value.trim();
   if (!title) { alert('请填写案例标题'); return; }
-  var level = document.getElementById('riskCaseLevel').value;
-  var year = document.getElementById('riskCaseYear').value.trim() || '2024';
-  var type = document.getElementById('riskCaseType').value.trim() || '未分类';
-  var summary = document.getElementById('riskCaseSummary').value.trim();
-  var lessons = document.getElementById('riskCaseLessons').value.trim();
+  var rawKeywords = document.getElementById('riskCaseKeywords').value.trim();
+  var type = document.getElementById('riskCaseType').value.trim();       // 问题引出
+  var year = document.getElementById('riskCaseYear').value.trim();       // 案例回放
+  var summary = document.getElementById('riskCaseSummary').value.trim(); // 专家点评
+  var lessons = document.getElementById('riskCaseLessons').value.trim(); // 法规链接
   var fileInput = document.getElementById('riskCaseFile');
-  
-  var levelLabels = { high: '高风险', mid: '中风险', low: '低风险' };
-  var levelClasses = { high: 'case-tag-high', mid: 'case-tag-mid', low: 'case-tag-low' };
+
+  // 关键词解析：支持空格、逗号、顿号、分号分隔
+  var kwArr = rawKeywords.split(/[\s,，、;；]+/).filter(function(s) { return s.length > 0; });
+  var kwAttr = kwArr.join(' ');
+  var kwHtml = kwArr.map(function(k) {
+    return '<span class="keyword-tag" onclick="event.stopPropagation();filterCasesByKeyword(\'' + escCase(k) + '\', this)">' + escCase(k) + '</span>';
+  }).join('');
+
   var caseId = 'risk_' + Date.now();
-  
-  var cardHtml = '<div class="case-card" data-risk="' + level + '" onclick="toggleCase(this)" data-case-id="' + caseId + '">'
+
+  var cardHtml = '<div class="case-card" data-keywords="' + escCase(kwAttr) + '" onclick="toggleCase(this)" data-case-id="' + caseId + '">'
     + '<div class="case-header">'
-    + '<span class="case-tag ' + levelClasses[level] + '">' + levelLabels[level] + '</span>'
-    + '<span class="case-title">' + title + '</span>'
+    + '<span class="case-title">' + escCase(title) + '</span>'
     + '</div>'
-    + '<div class="case-meta">📅 ' + year + ' · ' + type + ' · 用户添加</div>'
-    + '<div class="case-summary">' + (summary || '暂无摘要') + '</div>'
-    + (lessons ? '<div class="case-lessons" style="display:none;"><strong>📖 教训：</strong>' + lessons + '</div>' : '')
+    + (kwHtml ? '<div class="case-keywords">' + kwHtml + '</div>' : '')
+    + '<div class="case-summary"><strong>问题引出：</strong>' + (type ? escCase(type) : '（未填写）') + '</div>'
+    + '<div class="case-body" style="display:none;">'
+    + '<div class="case-section"><div class="case-section-title">🎬 案例回放</div><div class="case-section-content">' + (year ? escCase(year) : '（未填写）') + '</div></div>'
+    + '<div class="case-section"><div class="case-section-title">💬 专家点评</div><div class="case-section-content">' + (summary ? escCase(summary) : '（未填写）') + '</div></div>'
+    + '<div class="case-section"><div class="case-section-title">⚖️ 法规链接</div><div class="case-section-content law-link">' + (lessons ? escCase(lessons) : '（未填写）') + '</div></div>'
+    + '</div>'
+    + '<div class="case-expand-hint">点击展开 / 收起详情 ▾</div>'
     + '<div style="margin-top:8px;">'
     + '<label class="btn btn-primary btn-sm" style="cursor:pointer;font-size:11px;padding:2px 8px;">📤 上传附件 <input type="file" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" style="display:none;" onchange="uploadFile(\'' + caseId + '\', this)"></label>'
     + '<button class="btn btn-outline btn-sm" style="font-size:11px;padding:2px 8px;" onclick="viewFiles(\'' + caseId + '\')">📂 查看附件</button>'
+    + '<button class="btn btn-outline btn-sm admin-only" style="font-size:11px;padding:2px 8px;color:#c81e1e;margin-left:6px;" onclick="event.stopPropagation();deleteRiskCase(\'' + caseId + '\')">🗑 删除</button>'
     + '</div>'
     + '<div class="template-files" id="' + caseId + '_files" style="display:none;"></div>'
     + '</div>';
-  
+
   document.getElementById('riskCasesContainer').insertAdjacentHTML('beforeend', cardHtml);
-  
+
   // Handle file upload if files were selected
   if (fileInput.files && fileInput.files.length > 0) {
     uploadFile(caseId, fileInput);
   }
-  
+
   // Save custom cases to localStorage
   var customCases = [];
   try { customCases = JSON.parse(localStorage.getItem('custom_risk_cases') || '[]'); } catch(e) {}
   customCases.push({ id: caseId, html: cardHtml });
   localStorage.setItem('custom_risk_cases', JSON.stringify(customCases));
-  
+
   hideAddRiskCase();
-  ['riskCaseTitle','riskCaseYear','riskCaseType','riskCaseSummary','riskCaseLessons'].forEach(function(id) { document.getElementById(id).value = ''; });
+  ['riskCaseTitle','riskCaseKeywords','riskCaseYear','riskCaseType','riskCaseSummary','riskCaseLessons'].forEach(function(id) {
+    var el = document.getElementById(id);
+    if (el) { el.value = ''; }
+  });
   document.getElementById('riskCaseFile').value = '';
   alert('案例已添加！');
+}
+
+// 案例文本 HTML 转义（v5.5）
+function escCase(s) {
+  return String(s === null || s === undefined ? '' : s)
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+// 删除自定义案例（v5.5）
+function deleteRiskCase(caseId) {
+  if (!confirm('确定删除该案例吗？删除后不可恢复。')) { return; }
+  var card = document.querySelector('#riskCasesContainer .case-card[data-case-id="' + caseId + '"]');
+  if (card) { card.remove(); }
+  try {
+    var cases = JSON.parse(localStorage.getItem('custom_risk_cases') || '[]');
+    cases = cases.filter(function(c) { return c.id !== caseId; });
+    localStorage.setItem('custom_risk_cases', JSON.stringify(cases));
+  } catch(e) {}
 }
 
 function loadCustomRiskCases() {
