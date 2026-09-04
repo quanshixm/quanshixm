@@ -597,6 +597,63 @@ body {
 .case-section-content.law-link { background: var(--warning-light); border-color: #f5e6b8; }
 .case-expand-hint { font-size: 11px; color: var(--gray-400); margin-top: 8px; text-align: right; }
 
+/* ===== v5.6 案例库：排序筛选 + 添加时间 + 推荐徽章 ===== */
+.case-toolbar {
+  display: flex; gap: 10px; align-items: center; flex-wrap: wrap;
+  margin-bottom: 12px;
+}
+.case-toolbar .seg-group { display: inline-flex; }
+.segmented {
+  display: inline-flex;
+  background: var(--gray-100);
+  border-radius: 999px;
+  padding: 3px;
+  gap: 2px;
+}
+.seg-item {
+  font-size: 13px; color: var(--gray-500);
+  padding: 6px 16px; border-radius: 999px;
+  cursor: pointer; transition: var(--transition);
+  border: none; background: transparent; font-weight: 500;
+  display: inline-flex; align-items: center; gap: 5px;
+}
+.seg-item:hover { color: var(--primary); }
+.seg-item.active {
+  background: #fff; color: var(--primary);
+  box-shadow: 0 1px 3px rgba(0,0,0,0.08);
+  font-weight: 600;
+}
+.case-toolbar .spacer { flex: 1; }
+.case-time {
+  display: flex; align-items: center; gap: 4px;
+  font-size: 12px; color: var(--gray-400);
+  margin-top: 6px; margin-bottom: 4px;
+}
+.case-time .t-label { color: var(--gray-500); }
+.case-time .t-value { color: var(--gray-600); font-weight: 500; }
+.case-recommend-badge {
+  display: inline-block;
+  font-size: 11px; padding: 1px 8px; border-radius: 4px;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  color: #fff; font-weight: 600;
+  margin-right: 6px; letter-spacing: 0.5px;
+  box-shadow: 0 1px 2px rgba(245,158,11,0.25);
+}
+.case-card.is-recommended {
+  border-color: #fbbf24;
+  background: linear-gradient(180deg, #fffbeb 0%, #ffffff 50%);
+}
+.case-card.is-recommended::before {
+  content: '推荐';
+  position: absolute; top: -8px; right: 14px;
+  font-size: 10px; font-weight: 700; color: #fff;
+  background: linear-gradient(135deg, #f59e0b, #ef4444);
+  padding: 2px 10px; border-radius: 10px;
+  letter-spacing: 1px; box-shadow: 0 1px 3px rgba(0,0,0,0.15);
+  display: none;
+}
+.case-card { position: relative; }
+
 /* ===== v5.5 法规规范库：法规条目 + 详情页 ===== */
 .law-item {
   background: #fff;
@@ -3117,20 +3174,13 @@ body.role-staff .admin-only { display: none !important; }
           <p>收录招标代理行业典型违规案例，以案为鉴规避同类风险</p>
         </div>
 
-        <div class="alert alert-danger">
-          <span class="alert-icon">🔴</span>
-          <div><strong>使用说明：</strong>本案例库参照易采通案例库体例编排，每条案例包含<strong>问题引出 · 案例回放 · 专家点评 · 法规链接</strong>四段结构。点击案例卡片可展开查看详情，点击关键词标签可快速筛选同类案例。可点击"＋ 添加案例"按钮新增案例条目并上传附件。</div>
-        </div>
-
-        <div style="display:flex;gap:8px;margin-bottom:10px;flex-wrap:wrap;align-items:center;">
-          <span style="font-size:12px;color:var(--gray-500);font-weight:600;">关键词筛选：</span>
-          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('all', this)" style="background:var(--primary);color:#fff;border-color:var(--primary);">全部</button>
-          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('公平竞争', this)">公平竞争</button>
-          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('评分标准', this)">评分标准</button>
-          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('资格条件', this)">资格条件</button>
-          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('评标委员会', this)">评标委员会</button>
-          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('保证金', this)">保证金</button>
-          <button class="btn btn-outline btn-sm" onclick="filterCasesByKeyword('招标文件', this)">招标文件</button>
+        <div class="case-toolbar">
+          <div class="segmented" id="caseSortTabs" role="tablist" aria-label="案例排序">
+            <button class="seg-item active" data-sort="default" onclick="switchCaseSort('default', this)">📊 排序</button>
+            <button class="seg-item" data-sort="recommend" onclick="switchCaseSort('recommend', this)">⭐ 推荐</button>
+            <button class="seg-item" data-sort="latest" onclick="switchCaseSort('latest', this)">🕒 最新</button>
+          </div>
+          <span class="spacer"></span>
           <button class="btn btn-danger btn-sm admin-only" onclick="showAddRiskCase()">＋ 添加案例</button>
         </div>
 
@@ -3151,6 +3201,14 @@ body.role-staff .admin-only { display: none !important; }
           <textarea id="riskCaseSummary" rows="3" placeholder="专家对本案的评析意见与合规要点..."></textarea>
           <label>法规链接</label>
           <textarea id="riskCaseLessons" rows="2" placeholder="本案涉及的法律法规条款，如：《政府采购法》第二十二条..."></textarea>
+          <div style="display:flex;gap:14px;align-items:center;flex-wrap:wrap;margin-top:4px;">
+            <label style="flex:1;min-width:200px;">添加时间（用于按"最新"排序展示）</label>
+            <input type="text" id="riskCaseAddTime" placeholder="如：2026-09-04" style="flex:2;min-width:200px;">
+          </div>
+          <div style="display:flex;align-items:center;gap:6px;margin-top:6px;">
+            <input type="checkbox" id="riskCaseRecommend" style="width:auto;margin:0;">
+            <label for="riskCaseRecommend" style="margin:0;cursor:pointer;">⭐ 标记为推荐案例（仅管理员）</label>
+          </div>
           <label>上传附件（支持图片/DOC/DOCX/PPT/PPTX/RTF/TXT/XLS/XLSX/PDF/ZIP等）</label>
           <input type="file" id="riskCaseFile" accept=".jpg,.jpeg,.png,.gif,.bmp,.webb,.svg,.doc,.docx,.ppt,.pptx,.rtf,.txt,.xls,.xlsx,.pdf,.zip,.rar,.7z" multiple>
           <div class="modal-actions">
@@ -4968,9 +5026,10 @@ function handleSearch(query) {
 }
 
 
-// ===== Case Filter（v5.5 关键词筛选） =====
+// ===== Case Filter（v5.5 关键词筛选 + v5.6 排序） =====
+var _caseSort = 'default';
+
 function filterCases(risk, btnEl) {
-  // 兼容旧调用：等价于"全部"
   filterCasesByKeyword(risk === 'all' ? 'all' : risk, btnEl);
 }
 function filterCasesByKeyword(keyword, btnEl) {
@@ -4983,10 +5042,9 @@ function filterCasesByKeyword(keyword, btnEl) {
       c.style.display = kws.indexOf(kw) !== -1 ? '' : 'none';
     }
   });
-  // 同步清除搜索框
   var si = document.getElementById('riskCaseSearchInput');
   if (si && kw === 'all') { si.value = ''; }
-  // 更新按钮激活样式
+  // 同步按钮激活样式（兼容旧按钮，已迁移到 .segmented 控件）
   var btns = document.querySelectorAll('#risk-cases .btn-sm');
   btns.forEach(function(b) {
     if (b.classList.contains('btn-danger')) return;
@@ -5012,11 +5070,99 @@ function toggleCase(card) {
     }
     return;
   }
-  // 兼容旧结构
   var lessons = card.querySelector('.case-lessons');
   if (lessons) {
     lessons.style.display = lessons.style.display === 'none' ? 'block' : 'none';
   }
+}
+
+// ===== v5.6 案例排序：排序 / 推荐 / 最新 =====
+var BUILT_IN_CASES_META = {
+  '限定供应商注册地构成地域歧视':    { createdAt: '2023-06-15', recommended: true  },
+  '评分标准模糊导致投诉成立':        { createdAt: '2022-11-08', recommended: false },
+  '将资格条件作为评分项构成重复计分': { createdAt: '2023-09-20', recommended: true  },
+  '投标保证金退还超期引发投诉':      { createdAt: '2022-04-12', recommended: false },
+  '评标委员会组成不合规导致评标无效': { createdAt: '2023-12-05', recommended: true  },
+  '招标文件售价过高被责令整改':      { createdAt: '2022-08-30', recommended: false }
+};
+
+function decorateCaseCard(card) {
+  if (!card || card.dataset.decorated === '1') return;
+  var titleEl = card.querySelector('.case-title');
+  if (!titleEl) return;
+  var meta = null;
+  if (card.dataset.createdAt) {
+    meta = { createdAt: card.dataset.createdAt, recommended: card.dataset.recommended === '1' };
+  } else {
+    meta = BUILT_IN_CASES_META[titleEl.textContent.trim()] || null;
+    if (meta) {
+      card.dataset.createdAt = meta.createdAt;
+      card.dataset.recommended = meta.recommended ? '1' : '0';
+    }
+  }
+  if (!meta) return;
+  if (!card.querySelector('.case-time')) {
+    var summary = card.querySelector('.case-summary');
+    var timeHtml = '<div class="case-time"><span class="t-label">🕒 添加时间：</span><span class="t-value">' + escCase(meta.createdAt) + '</span></div>';
+    if (summary) { summary.insertAdjacentHTML('afterend', timeHtml); }
+  }
+  if (meta.recommended) {
+    card.classList.add('is-recommended');
+    if (!titleEl.previousElementSibling || !titleEl.previousElementSibling.classList.contains('case-recommend-badge')) {
+      titleEl.insertAdjacentHTML('beforebegin', '<span class="case-recommend-badge">⭐ 推荐</span>');
+    }
+  }
+  card.dataset.decorated = '1';
+}
+
+function decorateAllCaseCards() {
+  var arr = document.querySelectorAll('#riskCasesContainer .case-card');
+  arr.forEach(function(card, i) {
+    decorateCaseCard(card);
+    // 仅在首次初始化时记录"原始顺序"，用于"排序"模式还原
+    if (!card.dataset.originalIdx) {
+      card.dataset.originalIdx = String(i);
+    }
+  });
+}
+
+function sortCases(mode) {
+  var box = document.getElementById('riskCasesContainer');
+  if (!box) return;
+  var cards = Array.prototype.slice.call(box.querySelectorAll('.case-card'));
+  // 为未设置 originalIdx 的卡片（动态新增）补上当前序号
+  var maxIdx = cards.reduce(function(m, c) {
+    return Math.max(m, Number(c.dataset.originalIdx || -1));
+  }, -1);
+  cards.forEach(function(c) {
+    if (c.dataset.originalIdx === undefined) {
+      c.dataset.originalIdx = String(++maxIdx);
+    }
+  });
+  cards.sort(function(a, b) {
+    if (mode === 'recommend') {
+      var ra = a.dataset.recommended === '1' ? 0 : 1;
+      var rb = b.dataset.recommended === '1' ? 0 : 1;
+      if (ra !== rb) return ra - rb;
+    } else if (mode === 'latest') {
+      var da = a.dataset.createdAt || '';
+      var db = b.dataset.createdAt || '';
+      if (da !== db) return da < db ? 1 : -1;
+    }
+    return Number(a.dataset.originalIdx || 0) - Number(b.dataset.originalIdx || 0);
+  });
+  cards.forEach(function(c) { box.appendChild(c); });
+}
+
+function switchCaseSort(mode, el) {
+  _caseSort = mode;
+  var tabs = document.getElementById('caseSortTabs');
+  if (tabs) {
+    tabs.querySelectorAll('.seg-item').forEach(function(s) { s.classList.remove('active'); });
+  }
+  if (el) { el.classList.add('active'); }
+  decorateAllCaseCards();
+  sortCases(mode);
 }
 
 // ===== Tracker Functions =====
@@ -6608,20 +6754,36 @@ function filterTemplates(stage) {
 }
 
 // ===== Risk Case - Add Entry =====
-function showAddRiskCase() { document.getElementById('addRiskCaseForm').classList.add('open'); }
+function showAddRiskCase() {
+  var form = document.getElementById('addRiskCaseForm');
+  form.classList.add('open');
+  // 默认填充当前日期（精确到日），方便管理员直接修改
+  var dateInput = document.getElementById('riskCaseAddTime');
+  if (dateInput && !dateInput.value) {
+    var d = new Date();
+    var pad = function(n) { return n < 10 ? '0' + n : '' + n; };
+    dateInput.value = d.getFullYear() + '-' + pad(d.getMonth() + 1) + '-' + pad(d.getDate());
+  }
+  var rec = document.getElementById('riskCaseRecommend');
+  if (rec) { rec.checked = false; }
+}
 function hideAddRiskCase() { document.getElementById('addRiskCaseForm').classList.remove('open'); }
 
 function saveRiskCase() {
   var title = document.getElementById('riskCaseTitle').value.trim();
   if (!title) { alert('请填写案例标题'); return; }
   var rawKeywords = document.getElementById('riskCaseKeywords').value.trim();
-  var type = document.getElementById('riskCaseType').value.trim();       // 问题引出
-  var year = document.getElementById('riskCaseYear').value.trim();       // 案例回放
-  var summary = document.getElementById('riskCaseSummary').value.trim(); // 专家点评
-  var lessons = document.getElementById('riskCaseLessons').value.trim(); // 法规链接
+  var type = document.getElementById('riskCaseType').value.trim();
+  var year = document.getElementById('riskCaseYear').value.trim();
+  var summary = document.getElementById('riskCaseSummary').value.trim();
+  var lessons = document.getElementById('riskCaseLessons').value.trim();
+  var addTime = document.getElementById('riskCaseAddTime').value.trim() || (function() {
+    var d = new Date(), p = function(n) { return n < 10 ? '0' + n : '' + n; };
+    return d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+  })();
+  var recommended = !!(document.getElementById('riskCaseRecommend') && document.getElementById('riskCaseRecommend').checked);
   var fileInput = document.getElementById('riskCaseFile');
 
-  // 关键词解析：支持空格、逗号、顿号、分号分隔
   var kwArr = rawKeywords.split(/[\s,，、;；]+/).filter(function(s) { return s.length > 0; });
   var kwAttr = kwArr.join(' ');
   var kwHtml = kwArr.map(function(k) {
@@ -6630,12 +6792,14 @@ function saveRiskCase() {
 
   var caseId = 'risk_' + Date.now();
 
-  var cardHtml = '<div class="case-card" data-keywords="' + escCase(kwAttr) + '" onclick="toggleCase(this)" data-case-id="' + caseId + '">'
+  var cardHtml = '<div class="case-card" data-keywords="' + escCase(kwAttr) + '" data-created-at="' + escCase(addTime) + '" data-recommended="' + (recommended ? '1' : '0') + '" onclick="toggleCase(this)" data-case-id="' + caseId + '">'
     + '<div class="case-header">'
+    + (recommended ? '<span class="case-recommend-badge">⭐ 推荐</span>' : '')
     + '<span class="case-title">' + escCase(title) + '</span>'
     + '</div>'
     + (kwHtml ? '<div class="case-keywords">' + kwHtml + '</div>' : '')
     + '<div class="case-summary"><strong>问题引出：</strong>' + (type ? escCase(type) : '（未填写）') + '</div>'
+    + '<div class="case-time"><span class="t-label">🕒 添加时间：</span><span class="t-value">' + escCase(addTime) + '</span></div>'
     + '<div class="case-body" style="display:none;">'
     + '<div class="case-section"><div class="case-section-title">🎬 案例回放</div><div class="case-section-content">' + (year ? escCase(year) : '（未填写）') + '</div></div>'
     + '<div class="case-section"><div class="case-section-title">💬 专家点评</div><div class="case-section-content">' + (summary ? escCase(summary) : '（未填写）') + '</div></div>'
@@ -6650,24 +6814,31 @@ function saveRiskCase() {
     + '<div class="template-files" id="' + caseId + '_files" style="display:none;"></div>'
     + '</div>';
 
-  document.getElementById('riskCasesContainer').insertAdjacentHTML('beforeend', cardHtml);
+  var box = document.getElementById('riskCasesContainer');
+  box.insertAdjacentHTML('beforeend', cardHtml);
+  if (recommended) {
+    var newCard = box.querySelector('.case-card[data-case-id="' + caseId + '"]');
+    if (newCard) { newCard.classList.add('is-recommended'); }
+  }
+  // 根据当前排序模式重排
+  sortCases(_caseSort);
 
-  // Handle file upload if files were selected
   if (fileInput.files && fileInput.files.length > 0) {
     uploadFile(caseId, fileInput);
   }
 
-  // Save custom cases to localStorage
   var customCases = [];
   try { customCases = JSON.parse(localStorage.getItem('custom_risk_cases') || '[]'); } catch(e) {}
   customCases.push({ id: caseId, html: cardHtml });
   localStorage.setItem('custom_risk_cases', JSON.stringify(customCases));
 
   hideAddRiskCase();
-  ['riskCaseTitle','riskCaseKeywords','riskCaseYear','riskCaseType','riskCaseSummary','riskCaseLessons'].forEach(function(id) {
+  ['riskCaseTitle','riskCaseKeywords','riskCaseYear','riskCaseType','riskCaseSummary','riskCaseLessons','riskCaseAddTime'].forEach(function(id) {
     var el = document.getElementById(id);
     if (el) { el.value = ''; }
   });
+  var rec2 = document.getElementById('riskCaseRecommend');
+  if (rec2) { rec2.checked = false; }
   document.getElementById('riskCaseFile').value = '';
   alert('案例已添加！');
 }
@@ -6701,6 +6872,14 @@ function loadCustomRiskCases() {
       document.getElementById('riskCasesContainer').insertAdjacentHTML('beforeend', c.html);
     });
   } catch(e) {}
+  // 老数据无 data-createdAt 时回填今日
+  document.querySelectorAll('#riskCasesContainer .case-card').forEach(function(card) {
+    if (!card.dataset.createdAt) {
+      var d = new Date(), p = function(n) { return n < 10 ? '0' + n : '' + n; };
+      card.dataset.createdAt = d.getFullYear() + '-' + p(d.getMonth() + 1) + '-' + p(d.getDate());
+    }
+    if (card.dataset.recommended === '1') { card.classList.add('is-recommended'); }
+  });
 }
 
 // ===== Rebid Case - Add Entry =====
@@ -6785,6 +6964,9 @@ function viewAllRebidFiles() {
 // ===== Load custom data on page load =====
 function loadAllCustomData() {
   loadCustomRiskCases();
+  // v5.6: 为所有案例卡注入添加时间与推荐徽章
+  if (typeof decorateAllCaseCards === 'function') { decorateAllCaseCards(); }
+  if (typeof sortCases === 'function') { sortCases(_caseSort); }
   loadCustomRebidCases();
   loadTrackerData();
 }
